@@ -1,12 +1,8 @@
 Package: tppr
-Title: An Amazing Shiny App
+Title: Shiny app to show real-time results of the TPP project
 Version: 0.0.0.9000
-Authors@R: 
-    person(given = "firstname",
-           family = "lastname",
-           role = c("aut", "cre"),
-           email = "your@email.com")
-Description: What the package does (one paragraph).
+Authors@R: person('Marton', 'Kovacs', email = 'marton.balazs.kovacs@gmail.com', role = c('cre', 'aut'))
+Description: The package contains a shiny app that shows the real-time results of the TPP project.
 License: What license is it under?
 Imports: 
     config,

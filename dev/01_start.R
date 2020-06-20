@@ -1,10 +1,10 @@
 golem::fill_desc(
   pkg_name = "tppr",
-  pkg_title = "PKG_TITLE",
-  pkg_description = "PKG_DESC.",
-  author_first_name = "AUTHOR_FIRST",
-  author_last_name = "AUTHOR_LAST",
-  author_email = "AUTHOR@MAIL.COM",
+  pkg_title = "Shiny app to show real-time results of the TPP project",
+  pkg_description = "The package contains a shiny app that shows the real-time results of the TPP project.",
+  author_first_name = "Marton",
+  author_last_name = "Kovacs",
+  author_email = "marton.balazs.kovacs@gmail.com",
   repo_url = NULL
 )     
 golem::set_golem_options()
