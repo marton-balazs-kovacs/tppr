@@ -99,12 +99,12 @@ robustness_bf_analysis <- function(success, total_n) {
 #' @section Note: Robustness analysis results will not affect
 #'   the conclusions of our study.
 #'   
-#' @param confirmatory_result tibble, output of the \code{\link{analyis_confirmatory}} function
+#' @param confirmatory_results tibble, output of the \code{\link{analyis_confirmatory}} function
 #' 
 #' @return The function returns a list containing the results
 #' of the frequentist proportion test and the Bayesian parameter estimation
 #' as nested lists, the final inference of the robustness test as a character
-#' vector, and the restults of the ,
+#' vector, and the results of the ,
 #' 
 #' @export
 #' @examples 

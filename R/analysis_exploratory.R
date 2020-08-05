@@ -12,7 +12,7 @@
 #'   
 #' @family analysis functions
 #' 
-#' @param confirmatory_result tibble, output of the \code{\link{analyis_confirmatory}} function
+#' @param confirmatory_results tibble, output of the \code{\link{analyis_confirmatory}} function
 #' 
 #' @return The function returns a list of three, the possible success
 #' rates, the the proportion of observed successful guess rate, and the

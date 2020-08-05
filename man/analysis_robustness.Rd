@@ -7,13 +7,13 @@
 analysis_robustness(confirmatory_results)
 }
 \arguments{
-\item{confirmatory_result}{tibble, output of the \code{\link{analyis_confirmatory}} function}
+\item{confirmatory_results}{tibble, output of the \code{\link{analyis_confirmatory}} function}
 }
 \value{
 The function returns a list containing the results
 of the frequentist proportion test and the Bayesian parameter estimation
 as nested lists, the final inference of the robustness test as a character
-vector, and the restults of the ,
+vector, and the results of the ,
 }
 \description{
 Two alternative variants of the Bayesian proportion test in the primary

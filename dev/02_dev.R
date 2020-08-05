@@ -39,4 +39,5 @@ devtools::load_all()
 usethis::use_code_of_conduct()
 usethis::use_pkgdown()
 usethis::use_github_action(url = "https://raw.githubusercontent.com/r-lib/actions/master/examples/pkgdown.yaml")
+# Modified the yaml based on https://github.com/marton-balazs-kovacs/tenzing/blob/master/.github/workflows/pkgdown.yaml
 pkgdown::build_site()

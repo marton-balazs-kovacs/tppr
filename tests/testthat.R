@@ -1,4 +1,4 @@
 library(testthat)
 library(tppr)
 
-test_check("tppr")
+# test_check("tppr")
