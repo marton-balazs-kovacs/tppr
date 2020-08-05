@@ -8,7 +8,9 @@ app_ui <- function(request) {
   tagList(
     golem_add_external_resources(),
     fluidPage(
-      h1("tppr")
+      h1("tppr"),
+      # Include article
+      mod_article_ui("article")
     )
   )
 }

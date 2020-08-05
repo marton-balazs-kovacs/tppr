@@ -1,15 +1,46 @@
 Package: tppr
 Title: Shiny app to show real-time results of the TPP project
 Version: 0.0.0.9000
-Authors@R: person('Marton', 'Kovacs', email = 'marton.balazs.kovacs@gmail.com', role = c('cre', 'aut'))
-Description: The package contains a shiny app that shows the real-time results of the TPP project.
-License: What license is it under?
+Authors@R: 
+   c(person(given = "Marton",
+           family = "Kovacs",
+           role = c("cre", "aut"),
+           email = "maron.balazs.kovacs@gmail.com",
+           comment = c(ORCID = "0000-0002-8142-8492")),
+     person(given = "Zoltan",
+            family = "Kekecs",
+            role = "aut",
+            email = "kekecs.zoltan@gmail.com"))
+Description: A shiny app and locally executable code that reproduce the real-time results of the TPP project.
+License: MIT + file LICENSE
 Imports: 
     config,
     golem,
-    shiny
+    shiny,
+    processx,
+    attempt,
+    DT,
+    glue,
+    htmltools,
+    vroom,
+    lme4,
+    dplyr,
+    stringr,
+    purrr,
+    httr,
+    progress,
+    magrittr,
+    plyr,
+    lubridate
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 URL: https://github.com/marton-balazs-kovacs/tppr
 BugReports: https://github.com/marton-balazs-kovacs/tppr/issues
+Suggests: 
+    testthat,
+    knitr,
+    rmarkdown
+Depends: 
+    R (>= 2.10)
+VignetteBuilder: knitr
