@@ -7,7 +7,7 @@
 analysis_exploratory(confirmatory_results)
 }
 \arguments{
-\item{confirmatory_results}{tibble, output of the \code{\link{analyis_confirmatory}} function}
+\item{confirmatory_results}{tibble, output of the \code{\link{analysis_confirmatory}} function}
 }
 \value{
 The function returns a list of three, the possible success

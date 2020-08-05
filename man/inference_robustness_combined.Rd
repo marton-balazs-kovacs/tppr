@@ -23,7 +23,7 @@ The function returns a character value.
 \description{
 The main analysis inference is only robust if all robustness
 tests came to the same inference as the final inference
-of the primary analysis (see \code{\link{inference_confrimatory_combined}}).
+of the primary analysis (see \code{\link{inference_confirmatory_combined}}).
 }
 \seealso{
 Other inference functions, robustness functions: 

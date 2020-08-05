@@ -7,14 +7,14 @@
 plot_robustness(robustness_results)
 }
 \arguments{
-\item{robustness_results}{tibble, output of the \code{\link{analyis_robustness}} function}
+\item{robustness_results}{tibble, output of the \code{\link{analysis_robustness}} function}
 }
 \value{
 The function returns a ggplot object.
 }
 \description{
 The function visualize the results of the robustness
-analysis \code{\link{analyis_robustness}}.
+analysis \code{\link{analysis_robustness}}.
 }
 \seealso{
 Other plotting functions: 

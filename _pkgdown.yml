@@ -9,11 +9,16 @@ reference:
   - read_data
   - clean_data
   - split_data
+  - get_link
 - title: Analysis
   desc: Functions to analyse the data
 - contents:
   - analysis_confirmatory
+  - confirmatory_bayes_factor
+  - confirmatory_mixed_effect
   - analysis_robustness
+  - robustness_bf_analysis
+  - robustness_nhst_analysis
   - analysis_exploratory
 - title: Visualization
   desc: Functions to visualize the results of the analysis
@@ -28,3 +33,11 @@ reference:
   - sample_descriptives
 - title: Helpers
   desc: Not-standalone functions that are used in the analysis
+- title: Inferences
+  desc: Functions to draw inferences based on the results
+- contents:
+  - inference_confirmatory_bf
+  - inference_confirmatory_mixed_effect
+  - inference_confirmatory_combined
+  - inference_robustness_nhst
+  - inference_robustness_combined

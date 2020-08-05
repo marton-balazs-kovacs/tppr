@@ -7,14 +7,14 @@
 plot_exploratory(exploratory_results)
 }
 \arguments{
-\item{exploratory_results}{tibble, output of the \code{\link{analyis_exploratory}} function}
+\item{exploratory_results}{tibble, output of the \code{\link{analysis_exploratory}} function}
 }
 \value{
 The function returns a ggplot object.
 }
 \description{
 The function visualize the results of the exploratory
-analysis \code{\link{analyis_exploratory}}.
+analysis \code{\link{analysis_exploratory}}.
 }
 \seealso{
 Other plotting functions: 

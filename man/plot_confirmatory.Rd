@@ -7,14 +7,14 @@
 plot_confirmatory(confirmatory_results)
 }
 \arguments{
-\item{confirmatory_result}{tibble, output of the \code{\link{analyis_confirmatory}} function}
+\item{confirmatory_results}{tibble, output of the \code{\link{analysis_confirmatory}} function}
 }
 \value{
 The function returns a ggplot object.
 }
 \description{
 The function visualize the results of the confirmatory
-analysis \code{\link{analyis_confirmatory}}. The Bayes factors
+analysis \code{\link{analysis_confirmatory}}. The Bayes factors
 calculated at each new experimental trial are displayed on this figure.
 }
 \seealso{
