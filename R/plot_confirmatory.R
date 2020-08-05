@@ -1,12 +1,12 @@
 #' Plotting the results of the primary confirmatory analysis
 #' 
 #' The function visualize the results of the confirmatory
-#' analysis \code{\link{analyis_confirmatory}}. The Bayes factors
+#' analysis \code{\link{analysis_confirmatory}}. The Bayes factors
 #' calculated at each new experimental trial are displayed on this figure.
 #' 
 #' @family plotting functions
 #' 
-#' @param confirmatory_result tibble, output of the \code{\link{analyis_confirmatory}} function
+#' @param confirmatory_results tibble, output of the \code{\link{analysis_confirmatory}} function
 #' 
 #' @return The function returns a ggplot object.
 #' @export

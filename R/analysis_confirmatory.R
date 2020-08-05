@@ -154,7 +154,7 @@ confirmatory_bayes_factor <- function(success, total_n) {
 #' @examples
 #' \donttest{
 #' # Running the confirmatory analysis
-#' confirmatory_result <- analysis_confirmatory(raw_data = tpp_raw_data)
+#' confirmatory_result <- analysis_confirmatory(raw_data = example_m0)
 #' # Checking the inferences at each checking point
 #' confirmatory_result$inference
 #' }

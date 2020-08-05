@@ -1,11 +1,11 @@
 #' Plotting the results of the robustness analysis
 #' 
 #' The function visualize the results of the robustness
-#' analysis \code{\link{analyis_robustness}}.
+#' analysis \code{\link{analysis_robustness}}.
 #' 
 #' @family plotting functions
 #' 
-#' @param robustness_results tibble, output of the \code{\link{analyis_robustness}} function
+#' @param robustness_results tibble, output of the \code{\link{analysis_robustness}} function
 #' 
 #' @return The function returns a ggplot object.
 #' @export

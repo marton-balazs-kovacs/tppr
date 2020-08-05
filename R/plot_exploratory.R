@@ -1,11 +1,11 @@
 #' Plotting the results of the exploratory analysis
 #' 
 #' The function visualize the results of the exploratory
-#' analysis \code{\link{analyis_exploratory}}.
+#' analysis \code{\link{analysis_exploratory}}.
 #' 
 #' @family plotting functions
 #' 
-#' @param exploratory_results tibble, output of the \code{\link{analyis_exploratory}} function
+#' @param exploratory_results tibble, output of the \code{\link{analysis_exploratory}} function
 #' 
 #' @return The function returns a ggplot object.
 #' @export

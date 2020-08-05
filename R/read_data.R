@@ -109,8 +109,8 @@ read_data <- function(type) {
 #' @param raw_data dataframe, df containing all trials
 #' 
 #' @return The output is the processed dataframe, that can be analyzed with
-#' the analysis functions \code{\link{analyis_confrimatory}}, \code{\link{analyis_robustness}},
-#' \code{\link{analyis_exploratory}}.
+#' the analysis functions \code{\link{analysis_confirmatory}}, \code{\link{analysis_robustness}},
+#' \code{\link{analysis_exploratory}}.
 #' @export
 #' @examples 
 #' \donttest{
