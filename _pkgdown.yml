@@ -9,7 +9,7 @@ reference:
   - read_data
   - clean_data
   - split_data
-  - get_link
+  - get_links
 - title: Analysis
   desc: Functions to analyse the data
 - contents:
