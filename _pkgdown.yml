@@ -10,19 +10,21 @@ reference:
   - clean_data
   - split_data
 - title: Analysis
-- desc: Functions to analyse the data
+  desc: Functions to analyse the data
 - contents:
   - analysis_confirmatory
   - analysis_robustness
   - analysis_exploratory
 - title: Visualization
-- desc: Functions to visualize the results of the analysis
+  desc: Functions to visualize the results of the analysis
+- contents:
   - plot_confirmatory
   - plot_robustness
   - plot_exploratory
 - title: Descriptives
-- desc: Functions to get descriptive information about the data
+  desc: Functions to get descriptive information about the data
+- contents:
   - tell_checkpoint
   - sample_descriptives
 - title: Helpers
-- desc: Not-standalone functions that are used in the analysis 
+  desc: Not-standalone functions that are used in the analysis
