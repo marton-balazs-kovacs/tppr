@@ -1,0 +1,28 @@
+reference:
+- title: Shiny App
+  desc: Functions to use the shiny app
+- contents: 
+  - run_app
+- title: Read data
+  desc: Functions to read, generate or clean datasets
+- contents:
+  - read_data
+  - clean_data
+  - split_data
+- title: Analysis
+- desc: Functions to analyse the data
+- contents:
+  - analysis_confirmatory
+  - analysis_robustness
+  - analysis_exploratory
+- title: Visualization
+- desc: Functions to visualize the results of the analysis
+  - plot_confirmatory
+  - plot_robustness
+  - plot_exploratory
+- title: Descriptives
+- desc: Functions to get descriptive information about the data
+  - tell_checkpoint
+  - sample_descriptives
+- title: Helpers
+- desc: Not-standalone functions that are used in the analysis 
