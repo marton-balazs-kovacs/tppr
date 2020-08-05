@@ -41,3 +41,4 @@ reference:
   - inference_confirmatory_combined
   - inference_robustness_nhst
   - inference_robustness_combined
+  - inference_robustness_bf
