@@ -40,7 +40,9 @@ However, you can run the app locally.
 You can read more about how the functions included in the package work
 in `vignette("use_pkg")`.
 
-Features coming soon: \* Reproducing the paper locally
+Features coming soon:
+
+  - Reproducing the paper locally
 
 ## Code of Conduct
 
