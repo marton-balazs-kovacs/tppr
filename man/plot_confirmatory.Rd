@@ -4,18 +4,19 @@
 \alias{plot_confirmatory}
 \title{Plotting the results of the primary confirmatory analysis}
 \usage{
-plot_confirmatory(confirmatory_results)
+plot_confirmatory(cumulative_results)
 }
 \arguments{
-\item{confirmatory_results}{tibble, output of the \code{\link{analysis_confirmatory}} function}
+\item{cumulative_results}{dataframe, output of the \code{\link{cumulative_bayes_factor}} function}
 }
 \value{
 The function returns a ggplot object.
 }
 \description{
 The function visualize the results of the confirmatory
-analysis \code{\link{analysis_confirmatory}}. The Bayes factors
-calculated at each new experimental trial are displayed on this figure.
+Bayes factor analysis \code{\link{cumulative_bayes_factor}}.
+The Bayes factors calculated at each new experimental trial
+are displayed on this figure.
 }
 \seealso{
 Other plotting functions: 

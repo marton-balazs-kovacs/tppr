@@ -4,7 +4,15 @@
 \alias{plot_robustness}
 \title{Plotting the results of the robustness analysis}
 \usage{
-plot_robustness(robustness_results)
+plot_robustness(
+  posterior_density,
+  hdi_mode,
+  hdi_l,
+  hdi_u,
+  mixed_ci_width,
+  mixed_ci_l,
+  mixed_ci_u
+)
 }
 \arguments{
 \item{robustness_results}{tibble, output of the \code{\link{analysis_robustness}} function}

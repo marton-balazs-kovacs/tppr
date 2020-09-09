@@ -4,10 +4,10 @@
 \alias{analysis_exploratory}
 \title{Exploratory analysis}
 \usage{
-analysis_exploratory(confirmatory_results)
+analysis_exploratory(df)
 }
 \arguments{
-\item{confirmatory_results}{tibble, output of the \code{\link{analysis_confirmatory}} function}
+\item{df}{tibble}
 }
 \value{
 The function returns a list of three, the possible success
@@ -29,10 +29,7 @@ potential irregularities in the distribution of guess rates.
 
 \examples{
 \donttest{
-# Running the primary confirmatory analysis
-confirmatory_results <- analysis_confirmatory(raw_data = example_m0)
-# Running the exploratory analysis
-analysis_exploratory(confirmatory_results = confirmatory_results)
+analysis_exploratory(df = example_m0)
 }
 }
 \concept{analysis functions}

@@ -4,9 +4,48 @@
 \alias{generate_example_data}
 \title{Generate example data}
 \usage{
-generate_example_data()
+generate_example_data(
+  num_sim = 6000,
+  erotic_trial_size_per_participant = 18,
+  m0_prob = 0.5,
+  m1_prob = 0.51,
+  esp_user_percentage = 1,
+  chance_for_refuse_consent = 0.01,
+  chance_for_stopping_session = 0.002
+)
+}
+\arguments{
+\item{num_sim}{number of simulated sessions (1 regular session contains 36 trials, 18 erotic and 18 non-erotic)}
+
+\item{erotic_trial_size_per_participant}{number of erotic trials performed per participant}
+
+\item{m0_prob}{probability of successful guess if M0 is true}
+
+\item{m1_prob}{probability of successful guess among ESP-users in the simulated sample}
+
+\item{esp_user_percentage}{the percentage of ESP-users, or ESP-capable individuals in the population}
+
+\item{chance_for_refuse_consent}{chance of refusing consent or being excluded due to one of the eligibility criteria (e.g. underage)}
+
+\item{chance_for_stopping_session}{chance of stopping prematurely in each trial, to simulate some missing data due to unexpected events}
+}
+\value{
+A dataframe containing the same data structure as expected
+from real data collected in the study.
 }
 \description{
 This code generates realistic example data for
 the Transparent Psi Project.
 }
+\section{More about the params}{
+
+  Set esp_user_percentage to 1 to simulate that everyone has the same level
+  of ESP ability, or set it to 0 to simulate that no one has ESP ability. Set
+  the value to something in between to simulate that only a portion of the population can
+  use ESP, and the others are just guessing randomly. E.g.,  
+  example esp_user_percentage = 0.03 and m1_prob = 0.65 simulates that only 3% 
+  of the total population can use ESP, and prediction success rate in this subgroup is 65%.
+  Setting chance_for_stopping_session to 0.002 would generate roughly 2% missing data,
+  but that cannot introduce bias in our confirmatory analysis.
+}
+
