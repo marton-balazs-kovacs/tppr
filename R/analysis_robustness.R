@@ -55,14 +55,13 @@ robustness_bf_analysis <- function(success, total_n) {
   posterior_alpha <- prior_alpha + success
   posterior_beta <- prior_beta + total_n - success
   
-  scale <- analysis_params$scale
-  posterior_density <- dbeta(scale, posterior_alpha, posterior_beta)
+  posterior_density <- dbeta(analysis_params$scale, posterior_alpha, posterior_beta)
   
   # Calculate HDI for the posterior distribution  ---------------------------
   # (here we calculate the upper and lower bound of the 90% of the probability mass
   # because we use a one-tailed test. This means that the total probability mass below
   # the upper bound of the 90% HDI will be 95%).
-  hdi_result <- mode_HDI(scale = scale,
+  hdi_result <- mode_HDI(scale = analysis_params$scale,
                          density = posterior_density,
                          crit_width = 1 - analysis_params$inference_threshold_robustness_bayes_par_est * 2,
                          n_samples = 1e6)
@@ -73,7 +72,7 @@ robustness_bf_analysis <- function(success, total_n) {
   hdi_u <- hdi_result[3]
   
   # Probability that the parameter falls outside of the ROPE  ---------------------------
-  probability_parameter_higher_than_rope <- sum(posterior_density[scale > analysis_params$rope]) / sum(posterior_density)
+  probability_parameter_higher_than_rope <- sum(posterior_density[analysis_params$scale > analysis_params$rope]) / sum(posterior_density)
   
   # Inference ---------------------------
   inference_robustness_bayes <- inference_robustness_bf(hdi_l, hdi_u)

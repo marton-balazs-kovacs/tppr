@@ -1,118 +1,346 @@
+#' Generate example session
+#' 
+#' This function generates the example data of one participant.
+#' 
+#' @inheritParams generate_example_data
+#' 
+#' @return The function returns a dataframe containing the realistic
+#' example data of one participant. The returned dataframe has 22 variables
+#' and 1 to 41 rows depending on the results of the random probability
+#' functions.
+#' @export
+generate_session <- function(n_iteration, erotic_trial_size_per_participant, m0_prob, m1_prob, esp_user_percentage, chance_for_refuse_consent, chance_for_stopping_session) {
+  # Number of trials per participant
+  n_all_trials <- erotic_trial_size_per_participant * 2 + 5
+  
+  # The participant has a chance to stop the session at any trial
+  # we calculate the number of completed trials for the session
+  stop_index <-
+    purrr::detect_index(
+      runif(n_all_trials, min = 0, max = 1) < chance_for_stopping_session,
+      ~ .x == TRUE)
+
+  if (stop_index == 0) {
+    n_trials <- n_all_trials
+  } else {
+    n_trials <- stop_index
+  }
+
+  # Set up laboratory info
+  lab_characteristics_sim <- 
+    tibble::tibble(
+      exp_ID = paste0("exp_", 1:10),
+      exp_ASGS = 1:10,
+      lab_ID = rep(paste0("lab_", 1:5), each = 2),
+      lab_ASGS = 10:1
+    )
+  
+  # Select randomly one lab
+  lab_chars <- 
+    lab_characteristics_sim %>% 
+    dplyr::slice_sample(1)
+  
+  # Save column names that will be NA if consent form is no
+  participant_info_cols <- 
+    c("refused_to_answer_sexual_orientation_question","age", "sex" , "final_consent", 
+      "ESP_Q_item_1", "ESP_Q_item_2", "ESP_Q_item_3", "SS_Q_item_1", "SS_Q_item_2", 
+      "trial_number", "guessed_side", "target_side", "reward_type", "sides_match")
+  
+  # Determine whether the participant agreed to the consent form or not
+  consent_screen_answer <- sample(c("yes", "no"), prob = c(1 - chance_for_refuse_consent, chance_for_refuse_consent), 1)
+
+  if (consent_screen_answer == "no") {
+    # Create table with the participant information
+    res <- 
+      tibble::tibble_row(
+        timestamp = "simulation",
+        participant_ID = glue::glue("part_{n_iteration}"),
+        experimenter_ID_code = lab_chars$exp_ID,
+        experimenter_ASGS_total_score = lab_chars$exp_ASGS,
+        laboratory_ID_code = lab_chars$lab_ID,
+        sitePI_ASGS_total_score = lab_chars$lab_ASGS,
+        session_type = "live",
+        consent_screen_answer = consent_screen_answer
+      )
+    
+    res <-
+      res %>% 
+      tibble::add_column(!!!rlang::set_names(as.list(rep(NA_character_, length(participant_info_cols))), nm = participant_info_cols))
+    
+    } else if (consent_screen_answer == "yes") {
+      # Set up participant info
+      ## Fix
+      esp_user <- rbinom(1, 1, prob = esp_user_percentage)
+      prob <- m0_prob + (m1_prob - m0_prob) * esp_user
+      ESP_Q_item_1 <- sample(c("Definitely Does not", "Probably does not", "Don't know", "Probably does", "Definitely does"), 1)
+      ESP_Q_item_2 <- sample(c("Definitely no", "Probably no", "Don't know", "Probably yes", "Definitely yes"), 1)
+      ESP_Q_item_3 <- sample(c("No, never", "Only a few times", "Occasionally", "Regurarly in the past", "Regurarly no"), 1)
+      SS_Q_item_1 <- sample(c("very untrue", "untrue", "between true and untrue", "true", "very true"), 1)
+      SS_Q_item_2 <- sample(c("very untrue", "untrue", "between true and untrue", "true", "very true"), 1)
+      
+      res <- 
+        tibble::tibble(
+          timestamp = rep("simulation", n_trials),
+          participant_ID = rep(glue::glue("part_{n_iteration}"), n_trials),
+          experimenter_ID_code = rep(lab_chars$exp_ID, n_trials),
+          experimenter_ASGS_total_score = rep(lab_chars$exp_ASGS, n_trials),
+          laboratory_ID_code = rep(lab_chars$lab_ID, n_trials),
+          sitePI_ASGS_total_score = rep(lab_chars$lab_ASGS, n_trials),
+          session_type = rep("live", n_trials)
+          )
+      
+      ## Only if test trials are started
+      if (n_trials > 5) {
+        trial_number <- 1:(n_trials - 5)
+        flip <- rbinom(n_trials - 5, 1, prob = prob)
+        guessed_side <- sample(c("left", "right"), n_trials - 5, replace = T)
+        target_side <- dplyr::if_else(flip == 0,
+                                      dplyr::if_else(guessed_side == "left",
+                                                     "right",
+                                                     "left"),
+                                      dplyr::if_else(guessed_side == "left",
+                                                     "left",
+                                                     "right"))
+        reward_type <- sample(rep(c("erotic", "neutral"), each = erotic_trial_size_per_participant), replace = F)[1:(n_trials -5)]
+        sides_match <- dplyr::if_else(guessed_side == target_side,
+                                      "true",
+                                      "false")
+        res <- 
+          res %>% 
+          tibble::add_column(
+            consent_screen_answer = c(
+              NA_character_,
+              rep(consent_screen_answer, n_trials - 1)),
+            refused_to_answer_sexual_orientation_question = c(
+              rep(NA_character_, 2),
+              rep("no", n_trials - 2)),
+            age = c(
+              rep(NA_character_, 2),
+              rep(sample(c("18-29", "30-44"), 1), n_trials - 2)),
+            sex = c(
+              rep(NA_character_, 2),
+              rep(sample(c("Female", "Male"), 1), n_trials - 2)),
+            final_consent = c(
+              rep(NA_character_, 3),
+              rep("yes", n_trials - 3)),
+            ESP_Q_item_1 = c(
+              rep(NA_character_, 3),
+              rep(ESP_Q_item_1, n_trials - 3)),
+            ESP_Q_item_2 = c(
+              rep(NA_character_, 3),
+              rep(ESP_Q_item_2, n_trials - 3)),
+            ESP_Q_item_3 = c(
+              rep(NA_character_, 3),
+              rep(ESP_Q_item_3, n_trials - 3)),
+            SS_Q_item_1 = c(
+              rep(NA_character_, 4),
+              rep(SS_Q_item_1, n_trials - 4)),
+            SS_Q_item_2 = c(
+              rep(NA_character_, 4),
+              rep(SS_Q_item_2, n_trials - 4)),
+            trial_number = c(
+              rep(NA_character_, 5),
+              trial_number),
+            guessed_side = c(
+              rep(NA_character_, 5),
+              guessed_side),
+            target_side = c(
+              rep(NA_character_, 5),
+              target_side),
+            reward_type = c(
+              rep(NA_character_, 5),
+              reward_type),
+            sides_match = c(
+              rep(NA_character_, 5),
+              sides_match)
+            )
+        
+        } else if (n_trials == 5) {
+          res <- 
+            res %>% 
+            tibble::add_column(
+              consent_screen_answer = c(
+                NA_character_,
+                rep(consent_screen_answer, n_trials - 1)),
+              refused_to_answer_sexual_orientation_question = c(
+                rep(NA_character_, 2),
+                rep("no", n_trials - 2)),
+              age = c(
+                rep(NA_character_, 2),
+                rep(sample(c("18-29", "30-44"), 1), n_trials - 2)),
+              sex = c(
+                rep(NA_character_, 2),
+                rep(sample(c("Female", "Male"), 1), n_trials - 2)),
+              final_consent = c(
+                rep(NA_character_, 3),
+                rep("yes", n_trials - 3)),
+              ESP_Q_item_1 = c(
+                rep(NA_character_, 3),
+                rep(ESP_Q_item_1, n_trials - 3)),
+              ESP_Q_item_2 = c(
+                rep(NA_character_, 3),
+                rep(ESP_Q_item_2, n_trials - 3)),
+              ESP_Q_item_3 = c(
+                rep(NA_character_, 3),
+                rep(ESP_Q_item_3, n_trials - 3)),
+              SS_Q_item_1 = c(
+                rep(NA_character_, 4),
+                rep(SS_Q_item_1, n_trials - 4)),
+              SS_Q_item_2 = c(
+                rep(NA_character_, 4),
+                rep(SS_Q_item_2, n_trials - 4)),
+              trial_number = rep(NA_character_, 5),
+              guessed_side = rep(NA_character_, 5),
+              target_side = rep(NA_character_, 5),
+              reward_type = rep(NA_character_, 5),
+              sides_match = rep(NA_character_, 5)
+              )
+          
+          } else if (n_trials == 4) {
+            res <- 
+              res %>% 
+              tibble::add_column(
+                consent_screen_answer = c(
+                  NA_character_,
+                  rep(consent_screen_answer, n_trials - 1)),
+                refused_to_answer_sexual_orientation_question = c(
+                  rep(NA_character_, 2),
+                  rep("no", n_trials - 2)),
+                age = c(
+                  rep(NA_character_, 2),
+                  rep(sample(c("18-29", "30-44"), 1), n_trials - 2)),
+                sex = c(
+                  rep(NA_character_, 2),
+                  rep(sample(c("Female", "Male"), 1), n_trials - 2)),
+                final_consent = c(
+                  rep(NA_character_, 3),
+                  rep("yes", n_trials - 3)),
+                ESP_Q_item_1 = c(
+                  rep(NA_character_, 3),
+                  rep(ESP_Q_item_1, n_trials - 3)),
+                ESP_Q_item_2 = c(
+                  rep(NA_character_, 3),
+                  rep(ESP_Q_item_2, n_trials - 3)),
+                ESP_Q_item_3 = c(
+                  rep(NA_character_, 3),
+                  rep(ESP_Q_item_3, n_trials - 3)),
+                SS_Q_item_1 = rep(NA_character_, 4),
+                SS_Q_item_2 = rep(NA_character_, 4),
+                trial_number = rep(NA_character_, 4),
+                guessed_side = rep(NA_character_, 4),
+                target_side = rep(NA_character_, 4),
+                reward_type = rep(NA_character_, 4),
+                sides_match = rep(NA_character_, 4)
+                )
+            
+            } else if (n_trials == 3) {
+              res <- 
+                res %>% 
+                tibble::add_column(
+                  consent_screen_answer = c(
+                    NA_character_,
+                    rep(consent_screen_answer, n_trials - 1)),
+                  refused_to_answer_sexual_orientation_question = c(
+                    rep(NA_character_, 2),
+                    rep("no", n_trials - 2)),
+                  age = c(
+                    rep(NA_character_, 2),
+                    rep(sample(c("18-29", "30-44"), 1), n_trials - 2)),
+                  sex = c(
+                    rep(NA_character_, 2),
+                    rep(sample(c("Female", "Male"), 1), n_trials - 2)),
+                  final_consent = rep(NA_character_, 3),
+                  ESP_Q_item_1 = rep(NA_character_, 3),
+                  ESP_Q_item_2 = rep(NA_character_, 3),
+                  ESP_Q_item_3 = rep(NA_character_, 3),
+                  SS_Q_item_1 = rep(NA_character_, 3),
+                  SS_Q_item_2 = rep(NA_character_, 3),
+                  trial_number = rep(NA_character_, 3),
+                  guessed_side = rep(NA_character_, 3),
+                  target_side = rep(NA_character_, 3),
+                  reward_type = rep(NA_character_, 3),
+                  sides_match = rep(NA_character_, 3)
+                  )
+              
+              } else if (n_trials == 2) {
+                res <- 
+                  res %>% 
+                  tibble::add_column(
+                    consent_screen_answer = c(
+                      NA_character_,
+                      rep(consent_screen_answer, n_trials - 1)),
+                    refused_to_answer_sexual_orientation_question = rep(NA_character_, 2),
+                    age = rep(NA_character_, 2),
+                    sex = rep(NA_character_, 2),
+                    final_consent = rep(NA_character_, 2),
+                    ESP_Q_item_1 = rep(NA_character_, 2),
+                    ESP_Q_item_2 = rep(NA_character_, 2),
+                    ESP_Q_item_3 = rep(NA_character_, 2),
+                    SS_Q_item_1 = rep(NA_character_, 2),
+                    SS_Q_item_2 = rep(NA_character_, 2),
+                    trial_number = rep(NA_character_, 2),
+                    guessed_side = rep(NA_character_, 2),
+                    target_side = rep(NA_character_, 2),
+                    reward_type = rep(NA_character_, 2),
+                    sides_match = rep(NA_character_, 2)
+                  )
+              }
+      }
+  
+  # Return output ---------------------------
+  return(res)
+}
+
 #' Generate example data
 #' 
 #' This code generates realistic example data for
 #' the Transparent Psi Project.
-generate_example_data <- function() {
-  # Set parameters for example data ---------------------------
-# TODO: ADD row_counter variable
-# number of erotic trials performed per participant
-erotic_trial_size_per_participant <- 18
-
-# probability of successful guess if M0 is true
-m0_prob <- 0.5
-
-# ESP_user_percentage sets the percentage of ESP-users, or ESP-capable individuals 
-# in the population 
-# set this to 1 to simulate that everyone has the same level of ESP ability
-# set this to 0 to simulate that noone has ESP ability
-# set this to something in between to simulate that only a portion of the population can
-# use ESP, and the others are just guessing randomly, 
-# For example ESP_user_percentage = 0.03 and M1_prob = 0.65 simulates that only 3% 
-# of the total poupulation can use ESP, and prediction success rate in this subgroup is 65%.
-esp_user_percentage <- 1 
-
-# probability of successful guess among ESP-users in the simulated sample
-m1_prob <- 0.51
-
-# chance of refusing consent or being excluded due to one of the eligibility criteria (e.g. underaged)
-chance_for_refuse_consent <- 0.01
-
-# chance of stopping prematurely in each trial, to simulate some missing data due to unexpected events
-# setting this to 0.002 would generate roughly 2% missing data
-# note that premature stopping cannot introduce bias in our confirmatory analyses
-chance_for_stopping_session <- 0.002
-
-# Generate example data ---------------------------
-
-# simulate the performance of 10,000 potential participants
-# the code in this section simulates "realistic" data, producing
-# the same data structure as expected from real data collected in the study
-# adjust the parameters in the "Set parameters for example data" section
-
-list = list(NA)
-
-# some laboratory info
-lab_characteristics_sim = data.frame(exp_ID = paste("exp_", 1:10, sep =""),
-                                     exp_ASGS = 1:10,
-                                     lab_ID = rep(paste("lab_", 1:5, sep =""), each = 2),
-                                     lab_ASGS = 10:1)
-
-# Number of simulated sessions (1 regular session contains 36 trials, 18 erotic and 18 non-erotic)
-# generating 10000 simulated participants takes about 4 mins on an i7 6600U 2.6 Ghz CPU 
-num_sim = 6000
-
-pb <- progress_bar$new(
-  format = " simulation progress [:bar] :percent eta: :eta",
-  total = num_sim, clear = FALSE, width= 60)
-
-for(i in 1:num_sim){
-  pb$tick() # adds a tick to the progress bar
-  
-  ESP_user = rbinom(1, 1, prob = ESP_user_percentage)
-  prob = M0_prob + (M1_prob - M0_prob)*ESP_user
-  subj_data = as.data.frame(matrix(NA, nrow = 1, ncol = 22))
-  names(subj_data) = c("timestamp", "participant_ID", "experimenter_ID_code", "experimenter_ASGS_total_score",
-                       "laboratory_ID_code", "sitePI_ASGS_total_score", "session_type", "consent_screen_answer", 
-                       "refused_to_answer_sexual_orientation_question","age", "sex" , "final_consent", 
-                       "ESP_Q_item_1", "ESP_Q_item_2", "ESP_Q_item_3", "SS_Q_item_1", "SS_Q_item_2", 
-                       "trial_number", "guessed_side", "target_side", "reward_type", "sides_match")
-  lab_chars = sample(1:nrow(lab_characteristics_sim),1)
-  exp_ID = as.character(lab_characteristics_sim[lab_chars,"exp_ID"])
-  exp_ASGS = lab_characteristics_sim[lab_chars,"exp_ASGS"]
-  lab_ID = as.character(lab_characteristics_sim[lab_chars,"lab_ID"])
-  lab_ASGS = lab_characteristics_sim[lab_chars,"lab_ASGS"]
-  consent_screen_answer = sample(c("yes", "no"), prob = c(1-chance_for_refuse_consent, chance_for_refuse_consent), 1)
-  refused_to_answer_sexual_orientation_question = "no"
-  age = sample(c("18-29", "30-44"), 1)
-  sex = sample(c("Female", "Male"), 1)
-  final_consent = "yes"
-  ESP_Q_item_1 = sample(c("Definitely Does not", "Probably does not", "Don't know", "Probably does", "Definitely does"), 1)
-  ESP_Q_item_2 = sample(c("Definitely no", "Probably no", "Don't know", "Probably yes", "Definitely yes"), 1)
-  ESP_Q_item_3 = sample(c("No, never", "Only a few times", "Occasionally", "Regurarly in the past", "Regurarly no"), 1)
-  SS_Q_item_1 = sample(c("very untrue", "untrue", "between true and untrue", "true", "very true"), 1)
-  SS_Q_item_2 = sample(c("very untrue", "untrue", "between true and untrue", "true", "very true"), 1)
-  reward_type = c(rep(NA, 5), sample(rep(c("erotic", "neutral"), each = erotic_trial_size_per_participant), replace = F))
-  
-  for(j in 1:((erotic_trial_size_per_participant*2)+5)){
-    subj_data[j, "timestamp"] = "simulation"
-    subj_data[j, "participant_ID"] = paste("part_", i, sep = "")
-    subj_data[j, "experimenter_ID_code"] = exp_ID
-    subj_data[j, "experimenter_ASGS_total_score"] = exp_ASGS
-    subj_data[j, "laboratory_ID_code"] = lab_ID
-    subj_data[j, "sitePI_ASGS_total_score"] = lab_ASGS
-    subj_data[j, "session_type"] = "live"
-    subj_data[j, "consent_screen_answer"] = if(j == 1){NA} else {consent_screen_answer}
-    subj_data[j, "refused_to_answer_sexual_orientation_question"] = if(j == 1 | j == 2){NA} else {refused_to_answer_sexual_orientation_question}
-    subj_data[j, "age"] = if(j == 1 | j == 2){NA} else {age}
-    subj_data[j, "sex"] = if(j == 1 | j == 2){NA} else {sex}
-    subj_data[j, "final_consent"] = if(j == 1 | j == 2 | j == 3){NA} else {final_consent}
-    subj_data[j, "ESP_Q_item_1"] = if(j == 1 | j == 2 | j == 3){NA} else {ESP_Q_item_1}
-    subj_data[j, "ESP_Q_item_2"] = if(j == 1 | j == 2 | j == 3){NA} else {ESP_Q_item_2}
-    subj_data[j, "ESP_Q_item_3"] = if(j == 1 | j == 2 | j == 3){NA} else {ESP_Q_item_3}
-    subj_data[j, "SS_Q_item_1"] = if(j == 1 | j == 2 | j == 3 | j == 4){NA} else {SS_Q_item_1}
-    subj_data[j, "SS_Q_item_2"] = if(j == 1 | j == 2 | j == 3 | j == 4){NA} else {SS_Q_item_2}
-    subj_data[j, "trial_number"] = if(j == 1 | j == 2 | j == 3 | j == 4 | j == 5){NA} else {j-5}
-    subj_data[j, "guessed_side"] = if(j == 1 | j == 2 | j == 3 | j == 4 | j == 5){NA} else {sample(c("left", "right"), 1)}
-    flip = rbinom(1, 1, prob = prob)
-    subj_data[j, "target_side"] = if(j == 1 | j == 2 | j == 3 | j == 4 | j == 5){NA} else { if(flip == 0){ if(subj_data[j, "guessed_side"] == "left"){"right"} else {"left"}} else {if(subj_data[j, "guessed_side"] == "left"){"left"} else {"right"}}}
-    subj_data[j, "reward_type"] = if(j == 1 | j == 2 | j == 3 | j == 4 | j == 5){NA} else {reward_type[j]}
-    subj_data[j, "sides_match"] = if(j == 1 | j == 2 | j == 3 | j == 4 | j == 5){NA} else {if(subj_data[j, "guessed_side"] == subj_data[j, "target_side"]){"true"} else {"false"}}
-    list[[i]] = subj_data
-    if(!is.na(subj_data[j, "consent_screen_answer"])){if(subj_data[j, "consent_screen_answer"] == "no") break}
-    if(runif(1, min = 0, max = 1) < chance_for_stopping_session) break
+#' 
+#' @section More about the params:
+#'   Set esp_user_percentage to 1 to simulate that everyone has the same level
+#'   of ESP ability, or set it to 0 to simulate that no one has ESP ability. Set
+#'   the value to something in between to simulate that only a portion of the population can
+#'   use ESP, and the others are just guessing randomly. E.g.,  
+#'   example esp_user_percentage = 0.03 and m1_prob = 0.65 simulates that only 3% 
+#'   of the total population can use ESP, and prediction success rate in this subgroup is 65%.
+#'   Setting chance_for_stopping_session to 0.002 would generate roughly 2% missing data,
+#'   but that cannot introduce bias in our confirmatory analysis.
+#' 
+#' @param num_sim number of simulated sessions (1 regular session contains 36 trials, 18 erotic and 18 non-erotic)
+#' @param erotic_trial_size_per_participant number of erotic trials performed per participant
+#' @param m0_prob probability of successful guess if M0 is true
+#' @param m1_prob probability of successful guess among ESP-users in the simulated sample
+#' @param esp_user_percentage the percentage of ESP-users, or ESP-capable individuals in the population
+#' @param chance_for_refuse_consent chance of refusing consent or being excluded due to one of the eligibility criteria (e.g. underage)
+#' @param chance_for_stopping_session chance of stopping prematurely in each trial, to simulate some missing data due to unexpected events
+#' 
+#' @return A dataframe containing the same data structure as expected
+#' from real data collected in the study.
+#' @export
+generate_example_data <- function(num_sim = 6000, erotic_trial_size_per_participant = 18, m0_prob = 0.5, m1_prob = 0.51, esp_user_percentage = 1, chance_for_refuse_consent = 0.01, chance_for_stopping_session = 0.002) {
+  # Set up progress bar ---------------------------
+  generate_session_progress <- function(n_iteration, erotic_trial_size_per_participant, m0_prob, m1_prob, esp_user_percentage, chance_for_refuse_consent, chance_for_stopping_session) {
+    pb$tick()$print()
+    generate_session(n_iteration, erotic_trial_size_per_participant, m0_prob, m1_prob, esp_user_percentage, chance_for_refuse_consent, chance_for_stopping_session)
   }
-}
-
-raw_data = do.call("rbind", list)
-
+  
+  pb <- progress_estimated(num_sim)
+  
+  # Generate example data ---------------------------
+  n_iteration <- seq_along(1:num_sim)
+  
+  res <-
+    n_iteration %>% 
+    purrr::map_df(~ generate_session_progress(n_iteration = .x,
+                                              erotic_trial_size_per_participant = erotic_trial_size_per_participant,
+                                     m0_prob = m0_prob,
+                                     m1_prob = m1_prob,
+                                     esp_user_percentage = esp_user_percentage,
+                                     chance_for_refuse_consent = chance_for_refuse_consent,
+                                     chance_for_stopping_session = chance_for_stopping_session))
+  
+  # ADD row_counter variable
+  
+  # Return output ---------------------------
+  return(res)
 }
