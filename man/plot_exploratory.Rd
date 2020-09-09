@@ -4,10 +4,18 @@
 \alias{plot_exploratory}
 \title{Plotting the results of the exploratory analysis}
 \usage{
-plot_exploratory(exploratory_results)
+plot_exploratory(
+  success_rates_theoretical_prop,
+  success_rates_empirical_prop,
+  possible_success_rates
+)
 }
 \arguments{
-\item{exploratory_results}{tibble, output of the \code{\link{analysis_exploratory}} function}
+\item{success_rates_theoretical_prop}{numeric vector, output of the \code{\link{analysis_exploratory}} function}
+
+\item{success_rates_empirical_prop}{numeric vector, output of the \code{\link{analysis_exploratory}} function}
+
+\item{possible_success_rates}{numeric vector, output of the \code{\link{analysis_exploratory}} function}
 }
 \value{
 The function returns a ggplot object.

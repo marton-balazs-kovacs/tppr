@@ -78,7 +78,12 @@ read_data <- function(type) {
                   sides_match = as.numeric(sides_match))
   
   ## Sessions conducted with the test accounts or without lab_IDs are excluded
-  lab_ids_to_exclude <- c("", "18155ef201564afbb81f6a8b74aa9a033eac51ec6595510eca9606938ffaced3", "ece83ceb8611d1926746e5bb3597ed1e8cb5d336521331b31961d5c0348883cf")
+  lab_ids_to_exclude <- c("",
+                          "18155ef201564afbb81f6a8b74aa9a033eac51ec6595510eca9606938ffaced3",
+                          "ece83ceb8611d1926746e5bb3597ed1e8cb5d336521331b31961d5c0348883cf",
+                          "bd2dd15be34863e9efb77fbddfe744382a9c62c6a497e8bcf3097a47905b905b",
+                          "fff9cb9dcc3ac735fc25a59f424e98278a731c23ccd57276d292996c2ba7784f")
+  
   raw_data <- 
     source_data %>% 
     dplyr::filter(not_na(laboratory_ID_code),
@@ -118,12 +123,9 @@ read_data <- function(type) {
 #' }
 clean_data <- function(raw_data) {
   ## Extract data from erotic trials 
-  processed_data <- 
-    raw_data %>% 
+  raw_data %>% 
     dplyr::filter(not_na(trial_number),
                   reward_type == "erotic")
-  
-  return(processed_data)
 }
 
 #' Function to return checkpoint information
@@ -156,9 +158,9 @@ tell_checkpoint <- function(df) {
   when_to_check <- analysis_params$when_to_check
   
   # Check whether the input df contains only erotic trials or not
-  if (!all(df$reward_type == "erotic")) {
+  if (("success" %not_in% colnames(df)) && !all(df$reward_type == "erotic")) {
     df <- clean_data(raw_data = df)
-  }
+  } 
   
   # Total number of valid erotic trials
   total_n <- nrow(df)
@@ -170,15 +172,30 @@ tell_checkpoint <- function(df) {
     current_checkpoint <- max(which(when_to_check < total_n))
     next_checkpoint <- min(which(when_to_check > total_n))
   } else if (max(when_to_check) < total_n) {
-    current_checkpoint <- 10L
+    current_checkpoint <- which(max(when_to_check))
+    next_checkpoint <- NA_integer_
+  } else if (min(when_to_check) == total_n) {
+    current_checkpoint <- which(min(when_to_check))
+    next_checkpoint <- min(which(when_to_check > total_n))
+  } else if (max(when_to_check) == total_n) {
+    current_checkpoint <- which(max(when_to_check))
     next_checkpoint <- NA_integer_
   }
   
   # Find the row_counter of the last row
   last_row <- 
     df %>% 
-    dplyr::slice(when_to_check[current_checkpoint]) %>% 
-    dplyr::pull(row_counter)
+    dplyr::slice(when_to_check[current_checkpoint])
+    
+  if ("success" %not_in% colnames(df)) {
+    last_row <-
+      last_row %>% 
+      dplyr::pull(row_counter)
+  } else if ("success" %in% colnames(df)) {
+    last_row <-
+      last_row %>% 
+      dplyr::pull(total_n)
+  }
   
   # Return output ---------------------------
   return(

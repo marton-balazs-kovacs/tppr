@@ -12,7 +12,7 @@
 #'   
 #' @family analysis functions
 #' 
-#' @param confirmatory_results tibble, output of the \code{\link{analysis_confirmatory}} function
+#' @param df tibble
 #' 
 #' @return The function returns a list of three, the possible success
 #' rates, the the proportion of observed successful guess rate, and the
@@ -20,41 +20,24 @@
 #' @export
 #' @examples 
 #' \donttest{
-#' # Running the primary confirmatory analysis
-#' confirmatory_results <- analysis_confirmatory(raw_data = example_m0)
-#' # Running the exploratory analysis
-#' analysis_exploratory(confirmatory_results = confirmatory_results)
+#' analysis_exploratory(df = example_m0)
 #' }
-analysis_exploratory <- function(confirmatory_results) {
-  # Process input argument ---------------------------
-  # Extract the data used for the calculation at the last checkpoint
-  processed_data <- 
-    confirmatory_results %>% 
-    dplyr::slice_max(n_iteration) %>% 
-    dplyr::select(split_data) %>% 
-    tidyr::unnest(split_data)
+analysis_exploratory <- function(df) {
+  # Check whether the input df contains only erotic trials or not
+  if (!all(df$reward_type == "erotic")) {
+    df <- clean_data(raw_data = df)
+  }
   
   # Comparison of expected and observed distributions ---------------------------
   # Calculate proportion of successful guesses for each participant in the observed data
   # We only include participants where there is no missing erotic trials
   success_proportions_empirical_finishedalltrials <-
-    processed_data %>% 
+    df %>% 
     dplyr::group_by(participant_ID) %>% 
     dplyr::filter(dplyr::n() == 18) %>% 
     dplyr::summarise(mean_match = mean(sides_match)) %>% 
     dplyr::pull(mean_match) %>% 
     round(., 2)
-  
-  # Samples 1,000,000 participants from a population with a 50% successful guess chance
-  # homogeneous in the population we call this the theoretical sample, because it
-  # approximates the theoretical null model.
-  # TODO: decide whether this should be in the analysis_params or here (if the former the app is faster but cannot submit to cran)
-  success_proportions_theoretical <- 
-    round(
-      rbinom(analysis_params$sim_null_participant_num,
-             size = analysis_params$trial_size_per_participant,
-             prob = analysis_params$m0_prob) / analysis_params$trial_size_per_participant,
-      2)
   
   # Determine possible values of success rates ---------------------------
   num_trials <- 0:18
@@ -62,7 +45,7 @@ analysis_exploratory <- function(confirmatory_results) {
   
   # Determine the distribution in the theoretical sample ---------------------------
   success_rates_theoretical <-
-    purrr::map_int(possible_success_rates, ~ sum(success_proportions_theoretical == .x))
+    purrr::map_int(possible_success_rates, ~ sum(analysis_params$success_proportions_theoretical == .x))
   
   success_rates_theoretical_prop <- matrix(success_rates_theoretical / sum(success_rates_theoretical))
   
@@ -78,7 +61,7 @@ analysis_exploratory <- function(confirmatory_results) {
   # Difference between finished and not finished trials ---------------------------
   # Exploring the difference in success rate between those who did and those who did not finish all experimental trials
   success_proportions_empirical_didnotfinishalltrials <- 
-    processed_data %>% 
+    df %>% 
     dplyr::group_by(participant_ID) %>% 
     dplyr::filter(dplyr::n() == 18) %>% 
     dplyr::summarise(mean_match = mean(sides_match)) %>% 

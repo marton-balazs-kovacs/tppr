@@ -48,6 +48,15 @@ create_analysis_params <- function() {
     inference_threshold_nhst <- 0.005
     # This is the p for the equivalence test
     p_equiv_test <- m0_prob + minimum_effect_threshold_nhst
+    # Samples 1,000,000 participants from a population with a 50% successful guess chance
+    # homogeneous in the population we call this the theoretical sample, because it
+    # approximates the theoretical null model.
+    success_proportions_theoretical <- 
+        round(
+            rbinom(sim_null_participant_num,
+                   size = trial_size_per_participant,
+                   prob = m0_prob) / trial_size_per_participant,
+            2)
     mget(ls())
 }
 

@@ -5,16 +5,13 @@
 #' 
 #' @family plotting functions
 #' 
-#' @param exploratory_results tibble, output of the \code{\link{analysis_exploratory}} function
+#' @param success_rates_theoretical_prop numeric vector, output of the \code{\link{analysis_exploratory}} function
+#' @param success_rates_empirical_prop numeric vector, output of the \code{\link{analysis_exploratory}} function
+#' @param possible_success_rates numeric vector, output of the \code{\link{analysis_exploratory}} function
 #' 
 #' @return The function returns a ggplot object.
 #' @export
-plot_exploratory <- function(exploratory_results) {
-  # Process input argument ---------------------------
-  success_rates_theoretical_prop <- exploratory_results$success_rates_theoretical_prop
-  success_rates_empirical_prop <- exploratory_results$success_rates_empirical_prop
-  possible_success_rates <- exploratory_results$possible_success_rates
-  
+plot_exploratory <- function(success_rates_theoretical_prop, success_rates_empirical_prop, possible_success_rates) {
   # Prepare plot data ---------------------------
   fig_3_plot_data <- 
     tibble::tibble(

@@ -9,18 +9,7 @@
 #' 
 #' @return The function returns a ggplot object.
 #' @export
-plot_robustness <- function(robustness_results) {
-  # Process input argument ---------------------------
-  # Results of the robustness analysis
-  posterior_density <- robustness_results$robustness_bayes_res$posterior_density
-  hdi_mode <- robustness_results$robustness_bayes_res$hdi_mode
-  hdi_l <- robustness_results$robustness_bayes_res$hdi_l
-  hdi_u <- robustness_results$robustness_bayes_res$hdi_u
-  # Results of the confirmatory analysis
-  mixed_ci_width <- robustness_results$confirmatory_mixed_ci_width
-  mixed_ci_l <- robustness_results$confirmatory_mixed_ci_l
-  mixed_ci_u <- robustness_results$confirmatory_mixed_ci_u
-  
+plot_robustness <- function(posterior_density, hdi_mode, hdi_l, hdi_u, mixed_ci_width, mixed_ci_l, mixed_ci_u) {
   # Figure 2 displays the Confidence interval computed based on the 
   # final mixed model primary analysis and the posterior distribution of the 
   # parameter based on the Bayesian Parameter Estimation

@@ -81,10 +81,9 @@ data(example_m1)
 ## Generate example dataset
 
 It is also possible to generate your own example dataset.
-TODO: Finish this part once the function is ready.
 
-```{r}
-# generate_example_data()
+```{r, eval = FALSE}
+my_tppr_data <- generate_example_data()
 ```
 
 ## Collected datasets
@@ -122,8 +121,6 @@ The function runs at the latest passed checkpoint, unless it is indicated differ
 
 ```{r}
 descriptive_results <- sample_descriptives(raw_data = tpp_raw_data, which_checkpoint = NA_integer_)
-
-descriptive_results
 ```
 
 # Checking the current and the next checkpoint
@@ -187,12 +184,20 @@ To run the primary analysis function run the following code on the processed dat
 confirmatory_results <- analysis_confirmatory(raw_data = tpp_raw_data)
 ```
 
+## Calculate the cumulative Bayes factor
+
+For the primary analysis plot we have to calculate the cumulative Bayes factors with the three priors for every trial.
+
+```{r}
+cumulative_results <- cumulative_bayes_factor(df = tpp_raw_data)
+```
+
 ## Visualise the result
 
 To visualize the results of the primary confirmatory analysis the `?tppr::plot_confrimatory` can be used.
 
 ```{r}
-plot_confirmatory(confirmatory_results = confirmatory_results)
+plot_confirmatory(cumulative_results = cumulative_results)
 ```
 
 # Run the robustness analysis
@@ -212,18 +217,18 @@ robustness_results <- analysis_robustness(confirmatory_results = confirmatory_re
 ## Visualise the result
 
 ```{r}
-plot_robustness(robustness_results = robustness_results)
+# plot_robustness(posterior_density, hdi_mode, hdi_l, hdi_u, mixed_ci_width, mixed_ci_l, mixed_ci_u)
 ```
 
 # Run the exploratory analysis
 
 ```{r}
-exploratory_results <- analysis_exploratory(confirmatory_results = confirmatory_results)
+exploratory_results <- analysis_exploratory(df = tpp_raw_data)
 ```
 
 ## Visualize the results
 
 ```{r}
-plot_exploratory(exploratory_results = exploratory_results)
+# plot_exploratory(success_rates_theoretical_prop, success_rates_empirical_prop, possible_success_rates)
 ```
 

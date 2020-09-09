@@ -3,6 +3,12 @@ reference:
   desc: Functions to use the shiny app
 - contents: 
   - run_app
+- title: Data
+  desc: Datasets in the package
+- contents:
+  - analysis_params
+  - example_m0
+  - example_m1
 - title: Read data
   desc: Functions to read, generate or clean datasets
 - contents:
@@ -10,6 +16,9 @@ reference:
   - clean_data
   - split_data
   - get_links
+  - generate_example_data
+  - generate_session
+  - cumulative_success
 - title: Analysis
   desc: Functions to analyse the data
 - contents:
@@ -20,6 +29,7 @@ reference:
   - robustness_bf_analysis
   - robustness_nhst_analysis
   - analysis_exploratory
+  - cumulative_bayes_factor
 - title: Visualization
   desc: Functions to visualize the results of the analysis
 - contents:
@@ -42,3 +52,11 @@ reference:
   - inference_robustness_nhst
   - inference_robustness_combined
   - inference_robustness_bf
+- title: Bayes factor calculation
+  desc: Functions to calculate Bayes factors
+- contents:
+  - fullAlt_beta
+  - normalize_beta
+  - restrictedAlt_beta
+  - margLike_beta
+  - BF01_beta

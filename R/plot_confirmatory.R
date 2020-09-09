@@ -1,35 +1,39 @@
 #' Plotting the results of the primary confirmatory analysis
 #' 
 #' The function visualize the results of the confirmatory
-#' analysis \code{\link{analysis_confirmatory}}. The Bayes factors
-#' calculated at each new experimental trial are displayed on this figure.
+#' Bayes factor analysis \code{\link{cumulative_bayes_factor}}.
+#' The Bayes factors calculated at each new experimental trial
+#' are displayed on this figure.
 #' 
 #' @family plotting functions
 #' 
-#' @param confirmatory_results tibble, output of the \code{\link{analysis_confirmatory}} function
+#' @param cumulative_results dataframe, output of the \code{\link{cumulative_bayes_factor}} function
 #' 
 #' @return The function returns a ggplot object.
 #' @export
-plot_confirmatory <- function(confirmatory_results) {
+plot_confirmatory <- function(cumulative_results) {
   # Prepare plot data ---------------------------
+  # Get checkpoint information
+  highest_checkpoint <- tell_checkpoint(cumulative_results)$current_checkpoint
+  check_range <- analysis_params$when_to_check[1:highest_checkpoint]
+  
+  figure_1_data <-
+    cumulative_results %>% 
+    dplyr::select(-success) %>% 
+    tidyr::gather(key = "bf_type", value = "bf_value", -total_n)
+  
   # Bayes factors at each predetermined sequential stopping point
   ## This df contains the Bayes factor analysis results at each checking point until the last checking point
   bf_table <- 
-    confirmatory_results %>% 
-    dplyr::select(checkpoint, bf_res) %>% 
-    tidyr::unnest_longer(bf_res) %>% 
-    dplyr::rename(bf_value = bf_res,
-                  bf_type = bf_res_id) %>% 
-    dplyr::mutate(bf_type = dplyr::case_when(bf_type == "bf_replication" ~ "BF_replication",
-                                             bf_type == "bf_uniform" ~ "BF_uniform",
-                                             bf_type == "bf_buj" ~ "BF_BUJ"))
-  
+    figure_1_data %>% 
+    dplyr::filter(total_n %in% check_range) %>% 
+    dplyr::rename(checkpoint = total_n)
+
   # Final Bayes factor results to set the scale of the plot
   ## This df contains the Bayes factor analysis results at the last checkpoint
   bf_table_last <- 
     bf_table %>% 
-    dplyr::slice_max(checkpoint) %>% 
-    tidyr::spread(key = "bf_type", value = "bf_value")
+    dplyr::slice_max(checkpoint)
   
   # Setting limits and breaks and label positions
   fig_1_y_axis_breaks <- 
@@ -59,53 +63,17 @@ plot_confirmatory <- function(confirmatory_results) {
       plyr::round_any(bf_table_last$checkpoint * 2 / 3, 1000),
       bf_table_last$checkpoint)
   
-  # Calculating cumulative successes
-  ## This df contains data until the last checkpoint
-  cumulative_successes_trial_n_table <- 
-    confirmatory_results %>% 
-    dplyr::slice_max(n_iteration) %>% 
-    dplyr::select(split_data) %>% 
-    tidyr::unnest(split_data) %>% 
-    dplyr::transmute(success = cumsum(sides_match),
-                     total_n = 1:nrow(.))
-  
-  # Calculating Bayes factors for each new experimental trial with all three priors
-  # Calculating these takes about 3 minutes on an i7-6600 2.6GHz GPU, depending on how many data points are there
-  bf_replication_cumulative <- 
-    purrr::map2(cumulative_successes_trial_n_table$success, cumulative_successes_trial_n_table$total_n,
-                ~ BF01_beta(y = .x, N = .y, y_prior = analysis_params$y_prior, N_prior = analysis_params$n_prior, interval = c(0.5, 1), null_prob = analysis_params$m0_prob))
-  
-  bf_uniform_cumulative <- 
-    purrr::map2(cumulative_successes_trial_n_table$success, cumulative_successes_trial_n_table$total_n,
-                ~ BF01_beta(y = .x, N = .y, y_prior = 0, N_prior = 0, interval = c(0.5, 1), null_prob = analysis_params$m0_prob)) 
-  
-  bf_buj_cumulative <- 
-    purrr::map2(cumulative_successes_trial_n_table$success, cumulative_successes_trial_n_table$total_n,
-                ~ BF01_beta(y = .x, N = .y, y_prior = 6, N_prior = 12, interval = c(0.5, 1), null_prob = analysis_params$m0_prob))
-  
-  # Fitting smoothing spline to get a smooth curve
-  fit_replication <- smooth.spline(cumulative_successes_trial_n_table$total_n, bf_replication_cumulative, df = 80)
-  fit_uniform <- smooth.spline(cumulative_successes_trial_n_table$total_n, bf_uniform_cumulative, df = 80)
-  fit_buj <- smooth.spline(cumulative_successes_trial_n_table$total_n, bf_buj_cumulative, df = 80)
-  
-  bf_replication_cumulative_spline <- predict(fit_replication)$y
-  bf_uniform_cumulative_spline <- predict(fit_uniform)$y
-  bf_buj_cumulative_spline <- predict(fit_buj)$y
-  
-  # Put all data needed for plotting in a data frame
-  fig_1_plot_data_full <- 
-    tibble::tibble(
-      bf_value = c(bf_replication_cumulative_spline, bf_uniform_cumulative_spline, bf_buj_cumulative_spline),
-      total_n = rep(cumulative_successes_trial_n_table$total_n, 3),
-      bf_type = rep(c("BF_replication", "BF_uniform", "BF_BUJ"), each = length(cumulative_successes_trial_n_table$total_n))
-      )
+  figure_1_data <-
+    figure_1_data %>% 
+    dplyr::group_by(bf_type) %>%
+    dplyr::mutate(bf_value = smoothie(total_n, bf_value))
   
   # Create plot ---------------------------
   figure_1 <- 
-    fig_1_plot_data_full %>% 
+    figure_1_data %>% 
     ggplot2::ggplot()+
     ggplot2::aes(y = bf_value, x = total_n, group = bf_type) +
-    ggplot2::geom_line(ggplot2::aes(linetype = bf_type), size = 1.2)+
+    ggplot2::geom_line(ggplot2::aes(linetype = bf_type), size = 1.2) +
     ggplot2::scale_linetype_manual(name = "Prior", labels = c("BUJ", "Replication", "Uniform"), values = c("solid", "dashed", "twodash")) +
     ggplot2::annotate("rect", xmin = -Inf, xmax = Inf, ymin = c(analysis_params$inference_threshold_bf_high), ymax = c(Inf), alpha = 0.4, fill = c("grey60")) +
     ggplot2::annotate("rect", xmin = -Inf, xmax = Inf, ymin = c(analysis_params$inference_threshold_bf_low), ymax = c(analysis_params$inference_threshold_bf_high), alpha = 0.2, fill = c("grey80")) +
@@ -118,7 +86,7 @@ plot_confirmatory <- function(confirmatory_results) {
                         linetype = "dashed") +
     ggplot2::geom_vline(xintercept = bf_table_last$checkpoint,
                         linetype = "dotted") +
-    ggplot2::geom_point(data = bf_table,
+    ggplot2::geom_point(data = bf_table_last,
                         ggplot2::aes(y = bf_value, x = checkpoint, group = bf_type),
                         size = 3.5,
                         shape = 21,

@@ -26,3 +26,10 @@ mode_HDI <- function(scale, density, crit_width = 0.95, n_samples = 1e5){
   names(result) = c("mode", paste0(Crit_lb * 100, "%"), paste0(Crit_ub * 100, "%"))
   return(result)
 }
+
+# Function to fit smoothing spline to get a smooth curve
+smoothie <- function(x, y) {
+  fit <- smooth.spline(x, y, df = 80)
+  
+  predict(fit)$y
+}
