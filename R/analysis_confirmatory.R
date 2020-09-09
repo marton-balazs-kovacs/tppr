@@ -78,8 +78,9 @@ confirmatory_mixed_effect <- function(processed_data, n_iteration = 1) {
 #' # Including only erotic trials
 #' tpp_processed_data <- clean_data(raw_data = example_m0)
 #' # Running the confirmatory analysis
-#' bayes_factor_result <- confirmatory_bayes_factor(success = sum(tpp_processed_data$sides_match, na.rm = T),
-#'                                                  total_n = nrow(tpp_processed_data$sides_match))
+#' bayes_factor_result <- 
+#'   confirmatory_bayes_factor(success = sum(tpp_processed_data$sides_match, na.rm = TRUE),
+#'                             total_n = nrow(tpp_processed_data))
 #' # Checking the results
 #' bayes_factor_results
 #' }
@@ -201,4 +202,76 @@ analysis_confirmatory <- function(raw_data) {
       first_occurence <- which.max(res$inference %in% c("M0", "M1", "Inconclusive"))
       return(dplyr::slice(res, 1:first_occurence))
       }
+}
+
+#' Calculating cumulative success
+#' 
+#' This function calulates the number of trials and the
+#' number of successful trials cumulatively. If raw data
+#' are provided the function drops all the non-erotic
+#' trials (see \code{\link{clean_data}}).
+#' 
+#' @param df dataframe, the input dataframe
+#' 
+#' @return The function returns a dataframe with the number
+#' of trials in one column and the number of successful trials
+#' in the other column.
+#' 
+#' @export
+cumulative_success <- function(df) {
+  # Check whether the input df contains only erotic trials or not
+  if (!all(df$reward_type == "erotic")) {
+    df <- clean_data(raw_data = df)
+  }
+  
+  df %>% 
+    dplyr::transmute(total_n = 1:nrow(.),
+                     success = cumsum(sides_match))
+}
+
+#' Calculating cumulative Bayes factors
+#' 
+#' This function calculates the cumulative Bayes factors
+#' with three priors. The output of this function is used for
+#' \code{\link{plot_confirmatory}} as an input. The function
+#' can accept a dataframe that is already only containing the
+#' cumulative success variable \code{\link{cumulative_success}},
+#' or a raw dataframe. 
+#' 
+#' @param df dataframe, the input dataframe
+#' 
+#' @return The function returns a long formatted dataframe with
+#' the number of trials, the smoothed Bayes factors, and the type
+#' of the Bayes factors.
+#' 
+#' @export
+cumulative_bayes_factor <- function(df) {
+  # Calculating cumulative successes
+  if ("success" %not_in% colnames(df)) {
+    df <- cumulative_success(df = df)
+  }
+  
+  # Calculating Bayes factors for each new experimental trial with all three priors
+  df %>% 
+    dplyr::mutate(BF_replication = purrr::map2_dbl(success, total_n,
+                                                   ~ BF01_beta(y = .x,
+                                                               N = .y,
+                                                               y_prior = analysis_params$y_prior,
+                                                               N_prior = analysis_params$n_prior,
+                                                               interval = c(0.5, 1),
+                                                               null_prob = analysis_params$m0_prob)),
+                  BF_uniform = purrr::map2_dbl(success, total_n,
+                                               ~ BF01_beta(y = .x,
+                                                           N = .y,
+                                                           y_prior = 0,
+                                                           N_prior = 0,
+                                                           interval = c(0.5, 1),
+                                                           null_prob = analysis_params$m0_prob)),
+                  BF_BUJ = purrr::map2_dbl(success, total_n,
+                                           ~ BF01_beta(y = .x,
+                                                       N = .y,
+                                                       y_prior = 6,
+                                                       N_prior = 12,
+                                                       interval = c(0.5, 1),
+                                                       null_prob = analysis_params$m0_prob)))
 }
