@@ -28,6 +28,8 @@
 #' mixed_effect_result
 #' }
 confirmatory_mixed_effect <- function(processed_data, n_iteration = 1) {
+  data("analysis_params", envir = environment(), package = "tppr")
+  
   # Advance the counter to see how much adjustment needs to be made to the
   # NHST inference threshold due to multiple testing
   comparisons_mixed_nhst <- n_iteration * 2 # We multiply by 2 at each sequential stopping point because we do two tests at each stop point, one for M0 and one for M1
@@ -85,6 +87,8 @@ confirmatory_mixed_effect <- function(processed_data, n_iteration = 1) {
 #' bayes_factor_results
 #' }
 confirmatory_bayes_factor <- function(success, total_n) {
+  data("analysis_params", envir = environment(), package = "tppr")
+  
   # Replication prior  ---------------------------
   # The Bem 2011 experiment 1 results providing the prior information
   bf_replication <- BF01_beta(y = success, N = total_n, y_prior = analysis_params$y_prior, N_prior = analysis_params$n_prior, interval = c(0.5, 1), null_prob = analysis_params$m0_prob) #numbers higher than 1 support the null
@@ -160,6 +164,7 @@ confirmatory_bayes_factor <- function(success, total_n) {
 #' confirmatory_result$inference
 #' }
 analysis_confirmatory <- function(raw_data) {
+  data("analysis_params", envir = environment(), package = "tppr")
   # Validation  ---------------------------
   ## TODO: is the number of participants enough for the test?
   
@@ -219,6 +224,7 @@ analysis_confirmatory <- function(raw_data) {
 #' 
 #' @export
 cumulative_success <- function(df) {
+  data("analysis_params", envir = environment(), package = "tppr")
   # Check whether the input df contains only erotic trials or not
   if (!all(df$reward_type == "erotic")) {
     df <- clean_data(raw_data = df)
