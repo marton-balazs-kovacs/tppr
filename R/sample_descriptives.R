@@ -29,11 +29,12 @@ sample_descriptives <- function(raw_data, which_checkpoint = NA_integer_) {
   
   # Get last row row_counter
   if (is.na(which_checkpoint)) {
+    #THIS IS NOT GOOD
     last_row <- checkpoint_inf$last_row
   } else {
     last_row <- 
       processed_data %>% 
-      dplyr::slice(analysis_params$when_to_check[which_checkpoint]) %>% 
+      dplyr::slice(tppr::analysis_params$when_to_check[which_checkpoint]) %>% 
       dplyr::pull(row_counter)
   }
 
@@ -61,17 +62,17 @@ sample_descriptives <- function(raw_data, which_checkpoint = NA_integer_) {
   # Number of participants with at least one erotic trial
   sample_size_participants_atleast1erotictrial <- dplyr::n_distinct(processed_data$participant_ID, na.rm = TRUE)
 
-  # Number of participants with at least one erotic and all non-missing trials who made it into the main analysis
+  # Number of participants with at least one erotic trials who made it into the main analysis
   n_participants_data_included_in_main_analysis <- dplyr::n_distinct(processed_data_untilstudystop$participant_ID, na.rm = TRUE)
   
-  # Proportion of participants who did not finish the data collection
+  # Proportion of participants who did not have any erotic trials
   proportion_participants_novaliddata_untilstudystop <- (n_participants_started_session_untilstudystop - n_participants_data_included_in_main_analysis) / n_participants_started_session_untilstudystop
   
   # Other descriptive ---------------------------
   # Total number of valid erotic trials until the checkpoint
   total_n <- nrow(processed_data_untilstudystop)
   
-  # Getting the first row of each participant
+  # Getting the first row of each participant included in the main analysis
   first_rows_of_each_participant <-
     processed_data_untilstudystop %>% 
     dplyr::group_by(participant_ID) %>% 
@@ -210,9 +211,31 @@ sample_descriptives <- function(raw_data, which_checkpoint = NA_integer_) {
     dplyr::filter(finished == 0L) %>% 
     dplyr::pull(prop)
   
-  # TODO: sort out which results to return
-  # TODO: find calculation that returns message and solve it
   return(
-    mget(ls())
+    list(
+      n_participants_started_session_total,
+      n_participants_started_session_untilstudystop,
+      n_participants_started_session_afterstudystop,
+      sample_size_participants_atleast1erotictrial,
+      n_participants_data_included_in_main_analysis,
+      proportion_participants_novaliddata_untilstudystop,
+      total_n,
+      age_range_of_most_participants,
+      age_range_of_most_participants_proportion,
+      n_sex_women,
+      n_sex_men,
+      proportion_sex_women,
+      proportion_sex_men,
+      esp_q_desc,
+      ss_q_desc,
+      n_guessed_side_left,
+      proportion_guessed_side_left,
+      n_target_side_left,
+      proportion_target_side_left,
+      n_erotic_trials_per_participant,
+      n_missing_erotic_trials,
+      n_sessions_terminated,
+      proportion_sessions_terminated
+    )
   )
 }
