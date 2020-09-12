@@ -45,7 +45,7 @@ analysis_exploratory <- function(df) {
   
   # Determine the distribution in the theoretical sample ---------------------------
   success_rates_theoretical <-
-    purrr::map_int(possible_success_rates, ~ sum(analysis_params$success_proportions_theoretical == .x))
+    purrr::map_int(possible_success_rates, ~ sum(tppr::analysis_params$success_proportions_theoretical == .x))
   
   success_rates_theoretical_prop <- matrix(success_rates_theoretical / sum(success_rates_theoretical))
   

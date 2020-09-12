@@ -14,10 +14,10 @@
 #' @export
 robustness_nhst_analysis <- function(success, total_n) {
   # Equivalence test  ---------------------------
-  equivalence_test_p <- prop.test(x = success, n = total_n, p = analysis_params$p_equiv_test, alternative = "less")$p.value
+  equivalence_test_p <- prop.test(x = success, n = total_n, p = tppr::analysis_params$p_equiv_test, alternative = "less")$p.value
   
   # Equality test  ---------------------------
-  equality_test_p <- prop.test(x = success, n = total_n, p = analysis_params$m0_prob, alternative = "greater")$p.value
+  equality_test_p <- prop.test(x = success, n = total_n, p = tppr::analysis_params$m0_prob, alternative = "greater")$p.value
   
   # Inference  ---------------------------
   inference_robustness_nhst <- inference_robustness_nhst(equivalence_test_p, equality_test_p)
@@ -49,21 +49,21 @@ robustness_nhst_analysis <- function(success, total_n) {
 #' @export
 robustness_bf_analysis <- function(success, total_n) {
   # Calculate posterior distribution using beta distribution updating ---------------------------
-  prior_alpha <- analysis_params$y_prior + 1
-  prior_beta <- analysis_params$n_prior - analysis_params$y_prior + 1
+  prior_alpha <- tppr::analysis_params$y_prior + 1
+  prior_beta <- tppr::analysis_params$n_prior - tppr::analysis_params$y_prior + 1
   
   posterior_alpha <- prior_alpha + success
   posterior_beta <- prior_beta + total_n - success
   
-  posterior_density <- dbeta(analysis_params$scale, posterior_alpha, posterior_beta)
+  posterior_density <- dbeta(tppr::analysis_params$scale, posterior_alpha, posterior_beta)
   
   # Calculate HDI for the posterior distribution  ---------------------------
   # (here we calculate the upper and lower bound of the 90% of the probability mass
   # because we use a one-tailed test. This means that the total probability mass below
   # the upper bound of the 90% HDI will be 95%).
-  hdi_result <- mode_HDI(scale = analysis_params$scale,
+  hdi_result <- mode_HDI(scale = tppr::analysis_params$scale,
                          density = posterior_density,
-                         crit_width = 1 - analysis_params$inference_threshold_robustness_bayes_par_est * 2,
+                         crit_width = 1 - tppr::analysis_params$inference_threshold_robustness_bayes_par_est * 2,
                          n_samples = 1e6)
   
   # Parameters for decision making
@@ -72,7 +72,7 @@ robustness_bf_analysis <- function(success, total_n) {
   hdi_u <- hdi_result[3]
   
   # Probability that the parameter falls outside of the ROPE  ---------------------------
-  probability_parameter_higher_than_rope <- sum(posterior_density[analysis_params$scale > analysis_params$rope]) / sum(posterior_density)
+  probability_parameter_higher_than_rope <- sum(posterior_density[tppr::analysis_params$scale > tppr::analysis_params$rope]) / sum(posterior_density)
   
   # Inference ---------------------------
   inference_robustness_bayes <- inference_robustness_bf(hdi_l, hdi_u)

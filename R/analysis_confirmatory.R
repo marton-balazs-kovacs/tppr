@@ -28,8 +28,6 @@
 #' mixed_effect_result
 #' }
 confirmatory_mixed_effect <- function(processed_data, n_iteration = 1) {
-  data("analysis_params", envir = environment(), package = "tppr")
-  
   # Advance the counter to see how much adjustment needs to be made to the
   # NHST inference threshold due to multiple testing
   comparisons_mixed_nhst <- n_iteration * 2 # We multiply by 2 at each sequential stopping point because we do two tests at each stop point, one for M0 and one for M1
@@ -41,9 +39,9 @@ confirmatory_mixed_effect <- function(processed_data, n_iteration = 1) {
   se_mixed <- summary(mod_mixed)$coefficients[1,2]
   
   # Compute confidence interval on the probability scale, and save into results_table
-  mixed_ci_width <- 1 - (analysis_params$inference_threshold_nhst / comparisons_mixed_nhst)
-  wald_ci_mixed_logit <- c(estimate_mixed - se_mixed * qnorm(1 - ((analysis_params$inference_threshold_nhst/comparisons_mixed_nhst) / 2)),
-                           estimate_mixed + se_mixed * qnorm(1 - ((analysis_params$inference_threshold_nhst/comparisons_mixed_nhst) / 2)))
+  mixed_ci_width <- 1 - (tppr::analysis_params$inference_threshold_nhst / comparisons_mixed_nhst)
+  wald_ci_mixed_logit <- c(estimate_mixed - se_mixed * qnorm(1 - ((tppr::analysis_params$inference_threshold_nhst/comparisons_mixed_nhst) / 2)),
+                           estimate_mixed + se_mixed * qnorm(1 - ((tppr::analysis_params$inference_threshold_nhst/comparisons_mixed_nhst) / 2)))
   
   # Converting the results to the probability scale
   wald_ci_mixed <- logit2prob(wald_ci_mixed_logit)
@@ -87,15 +85,13 @@ confirmatory_mixed_effect <- function(processed_data, n_iteration = 1) {
 #' bayes_factor_results
 #' }
 confirmatory_bayes_factor <- function(success, total_n) {
-  data("analysis_params", envir = environment(), package = "tppr")
-  
   # Replication prior  ---------------------------
   # The Bem 2011 experiment 1 results providing the prior information
-  bf_replication <- BF01_beta(y = success, N = total_n, y_prior = analysis_params$y_prior, N_prior = analysis_params$n_prior, interval = c(0.5, 1), null_prob = analysis_params$m0_prob) #numbers higher than 1 support the null
+  bf_replication <- BF01_beta(y = success, N = total_n, y_prior = tppr::analysis_params$y_prior, N_prior = tppr::analysis_params$n_prior, interval = c(0.5, 1), null_prob = tppr::analysis_params$m0_prob) #numbers higher than 1 support the null
   
   # Unniform prior  ---------------------------
   ## Using a non-informative flat prior distribution with alpha = 1 and beta = 1
-  bf_uniform <- BF01_beta(y = success, N = total_n, y_prior = 0, N_prior = 0, interval = c(0.5, 1), null_prob = analysis_params$m0_prob) #numbers higher than 1 support the null
+  bf_uniform <- BF01_beta(y = success, N = total_n, y_prior = 0, N_prior = 0, interval = c(0.5, 1), null_prob = tppr::analysis_params$m0_prob) #numbers higher than 1 support the null
   
   # Konwledge-base prior ---------------------------
   ## The BUJ prior is calculated from Bem's paper where the prior distribution is defined as a
@@ -109,7 +105,7 @@ confirmatory_bayes_factor <- function(success, total_n) {
   ## Converting Among Effect Sizes. In Introduction to Meta-Analysis (pp. 45-49): John Wiley & Sons, Ltd.
   ## Then, log odds ratio was converted to probability using the formula: p = exp(x)/(1+exp(x))
   ## The final equation: exp(d*pi/sqrt(3))/(1+exp(d*pi/sqrt(3)))
-  bf_buj <- BF01_beta(y = success, N = total_n, y_prior = 6, N_prior = 12, interval = c(0.5, 1), null_prob = analysis_params$m0_prob) #numbers higher than 1 support the null
+  bf_buj <- BF01_beta(y = success, N = total_n, y_prior = 6, N_prior = 12, interval = c(0.5, 1), null_prob = tppr::analysis_params$m0_prob) #numbers higher than 1 support the null
   
   # Return output ---------------------------
   return(
@@ -164,7 +160,6 @@ confirmatory_bayes_factor <- function(success, total_n) {
 #' confirmatory_result$inference
 #' }
 analysis_confirmatory <- function(raw_data) {
-  data("analysis_params", envir = environment(), package = "tppr")
   # Validation  ---------------------------
   ## TODO: is the number of participants enough for the test?
   
@@ -224,7 +219,6 @@ analysis_confirmatory <- function(raw_data) {
 #' 
 #' @export
 cumulative_success <- function(df) {
-  data("analysis_params", envir = environment(), package = "tppr")
   # Check whether the input df contains only erotic trials or not
   if (!all(df$reward_type == "erotic")) {
     df <- clean_data(raw_data = df)
@@ -262,22 +256,22 @@ cumulative_bayes_factor <- function(df) {
     dplyr::mutate(BF_replication = purrr::map2_dbl(success, total_n,
                                                    ~ BF01_beta(y = .x,
                                                                N = .y,
-                                                               y_prior = analysis_params$y_prior,
-                                                               N_prior = analysis_params$n_prior,
+                                                               y_prior = tppr::analysis_params$y_prior,
+                                                               N_prior = tppr::analysis_params$n_prior,
                                                                interval = c(0.5, 1),
-                                                               null_prob = analysis_params$m0_prob)),
+                                                               null_prob = tppr::analysis_params$m0_prob)),
                   BF_uniform = purrr::map2_dbl(success, total_n,
                                                ~ BF01_beta(y = .x,
                                                            N = .y,
                                                            y_prior = 0,
                                                            N_prior = 0,
                                                            interval = c(0.5, 1),
-                                                           null_prob = analysis_params$m0_prob)),
+                                                           null_prob = tppr::analysis_params$m0_prob)),
                   BF_BUJ = purrr::map2_dbl(success, total_n,
                                            ~ BF01_beta(y = .x,
                                                        N = .y,
                                                        y_prior = 6,
                                                        N_prior = 12,
                                                        interval = c(0.5, 1),
-                                                       null_prob = analysis_params$m0_prob)))
+                                                       null_prob = tppr::analysis_params$m0_prob)))
 }
