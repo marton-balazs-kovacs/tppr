@@ -14,8 +14,8 @@
 #' either M1, M0 or Inconclusive.
 #' @export
 inference_confirmatory_bf <- function(bf) {
-  if(analysis_params$inference_threshold_bf_low >= bf) {return("M1")
-  } else if(analysis_params$inference_threshold_bf_high <= bf) {return("M0")
+  if(tppr::analysis_params$inference_threshold_bf_low >= bf) {return("M1")
+  } else if(tppr::analysis_params$inference_threshold_bf_high <= bf) {return("M0")
   } else {return("Inconclusive")}
 }
 
@@ -37,11 +37,11 @@ inference_confirmatory_bf <- function(bf) {
 #' @export
 inference_confirmatory_mixed_effect <- function(mixed_ci_u, mixed_ci_l) {
   # Statistical inference based on the results of the mixed model analysis  
-  minimum_effect <- analysis_params$m0_prob + analysis_params$minimum_effect_threshold_nhst
+  minimum_effect <- tppr::analysis_params$m0_prob + tppr::analysis_params$minimum_effect_threshold_nhst
   # Note: hardcoded if else loop is 3 times faster but this code is more concise, it is a decision to make
   dplyr::if_else(mixed_ci_u < minimum_effect,
                  "M0",
-                 dplyr::if_else(mixed_ci_l > analysis_params$m0_prob,
+                 dplyr::if_else(mixed_ci_l > tppr::analysis_params$m0_prob,
                                 "M1",
                                 "Inconclusive"))
 }
@@ -89,7 +89,7 @@ inference_confirmatory_combined <- function(n_iteration, total_n, mixed_ci_u, mi
     primary_analysis_inference <- "M1"
   } else if (all(c(mixed_nhst_inference, bf_replication_inference, bf_uniform_inference, bf_buj_inference) == "M0")) {
     primary_analysis_inference <- "M0"
-  } else if ((n_iteration != which.max(analysis_params$when_to_check)) & (total_n < max(analysis_params$when_to_check))) {
+  } else if ((n_iteration != which.max(tppr::analysis_params$when_to_check)) & (total_n < max(tppr::analysis_params$when_to_check))) {
     primary_analysis_inference <- "Ongoing"
   } else {
     primary_analysis_inference <- "Inconclusive"
@@ -113,9 +113,9 @@ inference_confirmatory_combined <- function(n_iteration, total_n, mixed_ci_u, mi
 #' @return The function returns a character that is either M0, M1 or Inconclusive.
 #' @export
 inference_robustness_nhst <- function(equivalence_test_p, equality_test_p) {
-  if (analysis_params$inference_threshold_nhst > equivalence_test_p) {
+  if (tppr::analysis_params$inference_threshold_nhst > equivalence_test_p) {
     inference_robustness_nhst <- "M0"
-  } else if (analysis_params$inference_threshold_nhst > equality_test_p) {
+  } else if (tppr::analysis_params$inference_threshold_nhst > equality_test_p) {
     inference_robustness_nhst <- "M1" 
   } else {
     inference_robustness_nhst <- "Inconclusive"
@@ -139,9 +139,9 @@ inference_robustness_nhst <- function(equivalence_test_p, equality_test_p) {
 #' @return The function returns a character that is either M0, M1 or Inconclusive.
 #' @export
 inference_robustness_bf <- function(hdi_l, hdi_u) {
-  if (hdi_l >= analysis_params$rope) {
+  if (hdi_l >= tppr::analysis_params$rope) {
     inference_robustness_bayes_par_est <- "M1"
-  } else if (hdi_u <= analysis_params$rope) {
+  } else if (hdi_u <= tppr::analysis_params$rope) {
     inference_robustness_bayes_par_est <- "M0"
   } else {
     inference_robustness_bayes_par_est <- "Inconclusive"

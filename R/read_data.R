@@ -151,11 +151,8 @@ clean_data <- function(raw_data) {
 #' tell_checkpoint(df = tpp_processed_data)
 #' }
 tell_checkpoint <- function(df) {
-  # Load analysis params
-  # data("analysis_params", envir = environment(), package = "tppr")
-  
   # Saving params to help readability
-  when_to_check <- analysis_params$when_to_check
+  when_to_check <- tppr::analysis_params$when_to_check
   
   # Check whether the input df contains only erotic trials or not
   if (("success" %not_in% colnames(df)) && !all(df$reward_type == "erotic")) {
@@ -238,7 +235,7 @@ tell_checkpoint <- function(df) {
 split_data <- function(processed_data) {
   # Get checkpoint information
   highest_checkpoint <- tell_checkpoint(processed_data)$current_checkpoint
-  check_range <- analysis_params$when_to_check[1:highest_checkpoint]
+  check_range <- tppr::analysis_params$when_to_check[1:highest_checkpoint]
   
   # Split data for sequential analysis
   split_data <-

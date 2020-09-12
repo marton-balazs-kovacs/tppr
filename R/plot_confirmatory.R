@@ -15,7 +15,7 @@ plot_confirmatory <- function(cumulative_results) {
   # Prepare plot data ---------------------------
   # Get checkpoint information
   highest_checkpoint <- tell_checkpoint(cumulative_results)$current_checkpoint
-  check_range <- analysis_params$when_to_check[1:highest_checkpoint]
+  check_range <- tppr::analysis_params$when_to_check[1:highest_checkpoint]
   
   figure_1_data <-
     cumulative_results %>% 
@@ -38,9 +38,9 @@ plot_confirmatory <- function(cumulative_results) {
   # Setting limits and breaks and label positions
   fig_1_y_axis_breaks <- 
     if (min(bf_table$bf_value) < 0.01 | max(bf_table$bf_value) > 100) {
-      c(0.002, 0.01, analysis_params$inference_threshold_bf_low, 0.1, 0.33, 0, 3, 10, analysis_params$inference_threshold_bf_high, 100, 500)
+      c(0.002, 0.01, tppr::analysis_params$inference_threshold_bf_low, 0.1, 0.33, 0, 3, 10, tppr::analysis_params$inference_threshold_bf_high, 100, 500)
     } else {
-      c(0.01, analysis_params$inference_threshold_bf_low, 0.1, 0.33, 0, 3, 10, analysis_params$inference_threshold_bf_high, 100)
+      c(0.01, tppr::analysis_params$inference_threshold_bf_low, 0.1, 0.33, 0, 3, 10, tppr::analysis_params$inference_threshold_bf_high, 100)
     }
   
   fig_1_y_axis_limits <- 
@@ -75,14 +75,14 @@ plot_confirmatory <- function(cumulative_results) {
     ggplot2::aes(y = bf_value, x = total_n, group = bf_type) +
     ggplot2::geom_line(ggplot2::aes(linetype = bf_type), size = 1.2) +
     ggplot2::scale_linetype_manual(name = "Prior", labels = c("BUJ", "Replication", "Uniform"), values = c("solid", "dashed", "twodash")) +
-    ggplot2::annotate("rect", xmin = -Inf, xmax = Inf, ymin = c(analysis_params$inference_threshold_bf_high), ymax = c(Inf), alpha = 0.4, fill = c("grey60")) +
-    ggplot2::annotate("rect", xmin = -Inf, xmax = Inf, ymin = c(analysis_params$inference_threshold_bf_low), ymax = c(analysis_params$inference_threshold_bf_high), alpha = 0.2, fill = c("grey80")) +
-    ggplot2::annotate("rect", xmin = -Inf, xmax = Inf, ymin = c(0), ymax = c(analysis_params$inference_threshold_bf_low), alpha = 0.4, fill = c("grey60")) +
+    ggplot2::annotate("rect", xmin = -Inf, xmax = Inf, ymin = c(tppr::analysis_params$inference_threshold_bf_high), ymax = c(Inf), alpha = 0.4, fill = c("grey60")) +
+    ggplot2::annotate("rect", xmin = -Inf, xmax = Inf, ymin = c(tppr::analysis_params$inference_threshold_bf_low), ymax = c(tppr::analysis_params$inference_threshold_bf_high), alpha = 0.2, fill = c("grey80")) +
+    ggplot2::annotate("rect", xmin = -Inf, xmax = Inf, ymin = c(0), ymax = c(tppr::analysis_params$inference_threshold_bf_low), alpha = 0.4, fill = c("grey60")) +
     ggplot2::scale_y_log10(limits = fig_1_y_axis_limits,
                            breaks = fig_1_y_axis_breaks) +
     ggplot2::scale_x_continuous(breaks = fig_1_x_axis_breaks) +
-    ggplot2::geom_hline(yintercept = c(analysis_params$inference_threshold_bf_low,
-                                       analysis_params$inference_threshold_bf_high),
+    ggplot2::geom_hline(yintercept = c(tppr::analysis_params$inference_threshold_bf_low,
+                                       tppr::analysis_params$inference_threshold_bf_high),
                         linetype = "dashed") +
     ggplot2::geom_vline(xintercept = bf_table_last$checkpoint,
                         linetype = "dotted") +

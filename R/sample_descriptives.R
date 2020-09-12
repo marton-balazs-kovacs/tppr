@@ -13,7 +13,7 @@
 #' @export
 #' @examples 
 #' \donttest{
-#' sample_descriptives(raw_data = example_m0)
+#' sample_descriptives(raw_data = example_m0, which_checkpoint = NA_integer_)
 #' }
 sample_descriptives <- function(raw_data, which_checkpoint = NA_integer_) {
   # Get checkpoint information ---------------------------
@@ -29,7 +29,6 @@ sample_descriptives <- function(raw_data, which_checkpoint = NA_integer_) {
   
   # Get last row row_counter
   if (is.na(which_checkpoint)) {
-    #THIS IS NOT GOOD
     last_row <- checkpoint_inf$last_row
   } else {
     last_row <- 

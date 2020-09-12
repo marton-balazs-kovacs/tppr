@@ -333,13 +333,12 @@ generate_example_data <- function(num_sim = 6000, erotic_trial_size_per_particip
     n_iteration %>% 
     purrr::map_df(~ generate_session_progress(n_iteration = .x,
                                               erotic_trial_size_per_participant = erotic_trial_size_per_participant,
-                                     m0_prob = m0_prob,
-                                     m1_prob = m1_prob,
-                                     esp_user_percentage = esp_user_percentage,
-                                     chance_for_refuse_consent = chance_for_refuse_consent,
-                                     chance_for_stopping_session = chance_for_stopping_session))
-  
-  # ADD row_counter variable
+                                              m0_prob = m0_prob,
+                                              m1_prob = m1_prob,
+                                              esp_user_percentage = esp_user_percentage,
+                                              chance_for_refuse_consent = chance_for_refuse_consent,
+                                              chance_for_stopping_session = chance_for_stopping_session)) %>% 
+    dplyr::mutate(row_counter = 1 : dplyr::n())
   
   # Return output ---------------------------
   return(res)

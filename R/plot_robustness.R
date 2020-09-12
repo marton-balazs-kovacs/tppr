@@ -16,7 +16,7 @@ plot_robustness <- function(posterior_density, hdi_mode, hdi_l, hdi_u, mixed_ci_
   # Prepare plot data ---------------------------
   fig_2_sample <- 
     tibble::tibble(
-      value = sample(x = analysis_params$scale, size = 1000000, replace = TRUE, prob = posterior_density))
+      value = sample(x = tppr::analysis_params$scale, size = 1000000, replace = TRUE, prob = posterior_density))
   
   fig_2_sample_within_hdi <-
     tibble::tibble(
@@ -51,9 +51,9 @@ plot_robustness <- function(posterior_density, hdi_mode, hdi_l, hdi_u, mixed_ci_
   
   fig_2_segment_data_rope_equlim <- 
     tibble::tibble(
-      x1 = c(analysis_params$rope, analysis_params$p_equiv_test),
+      x1 = c(tppr::analysis_params$rope, tppr::analysis_params$p_equiv_test),
       y1 = c(0, 0),
-      xend = c(analysis_params$rope, analysis_params$p_equiv_test),
+      xend = c(tppr::analysis_params$rope, tppr::analysis_params$p_equiv_test),
       yend = c(Inf, -Inf))
   
   # Create plot ---------------------------
@@ -84,7 +84,7 @@ plot_robustness <- function(posterior_density, hdi_mode, hdi_l, hdi_u, mixed_ci_
              label = paste0(mixed_ci_width," CI: [", round(mixed_ci_l, 3), ", ", round(mixed_ci_u, 3), "]"),
              size = 4,
              fontface = 2) +
-    ggplot2::geom_vline(xintercept = analysis_params$m0_prob, size = 1.3)+
+    ggplot2::geom_vline(xintercept = tppr::analysis_params$m0_prob, size = 1.3)+
     ggplot2::labs(
       x = "successful guess probability",
       y = "scaled density")+
