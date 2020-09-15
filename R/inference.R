@@ -59,23 +59,13 @@ inference_confirmatory_mixed_effect <- function(mixed_ci_u, mixed_ci_l) {
 #' 
 #' @param n_iteration numeric, the number of iterations
 #' @param total_n numeric, the total number of erotic trials
-#' @param mixed_ci_u numeric, the upper bound of the confidence interval
-#' @param mixed_ci_l numeric, the lower bound of the confidence interval
-#' @param bf_replication numeric, replication prior Bf
-#' @param bf_uniform numeric, uniform prior Bf
-#' @param bf_buj numeric, knowledge-base prior Bf
+#' @param confirmatory_nhst_inference character, the inference based on the confirmatory NHST mixed analysis
+#' @param confirmatory_bf_inference character, the inference based on the Bayes factor analysis with 3 priors
 #' 
 #' @return The function returns a character value that is
 #' either M1, M0, Inconclusive or Ongoing.
 #' @export
-inference_confirmatory_combined <- function(n_iteration, total_n, mixed_ci_u, mixed_ci_l, bf_replication, bf_uniform, bf_buj) {
-  # Mixed effect inference ---------------------------
-  mixed_nhst_inference <- inference_confirmatory_mixed_effect(mixed_ci_u, mixed_ci_l)
-  
-  # Bayes factor inference ---------------------------
-  # Replication Bayes factor 
-  bf_inference <- inference_confirmatory_bf(c(bf_replication, bf_uniform, bf_buj))
-  
+inference_confirmatory_combined <- function(n_iteration, total_n, confirmatory_nhst_inference, confirmatory_bf_inference) {
   # Main analysis inference ---------------------------
   # Determine final inference (supported model) based on the inferences drawn
   # from the mixed model and the Bayes factors.
@@ -101,8 +91,8 @@ inference_confirmatory_combined <- function(n_iteration, total_n, mixed_ci_u, mi
 #' 
 #' @family inference functions, robustness functions
 #' 
-#' @param equivalence_test_p numeric, the p-value of the equivalnce test
-#' @param equality_test_p numeric, the p-value of the equiality test
+#' @param equivalence_test_p numeric, the p-value of the equivalence test
+#' @param equality_test_p numeric, the p-value of the equality test
 #' 
 #' @return The function returns a character that is either M0, M1 or Inconclusive.
 #' @export
