@@ -57,15 +57,14 @@ inference_confirmatory_mixed_effect <- function(mixed_ci_u, mixed_ci_l) {
 #' 
 #' @family inference functions, confirmatory functions
 #' 
-#' @param n_iteration numeric, the number of iterations
-#' @param total_n numeric, the total number of erotic trials
+#' @param n_iteration numeric, the number of iterations for the mixed effect analysis
 #' @param confirmatory_nhst_inference character, the inference based on the confirmatory NHST mixed analysis
 #' @param confirmatory_bf_inference character, the inference based on the Bayes factor analysis with 3 priors
 #' 
 #' @return The function returns a character value that is
 #' either M1, M0, Inconclusive or Ongoing.
 #' @export
-inference_confirmatory_combined <- function(n_iteration, total_n, confirmatory_nhst_inference, confirmatory_bf_inference) {
+inference_confirmatory_combined <- function(n_iteration, confirmatory_nhst_inference, confirmatory_bf_inference) {
   # Main analysis inference ---------------------------
   # Determine final inference (supported model) based on the inferences drawn
   # from the mixed model and the Bayes factors.
@@ -73,7 +72,7 @@ inference_confirmatory_combined <- function(n_iteration, total_n, confirmatory_n
     primary_analysis_inference <- "M1"
   } else if (all(c(mixed_nhst_inference, bf_inference) == "M0")) {
     primary_analysis_inference <- "M0"
-  } else if ((n_iteration != which.max(tppr::analysis_params$when_to_check)) & (total_n < max(tppr::analysis_params$when_to_check))) {
+  } else if (n_iteration < which.max(tppr::analysis_params$when_to_check)) {
     primary_analysis_inference <- "Ongoing"
   } else {
     primary_analysis_inference <- "Inconclusive"
