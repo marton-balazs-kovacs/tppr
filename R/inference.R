@@ -14,8 +14,8 @@
 #' either M1, M0 or Inconclusive.
 #' @export
 inference_confirmatory_bf <- function(bf) {
-  if(tppr::analysis_params$inference_threshold_bf_low >= bf) {return("M1")
-  } else if(tppr::analysis_params$inference_threshold_bf_high <= bf) {return("M0")
+  if(tppr::analysis_params$inference_threshold_bf_low >= max(bf)) {return("M1")
+  } else if(tppr::analysis_params$inference_threshold_bf_high <= min(bf)) {return("M0")
   } else {return("Inconclusive")}
 }
 
@@ -74,20 +74,14 @@ inference_confirmatory_combined <- function(n_iteration, total_n, mixed_ci_u, mi
   
   # Bayes factor inference ---------------------------
   # Replication Bayes factor 
-  bf_replication_inference <- inference_confirmatory_bf(bf_replication)
-  
-  # Bayes factor with uniform prior 
-  bf_uniform_inference <- inference_confirmatory_bf(bf_uniform)
-  
-  # Bayes factor with BUJ prior
-  bf_buj_inference <- inference_confirmatory_bf(bf_buj)
+  bf_inference <- inference_confirmatory_bf(c(bf_replication, bf_uniform, bf_buj))
   
   # Main analysis inference ---------------------------
   # Determine final inference (supported model) based on the inferences drawn
   # from the mixed model and the Bayes factors.
-  if (all(c(mixed_nhst_inference, bf_replication_inference, bf_uniform_inference, bf_buj_inference) == "M1")) {
+  if (all(c(mixed_nhst_inference, bf_inference) == "M1")) {
     primary_analysis_inference <- "M1"
-  } else if (all(c(mixed_nhst_inference, bf_replication_inference, bf_uniform_inference, bf_buj_inference) == "M0")) {
+  } else if (all(c(mixed_nhst_inference, bf_inference) == "M0")) {
     primary_analysis_inference <- "M0"
   } else if ((n_iteration != which.max(tppr::analysis_params$when_to_check)) & (total_n < max(tppr::analysis_params$when_to_check))) {
     primary_analysis_inference <- "Ongoing"
