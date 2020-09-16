@@ -45,13 +45,18 @@ confirmatory_mixed_effect <- function(processed_data, n_iteration = 1) {
   
   # Converting the results to the probability scale
   wald_ci_mixed <- logit2prob(wald_ci_mixed_logit)
-
+  
+  # Mixed effect inference ---------------------------
+  mixed_nhst_inference <- inference_confirmatory_mixed_effect(mixed_ci_u = wald_ci_mixed[2], mixed_ci_l = wald_ci_mixed[1])
+  
   # Return output ---------------------------
   return(
     list(
       mixed_ci_width = mixed_ci_width,
       mixed_ci_l = wald_ci_mixed[1],
-      mixed_ci_u = wald_ci_mixed[2]
+      mixed_ci_u = wald_ci_mixed[2],
+      n_iteration = n_iteration,
+      mixed_nhst_inference = mixed_nhst_inference
     )
   )
 }
@@ -107,12 +112,18 @@ confirmatory_bayes_factor <- function(success, total_n) {
   ## The final equation: exp(d*pi/sqrt(3))/(1+exp(d*pi/sqrt(3)))
   bf_buj <- BF01_beta(y = success, N = total_n, y_prior = 6, N_prior = 12, interval = c(0.5, 1), null_prob = tppr::analysis_params$m0_prob) #numbers higher than 1 support the null
   
+  
+  # Bayes factor inference ---------------------------
+  # Replication Bayes factor 
+  bf_inference <- inference_confirmatory_bf(c(bf_replication, bf_uniform, bf_buj))
+  
   # Return output ---------------------------
   return(
     list(
       bf_replication = round(bf_replication, 3),
       bf_uniform = round(bf_uniform, 3),
-      bf_buj = round(bf_buj, 3)
+      bf_buj = round(bf_buj, 3),
+      bf_inference = bf_inference
     )
   )
 }
@@ -124,11 +135,11 @@ confirmatory_bayes_factor <- function(success, total_n) {
 #' regression (see \code{\link{confirmatory_mixed_effect}}) and three Bayes factor
 #' analysis (see \code{\link{confirmatory_bayes_factor}}) are conducted.
 #' Inferences are made for the four tests separately and then summarized
-#' into the final inference of the primary analsyis.
+#' into the final inference of the primary analysis.
 #' 
 #' @family analysis functions, confirmatory functions
 #' 
-#' @param raw_data dataframe, df containing all trials
+#' @param df dataframe, the input dataframes
 #' 
 #' @return The output is a dataframe containing the inputs, the results
 #'   of the four analysis, and the inferences at each checking point until
@@ -155,53 +166,52 @@ confirmatory_bayes_factor <- function(success, total_n) {
 #' @examples
 #' \donttest{
 #' # Running the confirmatory analysis
-#' confirmatory_result <- analysis_confirmatory(raw_data = example_m0)
+#' confirmatory_result <- analysis_confirmatory(df = example_m0)
 #' # Checking the inferences at each checking point
 #' confirmatory_result$inference
 #' }
-analysis_confirmatory <- function(raw_data) {
-  # Validation  ---------------------------
-  ## TODO: is the number of participants enough for the test?
+analysis_confirmatory <- function(df) {
+  # Check whether the input df contains only erotic trials or not
+  if (!all(df$reward_type == "erotic")) {
+    df <- clean_data(raw_data = df)
+  }
   
-  # Keep only valid erotic trials
-  processed_data <- clean_data(raw_data)
+  # Get checkpoint information
+  highest_checkpoint <- tell_checkpoint(df)$current_checkpoint
+  checkpoint_n <- tppr::analysis_params$when_to_check[highest_checkpoint]
   
   # Preparing data for sequential analysis
-  splitted_data <- split_data(processed_data)
+  checkpoint_data <-
+    df %>% 
+    dplyr::slice(df, 1:checkpoint_n)
+  
+  # Number of successful trials
+  success <- sum(as.logical(checkpoint_data$sides_match), na.rm = T)
+  
+  # Number of trials
+  total_n <- nrow(checkpoint_data)
   
   # Running sequential mixed effect and Bayes factor analysis
-  analysed_data <-
-    splitted_data %>% 
-    dplyr::mutate(
-      mixed_effect_res = purrr::map2(split_data, n_iteration,
-                                     ~ confirmatory_mixed_effect(processed_data = .x, n_iteration = .y)),
-      bf_res = purrr::map2(success, total_n,
-                           ~ confirmatory_bayes_factor(success = .x, total_n = .y)
-                           )
-      )
-  # Deriving inferences
-  res <- 
-    analysed_data %>% 
-    dplyr::mutate(inference = purrr::pmap_chr(list(n_iteration, total_n, mixed_effect_res, bf_res),
-                                              purrr::possibly(~ inference_confirmatory_combined(n_iteration = ..1,
-                                                                                total_n = ..2,
-                                                                                mixed_ci_u = ..3$mixed_ci_u,
-                                                                                mixed_ci_l = ..3$mixed_ci_l,
-                                                                                bf_replication = ..4$bf_replication,
-                                                                                bf_uniform = ..4$bf_uniform,
-                                                                                bf_buj = ..4$bf_buj),
-                                                              NA_character_)
-                                              )
-                  )
+  # This is a counter to count the number of tests conducted using the mixed model due to sequential testing.
+  mixed_effect_res <- confirmatory_mixed_effect(processed_data = checkpoint_data, n_iteration = highest_checkpoint)
   
+  bf_res <- confirmatory_bayes_factor(success = success, total_n = total_n)
+
+  # Deriving inferences
+  inference <- inference_confirmatory_combined(n_iteration = highest_checkpoint,
+                                               confirmatory_nhst_inference = mixed_effect_res$mixed_nhst_inference,
+                                               confirmatory_bf_inference = bf_res$bf_inference)
   # Return output ---------------------------
-  # Slice results until one inference is M0, M1, Inconclusive or pass the whole if non of them is M0, M1, Inconclusive
-  if (!any(res$inference %in% c("M0", "M1", "Inconclusive"))) {
-    return(res)
-    } else {
-      first_occurence <- which.max(res$inference %in% c("M0", "M1", "Inconclusive"))
-      return(dplyr::slice(res, 1:first_occurence))
-      }
+  return(
+    tibble::lst(
+      highest_checkpoint,
+      success,
+      total_n,
+      mixed_effect_res,
+      bf_res,
+      inference
+    )
+  )
 }
 
 #' Calculating cumulative success

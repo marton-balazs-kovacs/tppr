@@ -211,7 +211,7 @@ sample_descriptives <- function(raw_data, which_checkpoint = NA_integer_) {
     dplyr::pull(prop)
   
   return(
-    list(
+    tibble::lst(
       n_participants_started_session_total,
       n_participants_started_session_untilstudystop,
       n_participants_started_session_afterstudystop,
@@ -231,10 +231,48 @@ sample_descriptives <- function(raw_data, which_checkpoint = NA_integer_) {
       proportion_guessed_side_left,
       n_target_side_left,
       proportion_target_side_left,
-      n_erotic_trials_per_participant,
       n_missing_erotic_trials,
       n_sessions_terminated,
       proportion_sessions_terminated
+    )
+  )
+}
+#' Current descriptive
+#' 
+#' description
+#' 
+#' @param processed_data dataframe, containing only the erotic trials
+#' 
+#' @export
+sample_descriptives_current <- function(processed_data) {
+  # Calculate parameters ---------------------------
+  # Total number of trials
+  total_n <- nrow(processed_data)
+  
+  # Total number of participants
+  sample_size_participants_atleast1erotictrial <- dplyr::n_distinct(processed_data$participant_ID, na.rm = TRUE)
+  
+  # Number of erotic trials per participant
+  n_erotic_trials_per_participant <- 
+    processed_data_untilstudystop %>% 
+    dplyr::count(participant_ID) %>% 
+    dplyr::pull(n)
+  
+  # Number of missing erotic trials
+  n_missing_erotic_trials <- sum(18 - n_erotic_trials_per_participant)
+  
+  prop_missing_erotic_trials <- round(total_missing_trials / total_n * 100, 2)
+  
+  # Guesses
+  prop_success <- round(mean(processed_data$sides_match), 4) * 100
+  
+  return(
+    tibble::lst(
+      total_n,
+      sample_size_participants_atleast1erotictrial,
+      n_missing_erotic_trials,
+      prop_missing_erotic_trials,
+      prop_success
     )
   )
 }

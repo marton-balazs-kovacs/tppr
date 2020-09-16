@@ -10,7 +10,7 @@
 mod_read_data_ui <- function(id){
 
   tagList(
-    selectInput(NS(id, "data_type"), "Select data type", c("live", "test", "pilot"), "live")
+
   )
 }
     
@@ -19,15 +19,16 @@ mod_read_data_ui <- function(id){
 #' @noRd 
 mod_read_data_server <- function(id, refresh_time){
   moduleServer(id, function(input, output, session) {
-    # Read data ---------------------------
-    target_data_pre <- reactive({read_data(type = input$data_type)})
+    # Read checkpoint information ---------------------------
+    checkpoint <- reactive({
+      readRDS(url(""))
+    })
     
-    # Data management ---------------------------
-    observe({
-      # Trigger observer
-      invalidateLater(refresh_time)
-      
-    }) 
+    # Return output ---------------------------
+    return(
+      raw_data,
+      checkpoint
+    )
   })
 }
     
