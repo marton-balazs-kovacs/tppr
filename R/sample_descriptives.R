@@ -260,8 +260,8 @@ sample_descriptives_current <- function(processed_data) {
   
   # Number of missing erotic trials
   n_missing_erotic_trials <- sum(18 - n_erotic_trials_per_participant)
-  
-  prop_missing_erotic_trials <- round(total_missing_trials / total_n * 100, 2)
+
+  prop_missing_erotic_trials <- round(n_missing_erotic_trials / total_n * 100, 2)
   
   # Guesses
   prop_success <- round(mean(processed_data$sides_match), 4) * 100

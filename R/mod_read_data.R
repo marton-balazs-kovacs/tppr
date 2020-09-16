@@ -19,12 +19,17 @@ mod_read_data_ui <- function(id){
 #' @noRd 
 mod_read_data_server <- function(id, refresh_time){
   moduleServer(id, function(input, output, session) {
-    # Read checkpoint information ---------------------------
-    checkpoint <- reactive({
-      readRDS(url(""))
+    read_safe <- purrr::safely(readRDS)
+    
+    push_time <- reactive({
+      readRDS(
+        url(
+          "http://raw.githubusercontent.com/marton-balazs-kovacs/tppr_results/master/tppr_time_log.rds", 
+          method="libcurl")
+        )[[3]]
     })
     
-    # Return output ---------------------------
+
     return(
       raw_data,
       checkpoint
