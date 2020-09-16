@@ -10,10 +10,19 @@
 mod_summary_ui <- function(id){
 
   tagList(
-    h1("Summary of the results"),
-    textOutput(NS(id, "warning"), style="color:red"),
-    textOutput(NS(id, "summary")),
-    plotOutput(NS(id, "plot"))
+    wellPanel(
+      h2("Summary"),
+      h3("Current summary results"),
+      textOutput(NS(id, "current_general")),
+      h3("Summary results at the latest checkpoint"),
+      textOutput(NS(id, "checkpoint_general"))),
+    wellPanel(
+      h2("Inferences"),
+      h3("Current inferences"),
+      textOutput(NS(id, "current_inference")),
+      h3("Inferences at the latest checkpoint"),
+      textOutput(NS(id, "checkpoint_inference"))),
+    mod_footer_ui(NS(id, "footer"))
   )
 }
     
@@ -22,23 +31,42 @@ mod_summary_ui <- function(id){
 #' @noRd 
 mod_summary_server <- function(id, refresh_time){
   moduleServer(id, function(input, output, session) {
-    
-    output$summary <- renderText({
-
+    # Calculate sample current descriptive ---------------------------
+    output$current_general <- renderText({
+      text_helper_current_general()
     })
     
-    output$plot <- renderPlot({
-      ggplot(values$BF_results_for_plotting_current) +
-        aes(y = Bayes_factor_01, x = BF_type) +
-        geom_point() +
-        geom_rect(aes(xmin=-Inf, xmax=Inf, ymin=c(Inference_threshold_BF_high), ymax=c(Inf)), alpha = 0.2, fill=c("pink")) +
-        geom_rect(aes(xmin=-Inf, xmax=Inf, ymin=c(Inference_threshold_BF_low), ymax=c(Inference_threshold_BF_high)), alpha = 0.2, fill=c("grey80")) +
-        geom_rect(aes(xmin=-Inf, xmax=Inf, ymin=c(0), ymax=c(Inference_threshold_BF_low)), alpha = 0.2, fill=c("lightgreen")) +
-        geom_point(size = 3.5, shape = 21, fill = "white")+
-        scale_y_log10(limits = c(0.005,200), breaks=c(0.01, Inference_threshold_BF_low, 0.1, 0.33, 0, 3, 10, Inference_threshold_BF_high, 100)) +
-        geom_hline(yintercept = c(Inference_threshold_BF_low, Inference_threshold_BF_high), linetype = "dashed") +
-        geom_text(aes(x=0.5, y=c(100, 1, 0.01), label=c("Supports M0", "Inconclusive", "Supports M1"), angle = 270))
+    # Calculate sample checkpoint descriptive ---------------------------
+    output$checkpoint_general <- renderText({
+      if (is.null(checkpoint_toggle)) {
+        glue::glue("The number of valid erotic trials do not reach the first preset \\
+                   checkpoint at {}. Still {} trials needed to reach the checkpoint. \\
+                   This result will only be presented after the first checkpoint.")
+      } else {
+        text_helper_checkpoint_general()
+      }
     })
+    
+    # Inference current ---------------------------
+    output$current_inference <- renderText({
+      text_helper_current_confirmatory()
+      text_helper_robustness()
+    })
+    
+    # Inference checkpoint ---------------------------
+    output$checkpoint_inference <- renderText({
+      if (is.null(checkpoint_toggle)) {
+        glue::glue("The number of valid erotic trials do not reach the first preset \\
+                   checkpoint at {}. Still {} trials needed to reach the checkpoint. \\
+                   This result will only be presented after the first checkpoint.")
+      } else {
+        text_helper_checkpoint_confirmatory()
+        text_helper_robustness()
+      }
+    })
+    
+    # Add warning in the footer ---------------------------
+    mod_footer_server("footer")
   })
 }
     

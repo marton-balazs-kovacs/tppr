@@ -11,11 +11,26 @@ plot_robustness(
   hdi_u,
   mixed_ci_width,
   mixed_ci_l,
-  mixed_ci_u
+  mixed_ci_u,
+  include_nhst = TRUE
 )
 }
 \arguments{
-\item{robustness_results}{tibble, output of the \code{\link{analysis_robustness}} function}
+\item{posterior_density}{numeric vector}
+
+\item{hdi_mode}{numeric}
+
+\item{hdi_l}{numeric}
+
+\item{hdi_u}{numeric}
+
+\item{mixed_ci_width}{numeric}
+
+\item{mixed_ci_l}{numeric}
+
+\item{mixed_ci_u}{numeric}
+
+\item{include_nhst}{logical}
 }
 \value{
 The function returns a ggplot object.

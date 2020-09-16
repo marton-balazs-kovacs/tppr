@@ -4,10 +4,10 @@
 \alias{analysis_confirmatory}
 \title{Primary confirmatory analysis}
 \usage{
-analysis_confirmatory(raw_data)
+analysis_confirmatory(df)
 }
 \arguments{
-\item{raw_data}{dataframe, df containing all trials}
+\item{df}{dataframe, the input dataframes}
 }
 \value{
 The output is a dataframe containing the inputs, the results
@@ -38,12 +38,12 @@ at each passed stopping point. In the analysis the mixed-effect logistic
 regression (see \code{\link{confirmatory_mixed_effect}}) and three Bayes factor
 analysis (see \code{\link{confirmatory_bayes_factor}}) are conducted.
 Inferences are made for the four tests separately and then summarized
-into the final inference of the primary analsyis.
+into the final inference of the primary analysis.
 }
 \examples{
 \donttest{
 # Running the confirmatory analysis
-confirmatory_result <- analysis_confirmatory(raw_data = example_m0)
+confirmatory_result <- analysis_confirmatory(df = example_m0)
 # Checking the inferences at each checking point
 confirmatory_result$inference
 }

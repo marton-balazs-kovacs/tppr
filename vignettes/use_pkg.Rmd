@@ -36,7 +36,7 @@ The analysis depends on preset parameters that are saved as a list of values in 
 You can load the analysis parameters datafile in the current workspace.
 
 ```{r}
-data(analysis_params)
+# data(analysis_params)
 ```
 
 You can also modify the parameters after loading.
@@ -44,13 +44,13 @@ You can also modify the parameters after loading.
 Getting the probability of M0:
 
 ```{r}
-analysis_params$m0_prob
+# analysis_params$m0_prob
 ```
 
 Changing the value:
  
 ```{r, eval = FALSE}
-analysis_params$m0_prob <- 0.53
+# analysis_params$m0_prob <- 0.53
 ```
  
 # Import data
@@ -72,10 +72,10 @@ The example datasets are included in the package. If you want to know more about
 
 ```{r}
 # To load the dataset where M0 is simulated to be true
-data(example_m0)
+# data(example_m0)
 
 # To load the dataset where M1 is simulated to be true
-data(example_m1)
+# data(example_m1)
 ```
 
 ## Generate example dataset
@@ -83,7 +83,7 @@ data(example_m1)
 It is also possible to generate your own example dataset.
 
 ```{r, eval = FALSE}
-my_tppr_data <- generate_example_data()
+# my_tppr_data <- generate_example_data()
 ```
 
 ## Collected datasets
@@ -100,7 +100,7 @@ There are three types of collected data:
 tpp_raw_data <- read_data(type = "live")
 
 # For testing purposes we will use the example_m0 dataset from now on
-tpp_raw_data <- example_m0
+tpp_raw_data <- tppr::example_m0
 ```
 
 # Cleaning the dataset
@@ -120,7 +120,7 @@ All the descriptive results of the study can be calculated with the `?tppr::samp
 The function runs at the latest passed checkpoint, unless it is indicated differently in the which_checkpoint argument.
 
 ```{r}
-descriptive_results <- sample_descriptives(raw_data = tpp_raw_data, which_checkpoint = NA_integer_)
+# descriptive_results <- sample_descriptives(raw_data = tpp_raw_data, which_checkpoint = NA_integer_)
 ```
 
 # Checking the current and the next checkpoint
@@ -161,7 +161,7 @@ checkpoint$last_row
 First, the primary confirmatory analysis splits the data at each passed checking point and saves the results into a list of dataframes. This step can be done separately with the `tppr::split_data` function.
 
 ```{r}
-tpp_split_data <- split_data(processed_data = tpp_processed_data)
+# tpp_split_data <- split_data(processed_data = tpp_processed_data)
 ```
 
 Second, the code iterates trough the splitted dataframes and calculates the mixed-effects logistic regression and Bayes factors with three different priors.
@@ -181,7 +181,7 @@ The primary analysis function will run all these subfunctions and return the res
 To run the primary analysis function run the following code on the processed data:
 
 ```{r}
-confirmatory_results <- analysis_confirmatory(raw_data = tpp_raw_data)
+# confirmatory_results <- analysis_confirmatory(raw_data = tpp_raw_data)
 ```
 
 ## Calculate the cumulative Bayes factor
@@ -189,7 +189,7 @@ confirmatory_results <- analysis_confirmatory(raw_data = tpp_raw_data)
 For the primary analysis plot we have to calculate the cumulative Bayes factors with the three priors for every trial.
 
 ```{r}
-cumulative_results <- cumulative_bayes_factor(df = tpp_raw_data)
+# cumulative_results <- cumulative_bayes_factor(df = tpp_raw_data)
 ```
 
 ## Visualise the result
@@ -197,7 +197,7 @@ cumulative_results <- cumulative_bayes_factor(df = tpp_raw_data)
 To visualize the results of the primary confirmatory analysis the `?tppr::plot_confrimatory` can be used.
 
 ```{r}
-plot_confirmatory(cumulative_results = cumulative_results)
+# plot_confirmatory(cumulative_results = cumulative_results)
 ```
 
 # Run the robustness analysis
@@ -211,7 +211,7 @@ By default, the `analysis_robustness` and the `analysis_exploratory` functions e
 We could run the robustness analysis with the following code on the last row of the primary analysis results:
 
 ```{r}
-robustness_results <- analysis_robustness(confirmatory_results = confirmatory_results)
+# robustness_results <- analysis_robustness(confirmatory_results = confirmatory_results)
 ```
 
 ## Visualise the result
@@ -223,7 +223,7 @@ robustness_results <- analysis_robustness(confirmatory_results = confirmatory_re
 # Run the exploratory analysis
 
 ```{r}
-exploratory_results <- analysis_exploratory(df = tpp_raw_data)
+# exploratory_results <- analysis_exploratory(df = tpp_raw_data)
 ```
 
 ## Visualize the results

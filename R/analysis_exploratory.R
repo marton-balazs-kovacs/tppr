@@ -79,10 +79,10 @@ analysis_exploratory <- function(df) {
   
   # Return outputs ---------------------------
   return(
-    list(
-      success_rates_theoretical_prop = success_rates_theoretical_prop,
-      success_rates_empirical_prop = success_rates_empirical_prop,
-      possible_success_rates = possible_success_rates
+    tibble::lst(
+      success_rates_theoretical_prop,
+      success_rates_empirical_prop,
+      possible_success_rates
     )
   )
 }

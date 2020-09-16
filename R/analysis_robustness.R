@@ -24,10 +24,10 @@ robustness_nhst_analysis <- function(success, total_n) {
   
   # Return output  ---------------------------
   return(
-    list(
-      equivalence_test_p = equivalence_test_p,
-      equality_test_p = equality_test_p,
-      inference_robustness_nhst = inference_robustness_nhst
+    tibble::lst(
+      equivalence_test_p,
+      equality_test_p,
+      inference_robustness_nhst
       )
     )
 }
@@ -79,12 +79,12 @@ robustness_bf_analysis <- function(success, total_n) {
   
   # Return output ---------------------------
   return(
-    list(
-      posterior_density = posterior_density,
-      hdi_mode = hdi_mode,
-      hdi_l = hdi_l,
-      hdi_u = hdi_u,
-      inference_robustness_bayes = inference_robustness_bayes
+    tibble::lst(
+      posterior_density,
+      hdi_mode,
+      hdi_l,
+      hdi_u,
+      inference_robustness_bayes
       )
     )
 }

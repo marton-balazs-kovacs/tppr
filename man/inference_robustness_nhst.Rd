@@ -7,9 +7,9 @@
 inference_robustness_nhst(equivalence_test_p, equality_test_p)
 }
 \arguments{
-\item{equivalence_test_p}{numeric, the p-value of the equivalnce test}
+\item{equivalence_test_p}{numeric, the p-value of the equivalence test}
 
-\item{equality_test_p}{numeric, the p-value of the equiality test}
+\item{equality_test_p}{numeric, the p-value of the equality test}
 }
 \value{
 The function returns a character that is either M0, M1 or Inconclusive.
