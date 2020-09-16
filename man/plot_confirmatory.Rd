@@ -4,10 +4,12 @@
 \alias{plot_confirmatory}
 \title{Plotting the results of the primary confirmatory analysis}
 \usage{
-plot_confirmatory(cumulative_results)
+plot_confirmatory(cumulative_results, animated = FALSE)
 }
 \arguments{
 \item{cumulative_results}{dataframe, output of the \code{\link{cumulative_bayes_factor}} function}
+
+\item{animated}{logical, whether the plot to be animated with plotly or not}
 }
 \value{
 The function returns a ggplot object.

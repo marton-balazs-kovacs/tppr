@@ -1,0 +1,29 @@
+---
+title: ""
+output: html_document
+---
+
+## Welcome to the Transparent Psi Project
+
+You can follow the results of the project through this webapp in real time.
+
+The app looks for new data in every 5 minutes and refreshes if new data are available.
+
+Please, use the tabs at the top of the screen to inspect the results of the different analyses.
+
+## How it works?
+
+After answering a trial in the study the data from that trial is automatically pushed to a github repository
+that you can see [here](https://github.com/gyopak/transparent-psi-results). When the repository receives a new
+data point through a push event, a Github webhook sends a POST request with the information about the push event
+to an API running on Google Cloud Run. The API contains the calculation functions from the R package developed
+for this project ([see](https://marton-balazs-kovacs.github.io/tppr/)), and runs the calculation on the new data.
+After the API finished the analyses it pushes the results to another repository ([see](http://corndog.io/)). The
+present application reads the results from that repository in every 5 minutes.
+
+## Questions and comments
+
+If you have any questions or comments please write to Marton Kovacs to the following email address: marton.balazs.kovacs@gmail.com
+
+Or submit an issue on the apps Github page: [https://github.com/marton-balazs-kovacs/tppr/issues](https://github.com/marton-balazs-kovacs/tppr/issues)
+

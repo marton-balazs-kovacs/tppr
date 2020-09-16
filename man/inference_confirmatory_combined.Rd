@@ -6,28 +6,16 @@
 \usage{
 inference_confirmatory_combined(
   n_iteration,
-  total_n,
-  mixed_ci_u,
-  mixed_ci_l,
-  bf_replication,
-  bf_uniform,
-  bf_buj
+  confirmatory_nhst_inference,
+  confirmatory_bf_inference
 )
 }
 \arguments{
-\item{n_iteration}{numeric, the number of iterations}
+\item{n_iteration}{numeric, the number of iterations for the mixed effect analysis}
 
-\item{total_n}{numeric, the total number of erotic trials}
+\item{confirmatory_nhst_inference}{character, the inference based on the confirmatory NHST mixed analysis}
 
-\item{mixed_ci_u}{numeric, the upper bound of the confidence interval}
-
-\item{mixed_ci_l}{numeric, the lower bound of the confidence interval}
-
-\item{bf_replication}{numeric, replication prior Bf}
-
-\item{bf_uniform}{numeric, uniform prior Bf}
-
-\item{bf_buj}{numeric, knowledge-base prior Bf}
+\item{confirmatory_bf_inference}{character, the inference based on the Bayes factor analysis with 3 priors}
 }
 \value{
 The function returns a character value that is

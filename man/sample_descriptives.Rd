@@ -23,6 +23,6 @@ determined otherwise with the `which_checkpoint` param.
 }
 \examples{
 \donttest{
-sample_descriptives(raw_data = example_m0)
+sample_descriptives(raw_data = example_m0, which_checkpoint = NA_integer_)
 }
 }
