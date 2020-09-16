@@ -254,7 +254,7 @@ sample_descriptives_current <- function(processed_data) {
   
   # Number of erotic trials per participant
   n_erotic_trials_per_participant <- 
-    processed_data_untilstudystop %>% 
+    processed_data %>% 
     dplyr::count(participant_ID) %>% 
     dplyr::pull(n)
   
