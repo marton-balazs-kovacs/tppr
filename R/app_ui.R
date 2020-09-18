@@ -11,20 +11,19 @@ app_ui <- function(request) {
       title = 
         div(
           img(src="www/favicon.png", height = "100px"),
-          h2(id = "title", "Transparent Psi Project"),
-          h4(id = "sub-title", "Real-time result tracking")),
+          h2(id = "title", "Transparent Psi Project")),
       tabPanel("Welcome",
                mod_welcome_ui("welcome")),
-      tabPanel("Summray results",
-               mod_summary_ui("summary")),
-      tabsetPanel("Main confirmatory results",
-                  mod_main_confirmatory_ui("main_confirmatory")),
-      tabPanel("Robustness results",
-               mod_robustness_server("robustness")),
-      tabPanel("Exploratory results",
-               mod_exploratory_ui("exploratory")),
-      tabPanel("Preprint",
-               mod_article_ui("article"))
+      # tabPanel("Summray results",
+      #          mod_summary_ui("summary")),
+      tabPanel("Main confirmatory results",
+               mod_main_confirmatory_ui("main_confirmatory"))
+      # tabPanel("Robustness results",
+      #          mod_robustness_server("robustness")),
+      # tabPanel("Exploratory results",
+      #          mod_exploratory_ui("exploratory")),
+      # tabPanel("Preprint",
+      #          mod_article_ui("article"))
     )
   )
 }

@@ -19,20 +19,17 @@ mod_exploratory_ui <- function(id){
 #' exploratory Server Function
 #'
 #' @noRd 
-mod_exploratory_server <- function(id, refresh_time){
+mod_exploratory_server <- function(id, push_time, refresh_time, current){
   moduleServer(id, function(input, output, session) {
-    # Read exploratory results ---------------------------
-    exploratory_res <- readRDS(url(""))
-    
     # Generate plot ---------------------------
     output$plot <- renderPlot({
-      plot_exploratory(success_rates_theoretical_prop,
-                       success_rates_empirical_prop,
-                       possible_success_rates)
-    })
+      plot_exploratory(success_rates_theoretical_prop = current$exploratory$success_rates_theoretical_prop,
+                       success_rates_empirical_prop = current$exploratory$success_rates_empirical_prop,
+                       possible_success_rates = current$exploratory$possible_success_rates)
+      })
     
     # Add footer ---------------------------
-    mod_footer_server("footer")
+    mod_footer_server("footer", push_time, refresh_time)
   })
 }
     

@@ -189,7 +189,7 @@ To run the primary analysis function run the following code on the processed dat
 For the primary analysis plot we have to calculate the cumulative Bayes factors with the three priors for every trial.
 
 ```{r}
-# cumulative_results <- cumulative_bayes_factor(df = tpp_raw_data)
+cumulative_results <- cumulative_bayes_factor(df = tpp_raw_data)
 ```
 
 ## Visualise the result

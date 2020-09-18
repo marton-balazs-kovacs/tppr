@@ -9,9 +9,9 @@ plot_robustness(
   hdi_mode,
   hdi_l,
   hdi_u,
-  mixed_ci_width,
-  mixed_ci_l,
-  mixed_ci_u,
+  mixed_ci_width = NA_real_,
+  mixed_ci_l = NA_real_,
+  mixed_ci_u = NA_real_,
   include_nhst = TRUE
 )
 }

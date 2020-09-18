@@ -16,7 +16,7 @@
 #' 
 #' @return The function returns a ggplot object.
 #' @export
-plot_robustness <- function(posterior_density, hdi_mode, hdi_l, hdi_u, mixed_ci_width, mixed_ci_l, mixed_ci_u, include_nhst = TRUE) {
+plot_robustness <- function(posterior_density, hdi_mode, hdi_l, hdi_u, mixed_ci_width = NA_real_, mixed_ci_l = NA_real_, mixed_ci_u = NA_real_, include_nhst = TRUE) {
   # Figure 2 displays the Confidence interval computed based on the 
   # final mixed model primary analysis and the posterior distribution of the 
   # parameter based on the Bayesian Parameter Estimation

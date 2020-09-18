@@ -16,7 +16,11 @@ plot_confirmatory <- function(cumulative_results, animated = FALSE) {
   # Prepare plot data ---------------------------
   # Get checkpoint information
   highest_checkpoint <- tell_checkpoint(cumulative_results)$current_checkpoint
-  check_range <- tppr::analysis_params$when_to_check[1:highest_checkpoint]
+  if (!is.na(highest_checkpoint)) {
+    check_range <- tppr::analysis_params$when_to_check[1:highest_checkpoint]
+  } else {
+    check_range <- NA_integer_
+  }
   
   figure_1_data <-
     cumulative_results %>% 
@@ -93,7 +97,9 @@ plot_confirmatory <- function(cumulative_results, animated = FALSE) {
     ggplot2::geom_hline(yintercept = c(tppr::analysis_params$inference_threshold_bf_low,
                                        tppr::analysis_params$inference_threshold_bf_high),
                         linetype = "dashed") +
-    ggplot2::geom_vline(xintercept = c(check_range, unique(bf_table_last$total_n)),
+    ggplot2::geom_vline(xintercept = ifelse(is.na(highest_checkpoint),
+                                                    unique(bf_table_last$total_n),
+                                                    c(unique(bf_table_last$total_n), check_range)),
                         linetype = "dotted") +
     ggplot2::geom_point(data = bf_table_last,
                         ggplot2::aes(y = bf_value, x = total_n, group = bf_type),

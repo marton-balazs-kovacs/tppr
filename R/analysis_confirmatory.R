@@ -178,6 +178,11 @@ analysis_confirmatory <- function(df) {
   
   # Get checkpoint information
   highest_checkpoint <- tell_checkpoint(df)$current_checkpoint
+  
+  if (is.na(highest_checkpoint)) {
+    stop("The number of trials are not exceeding the first stopping point.")
+  }
+  
   checkpoint_n <- tppr::analysis_params$when_to_check[highest_checkpoint]
   
   # Preparing data for sequential analysis

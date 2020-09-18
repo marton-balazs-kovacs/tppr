@@ -11,26 +11,23 @@ mod_main_confirmatory_ui <- function(id){
 
   tagList(
     h1("Main Confirmatory Analysis results"),
-    plotOutput(NS(id, "plot")),
-    mod_footer_ui("footer")
+    plotOutput(NS(id, "plot"))
+    # mod_footer_ui("footer")
   )
 }
     
 #' main_confirmatory Server Function
 #'
 #' @noRd 
-mod_main_confirmatory_server <- function(id, refresh_time){
+mod_main_confirmatory_server <- function(id, push_time, refresh_time, current, at_checkpoint){
   moduleServer(id, function(input, output, session) {
-    # Read exploratory results ---------------------------
-    cumulative_res <- readRDS(url(""))
-    
     # Generate plot ---------------------------
     output$plot <- renderPlot({
-      plot_confirmatory(cumulative_res)
+      plot_confirmatory(current()$cumulative_bayes, animated = TRUE)
       })
     
     # Add footer ---------------------------
-    mod_footer_server("footer")
+    # mod_footer_server("footer", push_time, refresh_time, current, at_checkpoint)
     })
 }
     

@@ -61,3 +61,7 @@ drop_nulls <- function(x){
 #' @noRd
 rv <- shiny::reactiveValues
 rvtl <- shiny::reactiveValuesToList
+
+read_url <- function(url_path) {
+  readRDS(url(url_path, method = "libcurl"))
+}

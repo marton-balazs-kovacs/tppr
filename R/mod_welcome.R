@@ -10,18 +10,16 @@
 mod_welcome_ui <- function(id){
 
   tagList(
-    includeMarkdown(app_sys("app/www/intro.rmd")),
-    br(),
-    mod_footer_ui("footer")
+    includeMarkdown(app_sys("app/www/intro.rmd"))
   )
 }
     
 #' welcome Server Function
 #'
 #' @noRd 
-mod_welcome_server <- function(input, output, session){
+mod_welcome_server <- function(id){
   moduleServer(id, function(input, output, session) {
-    mod_footer_server("footer")
+
   })
 }
     

@@ -20,6 +20,10 @@ sample_descriptives <- function(raw_data, which_checkpoint = NA_integer_) {
   checkpoint_inf <- tell_checkpoint(df = raw_data)
   
   # Validation ---------------------------
+  if (is.na(checkpoint_inf$current_checkpoint)) {
+    stop("The number of trials are not exceeding the first stopping point.")
+  }
+  
   if(!is.na(which_checkpoint) & which_checkpoint > checkpoint_inf$current_checkpoint) {
     stop(paste("The checkpoint index cannot pass the number of reached checkpoints, which is", checkpoint_inf$current_checkpoint))
   }

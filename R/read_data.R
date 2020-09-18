@@ -164,7 +164,8 @@ tell_checkpoint <- function(df) {
   
   # Find the index of the current and next checkpoint index
   if (min(when_to_check) > total_n) {
-    stop("The number of trials are not exceeding the first stopping point.")
+    current_checkpoint <- NA_integer_
+    next_checkpoint <- 1
   } else if (min(when_to_check) < total_n & max(when_to_check) > total_n) {
     current_checkpoint <- max(which(when_to_check < total_n))
     next_checkpoint <- min(which(when_to_check > total_n))

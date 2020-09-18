@@ -19,27 +19,21 @@ mod_robustness_ui <- function(id){
 #' robustness Server Function
 #'
 #' @noRd 
-mod_robustness_server <- function(id, refresh_time){
+mod_robustness_server <- function(id, push_time, refresh_time, current){
     moduleServer(id, function(input, output, session) {
-      # Read robustness results ---------------------------
-      robustness_bf_res <- readRDS(url(""))
-      
       # Generate plot ---------------------------
-    output$plot <- renderPlot({
-      plot_robustness(posterior_density,
-                      hdi_mode,
-                      hdi_l,
-                      hdi_u,
-                      mixed_ci_width,
-                      mixed_ci_l,
-                      mixed_ci_u)
-        
-  })
+      output$plot <- renderPlot({
+        plot_robustness(posterior_density = current$robustness_bayes$posterior_density,
+                        hdi_mode = current$robustness_bayes$hdi_mode,
+                        hdi_l = current$robustness_bayes$hdi_l,
+                        hdi_u = current$robustness_bayes$hdi_u,
+                        include_nhst = FALSE)
+        })
     
-    # Add footer ---------------------------
-    mod_footer_server("footer")
-  })
-}
+      # Add footer ---------------------------
+      mod_footer_server("footer", push_time, refresh_time)
+    })
+  }
     
 ## To be copied in the UI
 # mod_robustness_ui("robustness")
