@@ -68,9 +68,9 @@ inference_confirmatory_combined <- function(n_iteration, confirmatory_nhst_infer
   # Main analysis inference ---------------------------
   # Determine final inference (supported model) based on the inferences drawn
   # from the mixed model and the Bayes factors.
-  if (all(c(mixed_nhst_inference, bf_inference) == "M1")) {
+  if (all(c(confirmatory_nhst_inference, confirmatory_bf_inference) == "M1")) {
     primary_analysis_inference <- "M1"
-  } else if (all(c(mixed_nhst_inference, bf_inference) == "M0")) {
+  } else if (all(c(confirmatory_nhst_inference, confirmatory_bf_inference) == "M0")) {
     primary_analysis_inference <- "M0"
   } else if (n_iteration < which.max(tppr::analysis_params$when_to_check)) {
     primary_analysis_inference <- "Ongoing"
