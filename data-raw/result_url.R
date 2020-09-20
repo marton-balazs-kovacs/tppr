@@ -11,7 +11,10 @@ result_url <-
     current_cumulative_bayes = "http://raw.githubusercontent.com/marton-balazs-kovacs/tppr_results/master/tppr_results_confirmatory_bayes.rds",
     current_robustness_bayes = "http://raw.githubusercontent.com/marton-balazs-kovacs/tppr_results/master/tppr_results_robustness_bayes.rds",
     current_exploratory = "http://raw.githubusercontent.com/marton-balazs-kovacs/tppr_results/master/tppr_results_exploratory.rds",
-    current_descriptive = "http://raw.githubusercontent.com/marton-balazs-kovacs/tppr_results/master/tppr_results_descriptive_current.rds"
+    current_descriptive = "http://raw.githubusercontent.com/marton-balazs-kovacs/tppr_results/master/tppr_results_descriptive_current.rds",
+    current_confirmatory_plot = "http://raw.githubusercontent.com/marton-balazs-kovacs/tppr_results/master/tppr_results_confirmatory_plot.rds",
+    current_robustness_plot = "http://raw.githubusercontent.com/marton-balazs-kovacs/tppr_results/master/tppr_results_robustness_plot.rds",
+    current_exploratory_plot = "http://raw.githubusercontent.com/marton-balazs-kovacs/tppr_results/master/tppr_results_exploratory_plot.rds"
   )
 
 usethis::use_data(result_url, overwrite = TRUE, internal = TRUE)

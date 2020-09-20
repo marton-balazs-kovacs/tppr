@@ -1,69 +1,56 @@
-#title {
+a {
+  color: #dc747c !important;
+}
+
+a:hover {
+  color: #6c5c7c !important;
+}
+
+h2 {
+  color: #A96A7C !important;
+}
+
+#title-text {
   color: #6c5c7c;
   font-weight: 700;
-  display: inline-block;
-}
-
-#sub-title {
-  color: #dc747c;
-  font-weight: 500;
-  display: inline-block;
-}
-
-.navbar-brand {
-  height: 70;
-  
 }
 
 .navbar {
-  background-color: gray;
-}
-
-.navbar-default .navbar-brand {
-  color: cyan;
-}
-
-.navbar-default .navbar-brand:hover {
-  color: blue;
+  background-color: #FBEEEF;
 }
 
 .navbar-default .navbar-nav > li > a {
-  color:black;
+  color: #a96a7c;
 }
 
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:focus,
 .navbar-default .navbar-nav > .active > a:hover {
-  color: pink;
-  background-color: purple;
+  color: #6c5c7c;
+  font-weight: bold;
+  background-color: transparent;
 }
 
 .navbar-default .navbar-nav > li > a:hover {
-  color: black;
-  background-color:yellow;
-  text-decoration:underline;
+  color: #a96a7c;
+  background-color: transparent;
+  text-decoration: underline;
 }
 
+.summary-title {
+  color: #dc747c !important;
+}
 
-
-
-
-
-
-
-
-
-
-.main-steps-panel {
-  background-color: #b2dcce;
+.summary-panel {
+  background-color: #FBEEEF;
   box-shadow: none;
   border: none;
   margin-bottom: 10px;
 }
 
-.main-steps-title {
+.tab-title {
   font-weight: 500;
   line-height: 1.1;
   margin-top: 0;
-  color: #D45F68;
-}S
+  color: #A96A7C;
+}

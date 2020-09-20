@@ -11,10 +11,12 @@ mod_footer_ui <- function(id){
 
   tagList(
     textOutput(NS(id, "stopping_text")),
+    br(),
     textOutput(NS(id, "warning_text")),
+    hr(),
     textOutput(NS(id, "refresh")),
-    textOutput(NS(id, "refresh_rate")),
-    p("To support any model, all three Bayes Factor values need to pass the threshold")
+    br(),
+    textOutput(NS(id, "refresh_rate"))
   )
 }
     
@@ -23,26 +25,26 @@ mod_footer_ui <- function(id){
 #' @noRd 
 mod_footer_server <- function(id, push_time, refresh_time, current, at_checkpoint){
   moduleServer(id, function(input, output, session) {
-    
+
     output$stopping_text <- renderText({
-      if (is.null(current$checkpoint$error)) {
-        text_helper_stop(checkpoint_next = 1)
+      if (is.na(current()$checkpoint$current_checkpoint)) {
+       text_helper_stop(checkpoint_next = 1)
       } else {
-        if (at_checkpoint$confiramtory_inference %in% c("Ongoing", "Inconclusive")) {
-          text_helper_stop(checkpoint_next = current$checkpoint$result["current_checkpoint"])
-        } else if (at_checkpoint$confiramtory_inference %in% c("M1", "M0")) {
+        if (at_checkpoint()$confiramtory_inference %in% c("Ongoing", "Inconclusive")) {
+          text_helper_stop(checkpoint_next = current()$checkpoint$next_checkpoint)
+        } else if (at_checkpoint()$confiramtory_inference %in% c("M1", "M0")) {
           "Data collection stopped because one of the stopping rules has been triggered."
         }
       }
       })
     
     output$warning_text <- renderText({
-      if (is.null(current$checkpoint$error)) {
+      if (is.na(current()$checkpoint$current_checkpoint)) {
         text_helper_warning(checkpoint_next = 1)
       } else {
-        if (at_checkpoint$confiramtory_inference %in% c("Ongoing", "Inconclusive")) {
-          text_helper_warning(checkpoint_next = current$checkpoint$result["current_checkpoint"])
-        } else if (at_checkpoint$confiramtory_inference %in% c("M1", "M0")) {
+        if (at_checkpoint()$confiramtory_inference %in% c("Ongoing", "Inconclusive")) {
+          text_helper_warning(checkpoint_next = current()$checkpoint$next_checkpoint)
+        } else if (at_checkpoint()$confiramtory_inference %in% c("M1", "M0")) {
           "The datacollection stopped, therefore the results at the lastly \\
     analysed checkpoint show the final results of the project." 
         }
@@ -51,7 +53,7 @@ mod_footer_server <- function(id, push_time, refresh_time, current, at_checkpoin
     
     output$refresh <- renderText({
       glue::glue("The data on this page was last collected at: {push_time}",
-                 push_time = as.POSIXct(as.numeric(push_time), origin = '1970-01-01', tz = 'GMT'))
+                 push_time = as.POSIXct(as.numeric(push_time()), origin = '1970-01-01', tz = 'GMT'))
       })
   
     output$refresh_rate <- renderText({

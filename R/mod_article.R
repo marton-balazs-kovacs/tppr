@@ -17,8 +17,9 @@ mod_article_ui <- function(id){
 #' article Server Function
 #'
 #' @noRd 
-mod_article_server <- function(input, output, session){
+mod_article_server <- function(id){
   moduleServer(id, function(input, output, session) {
+    # Add iframe to view pdf
     output$pdf_view <- renderUI({
       tags$iframe(style = "height:600px; width:100%", src = "https://mfr.de-1.osf.io/render?url=https://osf.io/sq89t/?direct%26mode=render%26action=download%26mode=render")
       })
