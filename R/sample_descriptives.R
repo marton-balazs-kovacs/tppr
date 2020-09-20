@@ -79,7 +79,7 @@ sample_descriptives <- function(raw_data, which_checkpoint = NA_integer_) {
   first_rows_of_each_participant <-
     processed_data_untilstudystop %>% 
     dplyr::group_by(participant_ID) %>% 
-    dplyr::slice_head(1) %>% 
+    dplyr::slice_head(n = 1) %>% 
     dplyr::ungroup()
   
   # Age descriptive

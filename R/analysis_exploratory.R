@@ -12,7 +12,7 @@
 #'   
 #' @family analysis functions
 #' 
-#' @param df tibble
+#' @param df dataframe, the input dataframe
 #' 
 #' @return The function returns a list of three, the possible success
 #' rates, the the proportion of observed successful guess rate, and the

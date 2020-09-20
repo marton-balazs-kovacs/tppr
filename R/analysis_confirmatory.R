@@ -220,7 +220,7 @@ analysis_confirmatory <- function(df) {
 
 #' Calculating cumulative success
 #' 
-#' This function calulates the number of trials and the
+#' This function calculates the number of trials and the
 #' number of successful trials cumulatively. If raw data
 #' are provided the function drops all the non-erotic
 #' trials (see \code{\link{clean_data}}).
@@ -232,12 +232,18 @@ analysis_confirmatory <- function(df) {
 #' in the other column.
 #' 
 #' @export
+#' @examples
+#' \donttest{
+#' # Get total number of trials and success cumulatively
+#' cumulative_success_res <- cumulative_success(df = example_m0)
+#' }
 cumulative_success <- function(df) {
   # Check whether the input df contains only erotic trials or not
   if (!all(df$reward_type == "erotic")) {
     df <- clean_data(raw_data = df)
   }
   
+  # Calculative total_n and success cumulatively
   df %>% 
     dplyr::transmute(total_n = 1:nrow(.),
                      success = cumsum(sides_match))
@@ -254,11 +260,16 @@ cumulative_success <- function(df) {
 #' 
 #' @param df dataframe, the input dataframe
 #' 
-#' @return The function returns a long formatted dataframe with
-#' the number of trials, the smoothed Bayes factors, and the type
-#' of the Bayes factors.
+#' @return The function returns a wide formatted dataframe with
+#' the number of trials, and the Bayes factors with the three different
+#' trials.
 #' 
 #' @export
+#' @examples
+#' \donttest{
+#' # Calculate the cumulative Bayes factors
+#' cumulative_results <- cumulative_bayes_factor(df = example_m0)
+#' }
 cumulative_bayes_factor <- function(df) {
   # Calculating cumulative successes
   if ("success" %not_in% colnames(df)) {
