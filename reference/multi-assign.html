@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Primary analysis: Bayes factors analysis — confirmatory_bayes_factor • tppr</title>
+<title>Assign values to names — %&lt;-% • tppr</title>
 
 
 <!-- jquery -->
@@ -39,13 +39,8 @@
 
 
 
-<meta property="og:title" content="Primary analysis: Bayes factors analysis — confirmatory_bayes_factor" />
-<meta property="og:description" content="The function computes the BF01 based on the successful guesses and the
-total number of erotic trials. M0 is a point-value model denoting
-that the chance of each successful guess is 50
-three different beta priors on the probability of correct guesses:
-knowledge-base prior, uniform prior, replication prior. In all cases we use
-a one-tailed hypothesis testing (p &amp;gt; 0.5 and p &amp;lt; 1)." />
+<meta property="og:title" content="Assign values to names — %&lt;-%" />
+<meta property="og:description" content="See %&amp;lt;-% for more details." />
 
 
 
@@ -128,56 +123,19 @@ a one-tailed hypothesis testing (p &amp;gt; 0.5 and p &amp;lt; 1)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Primary analysis: Bayes factors analysis</h1>
-    <small class="dont-index">Source: <a href='https://github.com/marton-balazs-kovacs/tppr/blob/master/R/analysis_confirmatory.R'><code>R/analysis_confirmatory.R</code></a></small>
-    <div class="hidden name"><code>confirmatory_bayes_factor.Rd</code></div>
+    <h1>Assign values to names</h1>
+    <small class="dont-index">Source: <a href='https://github.com/marton-balazs-kovacs/tppr/blob/master/R/utils-zeallot.R'><code>R/utils-zeallot.R</code></a></small>
+    <div class="hidden name"><code>multi-assign.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The function computes the BF01 based on the successful guesses and the
-total number of erotic trials. M0 is a point-value model denoting
-that the chance of each successful guess is 50<!-- %. For M1 the function uses -->
-three different beta priors on the probability of correct guesses:
-knowledge-base prior, uniform prior, replication prior. In all cases we use
-a one-tailed hypothesis testing (p &gt; 0.5 and p &lt; 1).</p>
+    <p>See <code>%&lt;-%</code> for more details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>confirmatory_bayes_factor</span>(<span class='kw'>success</span>, <span class='kw'>total_n</span>)</pre>
+    <pre class="usage"><span class='kw'>x</span> <span class='op'>%&lt;-%</span> <span class='kw'>value</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>success</th>
-      <td><p>numeric, total number of successful guesses on erotic trials</p></td>
-    </tr>
-    <tr>
-      <th>total_n</th>
-      <td><p>numeric, total number of all erotic trials</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The function returns a list of three numeric values with the rounded
-Bayes factor calculated with each M1 beta prior.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other confirmatory functions: 
-<code><a href='confirmatory_mixed_effect.html'>confirmatory_mixed_effect</a>()</code></p></div>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'># Including only erotic trials</span>
-<span class='kw'>tpp_processed_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='clean_data.html'>clean_data</a></span>(raw_data = <span class='kw'>example_m0</span>)
-<span class='co'># Running the confirmatory analysis</span>
-<span class='kw'>bayes_factor_result</span> <span class='op'>&lt;-</span> 
-  <span class='fu'>confirmatory_bayes_factor</span>(success = <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='kw'>tpp_processed_data</span><span class='op'>$</span><span class='kw'>sides_match</span>, na.rm = <span class='fl'>TRUE</span>),
-                            total_n = <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>tpp_processed_data</span>))
-<span class='co'># Checking the results</span>
-<span class='kw'>bayes_factor_results</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'bayes_factor_results' not found</span></div><div class='input'><span class='co'># }</span>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

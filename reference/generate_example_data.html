@@ -134,9 +134,65 @@ the Transparent Psi Project." />
 the Transparent Psi Project.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>generate_example_data</span>()</pre>
+    <pre class="usage"><span class='fu'>generate_example_data</span>(
+  num_sim = <span class='fl'>6000</span>,
+  erotic_trial_size_per_participant = <span class='fl'>18</span>,
+  m0_prob = <span class='fl'>0.5</span>,
+  m1_prob = <span class='fl'>0.51</span>,
+  esp_user_percentage = <span class='fl'>1</span>,
+  chance_for_refuse_consent = <span class='fl'>0.01</span>,
+  chance_for_stopping_session = <span class='fl'>0.002</span>
+)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>num_sim</th>
+      <td><p>number of simulated sessions (1 regular session contains 36 trials, 18 erotic and 18 non-erotic)</p></td>
+    </tr>
+    <tr>
+      <th>erotic_trial_size_per_participant</th>
+      <td><p>number of erotic trials performed per participant</p></td>
+    </tr>
+    <tr>
+      <th>m0_prob</th>
+      <td><p>probability of successful guess if M0 is true</p></td>
+    </tr>
+    <tr>
+      <th>m1_prob</th>
+      <td><p>probability of successful guess among ESP-users in the simulated sample</p></td>
+    </tr>
+    <tr>
+      <th>esp_user_percentage</th>
+      <td><p>the percentage of ESP-users, or ESP-capable individuals in the population</p></td>
+    </tr>
+    <tr>
+      <th>chance_for_refuse_consent</th>
+      <td><p>chance of refusing consent or being excluded due to one of the eligibility criteria (e.g. underage)</p></td>
+    </tr>
+    <tr>
+      <th>chance_for_stopping_session</th>
+      <td><p>chance of stopping prematurely in each trial, to simulate some missing data due to unexpected events</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A dataframe containing the same data structure as expected
+from real data collected in the study.</p>
+    <h2 class="hasAnchor" id="more-about-the-params"><a class="anchor" href="#more-about-the-params"></a>More about the params</h2>
+
+    
+
+<p>Set esp_user_percentage to 1 to simulate that everyone has the same level
+  of ESP ability, or set it to 0 to simulate that no one has ESP ability. Set
+  the value to something in between to simulate that only a portion of the population can
+  use ESP, and the others are just guessing randomly. E.g.,  
+  example esp_user_percentage = 0.03 and m1_prob = 0.65 simulates that only 3<!-- %  -->
+  of the total population can use ESP, and prediction success rate in this subgroup is 65<!-- %. -->
+  Setting chance_for_stopping_session to 0.002 would generate roughly 2<!-- % missing data, -->
+  but that cannot introduce bias in our confirmatory analysis.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -153,7 +209,7 @@ the Transparent Psi Project.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

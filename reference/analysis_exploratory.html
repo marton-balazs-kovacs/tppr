@@ -142,14 +142,14 @@ distribution expected if the true successful guess chance is homogeneously
 potential irregularities in the distribution of guess rates.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>analysis_exploratory</span>(<span class='kw'>confirmatory_results</span>)</pre>
+    <pre class="usage"><span class='fu'>analysis_exploratory</span>(<span class='kw'>df</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>confirmatory_results</th>
-      <td><p>tibble, output of the <code><a href='analysis_confirmatory.html'>analysis_confirmatory</a></code> function</p></td>
+      <th>df</th>
+      <td><p>tibble</p></td>
     </tr>
     </table>
 
@@ -165,57 +165,56 @@ proportion of proportion of simulated successful guess rate.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'># Running the primary confirmatory analysis</span>
-<span class='kw'>confirmatory_results</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysis_confirmatory.html'>analysis_confirmatory</a></span>(raw_data = <span class='kw'>example_m0</span>)
-<span class='co'># Running the exploratory analysis</span>
-<span class='fu'>analysis_exploratory</span>(confirmatory_results = <span class='kw'>confirmatory_results</span>)</div><div class='output co'>#&gt; $success_rates_theoretical_prop
+<span class='fu'>analysis_exploratory</span>(df = <span class='kw'>example_m0</span>)
+</div><div class='output co'>#&gt; $success_rates_theoretical_prop
 #&gt;           [,1]
 #&gt;  [1,] 0.000004
-#&gt;  [2,] 0.000088
-#&gt;  [3,] 0.000645
-#&gt;  [4,] 0.003098
-#&gt;  [5,] 0.011806
-#&gt;  [6,] 0.032570
-#&gt;  [7,] 0.070243
-#&gt;  [8,] 0.121475
-#&gt;  [9,] 0.166967
-#&gt; [10,] 0.185337
-#&gt; [11,] 0.167260
-#&gt; [12,] 0.121295
-#&gt; [13,] 0.071043
-#&gt; [14,] 0.032836
-#&gt; [15,] 0.011547
-#&gt; [16,] 0.003125
-#&gt; [17,] 0.000590
-#&gt; [18,] 0.000067
-#&gt; [19,] 0.000004
+#&gt;  [2,] 0.000063
+#&gt;  [3,] 0.000563
+#&gt;  [4,] 0.003067
+#&gt;  [5,] 0.011686
+#&gt;  [6,] 0.032620
+#&gt;  [7,] 0.071051
+#&gt;  [8,] 0.120713
+#&gt;  [9,] 0.167403
+#&gt; [10,] 0.185608
+#&gt; [11,] 0.167174
+#&gt; [12,] 0.121489
+#&gt; [13,] 0.070809
+#&gt; [14,] 0.032520
+#&gt; [15,] 0.011505
+#&gt; [16,] 0.003085
+#&gt; [17,] 0.000559
+#&gt; [18,] 0.000079
+#&gt; [19,] 0.000002
 #&gt; 
 #&gt; $success_rates_empirical_prop
 #&gt;               [,1]
 #&gt;  [1,] 0.0000000000
 #&gt;  [2,] 0.0000000000
 #&gt;  [3,] 0.0000000000
-#&gt;  [4,] 0.0039292731
-#&gt;  [5,] 0.0103143418
-#&gt;  [6,] 0.0422396857
-#&gt;  [7,] 0.0893909627
-#&gt;  [8,] 0.1208251473
-#&gt;  [9,] 0.1478388998
-#&gt; [10,] 0.1782907662
-#&gt; [11,] 0.1694499018
-#&gt; [12,] 0.1178781925
-#&gt; [13,] 0.0820235756
-#&gt; [14,] 0.0265225933
-#&gt; [15,] 0.0093320236
-#&gt; [16,] 0.0009823183
-#&gt; [17,] 0.0009823183
+#&gt;  [4,] 0.0028870444
+#&gt;  [5,] 0.0115481776
+#&gt;  [6,] 0.0382533381
+#&gt;  [7,] 0.0819198845
+#&gt;  [8,] 0.1219776254
+#&gt;  [9,] 0.1540959942
+#&gt; [10,] 0.1800793937
+#&gt; [11,] 0.1678094551
+#&gt; [12,] 0.1230602671
+#&gt; [13,] 0.0797546012
+#&gt; [14,] 0.0259833995
+#&gt; [15,] 0.0097437748
+#&gt; [16,] 0.0021652833
+#&gt; [17,] 0.0007217611
 #&gt; [18,] 0.0000000000
 #&gt; [19,] 0.0000000000
 #&gt; 
 #&gt; $possible_success_rates
 #&gt;  [1] 0.00 0.06 0.11 0.17 0.22 0.28 0.33 0.39 0.44 0.50 0.56 0.61 0.67 0.72 0.78
 #&gt; [16] 0.83 0.89 0.94 1.00
-#&gt; </div><div class='input'><span class='co'># }</span></div></pre>
+#&gt; </div><div class='input'><span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -231,7 +230,7 @@ proportion of proportion of simulated successful guess rate.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

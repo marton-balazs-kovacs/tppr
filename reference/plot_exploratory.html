@@ -134,14 +134,26 @@ analysis analysis_exploratory." />
 analysis <code><a href='analysis_exploratory.html'>analysis_exploratory</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_exploratory</span>(<span class='kw'>exploratory_results</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_exploratory</span>(
+  <span class='kw'>success_rates_theoretical_prop</span>,
+  <span class='kw'>success_rates_empirical_prop</span>,
+  <span class='kw'>possible_success_rates</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>exploratory_results</th>
-      <td><p>tibble, output of the <code><a href='analysis_exploratory.html'>analysis_exploratory</a></code> function</p></td>
+      <th>success_rates_theoretical_prop</th>
+      <td><p>numeric vector, output of the <code><a href='analysis_exploratory.html'>analysis_exploratory</a></code> function</p></td>
+    </tr>
+    <tr>
+      <th>success_rates_empirical_prop</th>
+      <td><p>numeric vector, output of the <code><a href='analysis_exploratory.html'>analysis_exploratory</a></code> function</p></td>
+    </tr>
+    <tr>
+      <th>possible_success_rates</th>
+      <td><p>numeric vector, output of the <code><a href='analysis_exploratory.html'>analysis_exploratory</a></code> function</p></td>
     </tr>
     </table>
 
@@ -169,7 +181,7 @@ analysis <code><a href='analysis_exploratory.html'>analysis_exploratory</a></cod
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

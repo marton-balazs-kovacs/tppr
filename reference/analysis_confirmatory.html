@@ -45,7 +45,7 @@ at each passed stopping point. In the analysis the mixed-effect logistic
 regression (see confirmatory_mixed_effect) and three Bayes factor
 analysis (see confirmatory_bayes_factor) are conducted.
 Inferences are made for the four tests separately and then summarized
-into the final inference of the primary analsyis." />
+into the final inference of the primary analysis." />
 
 
 
@@ -139,17 +139,17 @@ at each passed stopping point. In the analysis the mixed-effect logistic
 regression (see <code><a href='confirmatory_mixed_effect.html'>confirmatory_mixed_effect</a></code>) and three Bayes factor
 analysis (see <code><a href='confirmatory_bayes_factor.html'>confirmatory_bayes_factor</a></code>) are conducted.
 Inferences are made for the four tests separately and then summarized
-into the final inference of the primary analsyis.</p>
+into the final inference of the primary analysis.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>analysis_confirmatory</span>(<span class='kw'>raw_data</span>)</pre>
+    <pre class="usage"><span class='fu'>analysis_confirmatory</span>(<span class='kw'>df</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>raw_data</th>
-      <td><p>dataframe, df containing all trials</p></td>
+      <th>df</th>
+      <td><p>dataframe, the input dataframes</p></td>
     </tr>
     </table>
 
@@ -180,9 +180,11 @@ into the final inference of the primary analsyis.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># Running the confirmatory analysis</span>
-<span class='kw'>confirmatory_result</span> <span class='op'>&lt;-</span> <span class='fu'>analysis_confirmatory</span>(raw_data = <span class='kw'>example_m0</span>)
-<span class='co'># Checking the inferences at each checking point</span>
-<span class='kw'>confirmatory_result</span><span class='op'>$</span><span class='kw'>inference</span></div><div class='output co'>#&gt; [1] "M0"</div><div class='input'><span class='co'># }</span></div></pre>
+<span class='kw'>confirmatory_result</span> <span class='op'>&lt;-</span> <span class='fu'>analysis_confirmatory</span>(df = <span class='kw'>example_m0</span>)
+</div><div class='output co'>#&gt; <span class='error'>Error: `slice()` expressions should return indices (positive or negative integers).</span></div><div class='input'><span class='co'># Checking the inferences at each checking point</span>
+<span class='kw'>confirmatory_result</span><span class='op'>$</span><span class='kw'>inference</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'confirmatory_result' not found</span></div><div class='input'><span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -198,7 +200,7 @@ into the final inference of the primary analsyis.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

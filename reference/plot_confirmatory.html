@@ -41,8 +41,9 @@
 
 <meta property="og:title" content="Plotting the results of the primary confirmatory analysis — plot_confirmatory" />
 <meta property="og:description" content="The function visualize the results of the confirmatory
-analysis analysis_confirmatory. The Bayes factors
-calculated at each new experimental trial are displayed on this figure." />
+Bayes factor analysis cumulative_bayes_factor.
+The Bayes factors calculated at each new experimental trial
+are displayed on this figure." />
 
 
 
@@ -132,18 +133,23 @@ calculated at each new experimental trial are displayed on this figure." />
 
     <div class="ref-description">
     <p>The function visualize the results of the confirmatory
-analysis <code><a href='analysis_confirmatory.html'>analysis_confirmatory</a></code>. The Bayes factors
-calculated at each new experimental trial are displayed on this figure.</p>
+Bayes factor analysis <code><a href='cumulative_bayes_factor.html'>cumulative_bayes_factor</a></code>.
+The Bayes factors calculated at each new experimental trial
+are displayed on this figure.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_confirmatory</span>(<span class='kw'>confirmatory_results</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_confirmatory</span>(<span class='kw'>cumulative_results</span>, animated = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>confirmatory_results</th>
-      <td><p>tibble, output of the <code><a href='analysis_confirmatory.html'>analysis_confirmatory</a></code> function</p></td>
+      <th>cumulative_results</th>
+      <td><p>dataframe, output of the <code><a href='cumulative_bayes_factor.html'>cumulative_bayes_factor</a></code> function</p></td>
+    </tr>
+    <tr>
+      <th>animated</th>
+      <td><p>logical, whether the plot to be animated with plotly or not</p></td>
     </tr>
     </table>
 
@@ -171,7 +177,7 @@ calculated at each new experimental trial are displayed on this figure.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

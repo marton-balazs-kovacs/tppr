@@ -144,12 +144,8 @@ the study is ongoing.</p>
 
     <pre class="usage"><span class='fu'>inference_confirmatory_combined</span>(
   <span class='kw'>n_iteration</span>,
-  <span class='kw'>total_n</span>,
-  <span class='kw'>mixed_ci_u</span>,
-  <span class='kw'>mixed_ci_l</span>,
-  <span class='kw'>bf_replication</span>,
-  <span class='kw'>bf_uniform</span>,
-  <span class='kw'>bf_buj</span>
+  <span class='kw'>confirmatory_nhst_inference</span>,
+  <span class='kw'>confirmatory_bf_inference</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -157,31 +153,15 @@ the study is ongoing.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>n_iteration</th>
-      <td><p>numeric, the number of iterations</p></td>
+      <td><p>numeric, the number of iterations for the mixed effect analysis</p></td>
     </tr>
     <tr>
-      <th>total_n</th>
-      <td><p>numeric, the total number of erotic trials</p></td>
+      <th>confirmatory_nhst_inference</th>
+      <td><p>character, the inference based on the confirmatory NHST mixed analysis</p></td>
     </tr>
     <tr>
-      <th>mixed_ci_u</th>
-      <td><p>numeric, the upper bound of the confidence interval</p></td>
-    </tr>
-    <tr>
-      <th>mixed_ci_l</th>
-      <td><p>numeric, the lower bound of the confidence interval</p></td>
-    </tr>
-    <tr>
-      <th>bf_replication</th>
-      <td><p>numeric, replication prior Bf</p></td>
-    </tr>
-    <tr>
-      <th>bf_uniform</th>
-      <td><p>numeric, uniform prior Bf</p></td>
-    </tr>
-    <tr>
-      <th>bf_buj</th>
-      <td><p>numeric, knowledge-base prior Bf</p></td>
+      <th>confirmatory_bf_inference</th>
+      <td><p>character, the inference based on the Bayes factor analysis with 3 priors</p></td>
     </tr>
     </table>
 
@@ -210,7 +190,7 @@ either M1, M0, Inconclusive or Ongoing.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
