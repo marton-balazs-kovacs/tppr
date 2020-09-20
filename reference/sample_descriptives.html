@@ -162,14 +162,79 @@ determined otherwise with the `which_checkpoint` param.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='fu'>sample_descriptives</span>(raw_data = <span class='kw'>example_m0</span>, which_checkpoint = <span class='fl'>NA_integer_</span>)
-</div><div class='output co'>#&gt; <span class='error'>Error: `...` is not empty.</span>
-#&gt; <span class='error'></span>
-#&gt; <span class='error'>We detected these problematic arguments:</span>
-#&gt; <span class='error'>* `..1`</span>
-#&gt; <span class='error'></span>
-#&gt; <span class='error'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='error'>Did you misspecify an argument?</span></div><div class='input'><span class='co'># }</span>
-</div></pre>
+</div><div class='output co'>#&gt; $n_participants_started_session_total
+#&gt; [1] 3000
+#&gt; 
+#&gt; $n_participants_started_session_untilstudystop
+#&gt; [1] 2201
+#&gt; 
+#&gt; $n_participants_started_session_afterstudystop
+#&gt; [1] 799
+#&gt; 
+#&gt; $sample_size_participants_atleast1erotictrial
+#&gt; [1] 2944
+#&gt; 
+#&gt; $n_participants_data_included_in_main_analysis
+#&gt; [1] 2165
+#&gt; 
+#&gt; $proportion_participants_novaliddata_untilstudystop
+#&gt; [1] 0.0163562
+#&gt; 
+#&gt; $total_n
+#&gt; [1] 37836
+#&gt; 
+#&gt; $age_range_of_most_participants
+#&gt; [1] "18-29"
+#&gt; 
+#&gt; $age_range_of_most_participants_proportion
+#&gt; [1] 50.30023
+#&gt; 
+#&gt; $n_sex_women
+#&gt; [1] 1054
+#&gt; 
+#&gt; $n_sex_men
+#&gt; [1] 1111
+#&gt; 
+#&gt; $proportion_sex_women
+#&gt; [1] 48.6836
+#&gt; 
+#&gt; $proportion_sex_men
+#&gt; [1] 51.3164
+#&gt; 
+#&gt; $esp_q_desc
+#&gt; <span style='color: #555555;'># A tibble: 1 x 2</span><span>
+#&gt;    mean    sd
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>  2.97  1.41
+#&gt; 
+#&gt; $ss_q_desc
+#&gt; </span><span style='color: #555555;'># A tibble: 1 x 2</span><span>
+#&gt;    mean    sd
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>  2.98 0.968
+#&gt; 
+#&gt; $n_guessed_side_left
+#&gt; [1] 1125
+#&gt; 
+#&gt; $proportion_guessed_side_left
+#&gt; [1] 51.96305
+#&gt; 
+#&gt; $n_target_side_left
+#&gt; [1] 1083
+#&gt; 
+#&gt; $proportion_target_side_left
+#&gt; [1] 50.02309
+#&gt; 
+#&gt; $n_missing_erotic_trials
+#&gt; [1] 1134
+#&gt; 
+#&gt; $n_sessions_terminated
+#&gt; [1] 129
+#&gt; 
+#&gt; $proportion_sessions_terminated
+#&gt; [1] 5.95843
+#&gt; </div><div class='input'><span class='co'># }</span>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
