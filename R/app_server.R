@@ -8,9 +8,6 @@ app_server <- function( input, output, session ) {
   # Shiny app refresh rime
   refresh_time <- 30000
   
-  # Opening page
-  mod_welcome_server("welcome")
-  
   # # Read the raw data
   c(current, at_checkpoint, push_time) %<-% mod_read_data_server("read_data", refresh_time = refresh_time)
 

@@ -2,6 +2,10 @@
 #' 
 #' This is used for conversion of the results of the
 #' logistic regression to the probability scale.
+#' 
+#' @param logit numeric, the result of s logistic regression
+#' 
+#' @export
 logit2prob <- function(logit) {
   odds <- exp(logit)
   prob <- odds / (1 + odds)
@@ -13,6 +17,13 @@ logit2prob <- function(logit) {
 #' We use \code{\link[HDInterval]{hdi}} function in our
 #' analysis. The present helper function is needed for
 #' the Bayesian parameter estimation robustness test.
+#' 
+#' @param scale numeric, scale of the sample
+#' @param density numeric, density
+#' @param crit_width numeric, the critical width
+#' @param n_samples numeric, number of iteration
+#' 
+#' @export
 mode_HDI <- function(scale, density, crit_width = 0.95, n_samples = 1e5){
   samp <- sample(x = scale, size = n_samples, replace = TRUE, prob = density)
   hdi_result = HDInterval::hdi(samp, credMass = crit_width)
@@ -33,6 +44,11 @@ mode_HDI <- function(scale, density, crit_width = 0.95, n_samples = 1e5){
 #' For the confirmatory analysis plot the cumulative
 #' Bayes factors calculated with three priors needs
 #' to be smoothed to ease understanding.
+#' 
+#' @param x numeric, the x param
+#' @param y numeric, the y param
+#' 
+#' @export
 smoothie <- function(x, y) {
   fit <- smooth.spline(x, y, df = 80)
   

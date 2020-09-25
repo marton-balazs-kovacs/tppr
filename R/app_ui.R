@@ -11,7 +11,7 @@ app_ui <- function(request) {
       title = 
           div(id = "title-text", "Transparent Psi Project"),
       tabPanel("Welcome",
-               mod_welcome_ui("welcome")),
+               withMathJax(includeMarkdown(app_sys("app/www/intro.Rmd")))),
       tabPanel("Summary results",
                mod_summary_ui("summary")),
       tabPanel("Main confirmatory results",

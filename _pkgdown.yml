@@ -41,8 +41,13 @@ reference:
 - contents:
   - tell_checkpoint
   - sample_descriptives
+  - sample_descriptives_current
 - title: Helpers
   desc: Not-standalone functions that are used in the analysis
+- contents:
+  - logit2prob
+  - mode_HDI
+  - smoothie
 - title: Inferences
   desc: Functions to draw inferences based on the results
 - contents:
@@ -60,3 +65,7 @@ reference:
   - restrictedAlt_beta
   - margLike_beta
   - BF01_beta
+- title: App helpers
+  desc:: Non-standalone functions used in the app
+- contents:
+  - text_helper_current_general

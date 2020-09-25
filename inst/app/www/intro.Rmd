@@ -1,5 +1,5 @@
 ---
-title: ""
+title: "&nbsp;"
 output: html_document
 ---
 
@@ -18,7 +18,7 @@ that you can see [here](https://github.com/gyopak/transparent-psi-results). When
 data point through a push event, a Github webhook sends a POST request with the information about the push event
 to an API running on Google Cloud Run. The API contains the calculation functions from the R package developed
 for this project ([see](https://marton-balazs-kovacs.github.io/tppr/)), and runs the calculation on the new data.
-After the API finished the analyses it pushes the results to another repository ([see](http://corndog.io/)). The
+After the API finished the analyses it pushes the results to another repository ([see](https://github.com/marton-balazs-kovacs/tppr_results)). The
 present application reads the results from that repository in every 5 minutes.
 
 ## Questions and comments

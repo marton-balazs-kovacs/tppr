@@ -1,0 +1,12 @@
+name: tppr_demo
+title: tppr_demo
+username:
+account: martonbalazskovacs
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2888717
+bundleId: 3670923
+url: https://martonbalazskovacs.shinyapps.io/tppr_demo/
+when: 1601051984.17085
+asMultiple: FALSE
+asStatic: FALSE
