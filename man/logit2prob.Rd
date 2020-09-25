@@ -6,6 +6,9 @@
 \usage{
 logit2prob(logit)
 }
+\arguments{
+\item{logit}{numeric, the result of s logistic regression}
+}
 \description{
 This is used for conversion of the results of the
 logistic regression to the probability scale.

@@ -6,6 +6,11 @@
 \usage{
 smoothie(x, y)
 }
+\arguments{
+\item{x}{numeric, the x param}
+
+\item{y}{numeric, the y param}
+}
 \description{
 For the confirmatory analysis plot the cumulative
 Bayes factors calculated with three priors needs

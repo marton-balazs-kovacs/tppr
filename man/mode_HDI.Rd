@@ -6,6 +6,15 @@
 \usage{
 mode_HDI(scale, density, crit_width = 0.95, n_samples = 1e+05)
 }
+\arguments{
+\item{scale}{numeric, scale of the sample}
+
+\item{density}{numeric, density}
+
+\item{crit_width}{numeric, the critical width}
+
+\item{n_samples}{numeric, number of iteration}
+}
 \description{
 We use \code{\link[HDInterval]{hdi}} function in our
 analysis. The present helper function is needed for
