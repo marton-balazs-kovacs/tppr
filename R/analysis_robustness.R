@@ -10,7 +10,7 @@
 #' @return The function returns a list of three, the p-value of the
 #' equivalence test, the p-value of the equality test, and the inference 
 #' \code{\link{inference_robustness_nhst}} made based on the values
-#' and alpha `r analysis_param$inference_threshold_nhst`.
+#' and alpha determined in `r analysis_param$inference_threshold_nhst`.
 #' @export
 robustness_nhst_analysis <- function(success, total_n) {
   # Equivalence test  ---------------------------
@@ -98,41 +98,33 @@ robustness_bf_analysis <- function(success, total_n) {
 #' @section Note: Robustness analysis results will not affect
 #'   the conclusions of our study.
 #'   
-#' @param confirmatory_results tibble, output of the \code{\link{analysis_confirmatory}} function
+#' @param confirmatory_results list, output of the \code{\link{analysis_confirmatory}} function
 #' 
 #' @return The function returns a list containing the results
 #' of the frequentist proportion test and the Bayesian parameter estimation
 #' as nested lists, the final inference of the robustness test as a character
-#' vector, and the results of the ,
+#' vector, and the results of the confirmatory mixed effect regression \code{\link{confirmatory_mixed_effect}}.
 #' 
 #' @export
 #' @examples 
 #' \donttest{
 #' # Running the primary confirmatory analysis
-#' confirmatory_results <- analysis_confirmatory(raw_data = example_m0)
+#' confirmatory_results <- analysis_confirmatory(df = example_m0)
 #' # Running the robustness analysis
-#' analysis_robustness(confirmatory_result = confirmatory_results)
+#' analysis_robustness(confirmatory_results = confirmatory_results)
 #' }
 analysis_robustness <- function(confirmatory_results) {
-  # Process input argument ---------------------------
-  # Extract the results at the last checkpoint
-  confirmatory_results_last <- 
-    confirmatory_results %>% 
-    dplyr::slice_max(n_iteration) %>% 
-    dplyr::select(inference, success, total_n, mixed_effect_res) %>% 
-    tidyr::unnest_wider(mixed_effect_res)
-  
   # Robustness test of BF results with NHST ---------------------------
-  robustness_nhst_res <- robustness_nhst_analysis(success = confirmatory_results_last$success,
-                                                  total_n = confirmatory_results_last$total_n)
+  robustness_nhst_res <- robustness_nhst_analysis(success = confirmatory_results$success,
+                                                  total_n = confirmatory_results$total_n)
   
   # Robustness test of BF results with Bayesian parameter estimation ---------------------------
-  robustness_bayes_res <- robustness_bf_analysis(success = confirmatory_results_last$success,
-                                                 total_n = confirmatory_results_last$total_n)
+  robustness_bayes_res <- robustness_bf_analysis(success = confirmatory_results$success,
+                                                 total_n = confirmatory_results$total_n)
   
   # Combined robustness test ---------------------------
   robustness_inference <- 
-    inference_robustness_combined(confirmatory_analysis_inference = confirmatory_results_last$inference,
+    inference_robustness_combined(confirmatory_analysis_inference = confirmatory_results$inference,
                                   inference_robustness_nhst = robustness_nhst_res$inference_robustness_nhst,
                                   inference_robustness_bayes_par_est = robustness_bayes_res$inference_robustness_bayes)
   
@@ -142,9 +134,9 @@ analysis_robustness <- function(confirmatory_results) {
       robustness_nhst_res = robustness_nhst_res,
       robustness_bayes_res = robustness_bayes_res,
       robustness_inference = robustness_inference,
-      confirmatory_mixed_ci_width = confirmatory_results_last$mixed_ci_width,
-      confirmatory_mixed_ci_l = confirmatory_results_last$mixed_ci_l,
-      confirmatory_mixed_ci_u = confirmatory_results_last$mixed_ci_u
+      confirmatory_mixed_ci_width = confirmatory_results$mixed_effect_res$mixed_ci_width,
+      confirmatory_mixed_ci_l = confirmatory_results$mixed_effect_res$mixed_ci_l,
+      confirmatory_mixed_ci_u = confirmatory_results$mixed_effect_res$mixed_ci_u
     )
   )
 }

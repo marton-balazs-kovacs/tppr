@@ -45,7 +45,7 @@ mod_footer_server <- function(id, push_time, refresh_time, current, at_checkpoin
         if (at_checkpoint()$confiramtory_inference %in% c("Ongoing", "Inconclusive")) {
           text_helper_warning(checkpoint_next = current()$checkpoint$next_checkpoint)
         } else if (at_checkpoint()$confiramtory_inference %in% c("M1", "M0")) {
-          "The datacollection stopped, therefore the results at the lastly \\
+          "The datacollection stopped, therefore the results at the lastly \
     analysed checkpoint show the final results of the project." 
         }
       }

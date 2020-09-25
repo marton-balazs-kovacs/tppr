@@ -2,10 +2,42 @@
 % Please edit documentation in R/fct_bf_calculation_helpers.R
 \name{fullAlt_beta}
 \alias{fullAlt_beta}
-\title{Full alt beta}
+\alias{normalize_beta}
+\alias{restrictedAlt_beta}
+\alias{margLike_beta}
+\alias{BF01_beta}
+\title{Functions for Bayes factor calculation using beta prior}
 \usage{
 fullAlt_beta(p, y, N, alpha, beta)
+
+normalize_beta(alpha, beta, interval)
+
+restrictedAlt_beta(p, y, N, y_prior, N_prior, interval)
+
+margLike_beta(y, N, y_prior, N_prior, interval)
+
+BF01_beta(y, N, y_prior, N_prior, interval, null_prob)
+}
+\arguments{
+\item{p}{numeric, to be added}
+
+\item{y}{numeric, to be added}
+
+\item{N}{numeric, to be added}
+
+\item{alpha}{numeric, to be added}
+
+\item{beta}{numeric, to be added}
+
+\item{interval}{numeric, to be added}
+
+\item{y_prior}{numeric, to be added}
+
+\item{N_prior}{numeric, to be added}
 }
 \description{
-Full alt beta
+These functions are required to run the Bayes factor analysis.
+The custom code is necessary because we use beta priors, and
+the BayesFactor package by default does not have built in beta priors.
+We thank Richard Morey for his help in developing these functions!
 }

@@ -16,14 +16,16 @@ mod_summary_ui <- function(id){
       textOutput(NS(id, "current_general")),
       h3("Summary results at the latest checkpoint", class = "summary-title"),
       textOutput(NS(id, "checkpoint_general")),
-      class = "summary-panel"),
+      class = "summary-panel",
+      id = "#summary"),
     wellPanel(
       h2("Inferences", class = "summary-title"),
       h3("Current inferences", class = "summary-title"),
       textOutput(NS(id, "current_inference")),
       h3("Inferences at the latest checkpoint", class = "summary-title"),
       textOutput(NS(id, "checkpoint_inference")),
-      class = "summary-panel"),
+      class = "summary-panel",
+      id = "#inference"),
     mod_footer_ui(NS(id, "footer"))
   )
 }
@@ -46,9 +48,9 @@ mod_summary_server <- function(id, current, at_checkpoint, push_time, refresh_ti
                    This result will only be presented after the first checkpoint.",
                    n_first = tppr::analysis_params$when_to_check[1],
                    n_needed = n_first - current()$descriptive$total_n)
-      } else {
-        text_helper_checkpoint_general(at_checkpoint()$descriptive, at_checkpoint()$robustness_bayes)
-      }
+        } else {
+          text_helper_checkpoint_general(at_checkpoint()$descriptive, at_checkpoint()$robustness_bayes)
+          }
     })
     
     # Inference current ---------------------------
@@ -71,11 +73,7 @@ mod_summary_server <- function(id, current, at_checkpoint, push_time, refresh_ti
                    n_first = tppr::analysis_params$when_to_check[1],
                    n_needed = n_first - current()$descriptive$total_n)
       } else {
-        # checkpoint_inference_confirmatory <- inference_confirmatory_combined(at_checkpoint$confirmatory_mixed$n_iteration,
-        #                                                                      at_checkpoint$confirmatory_mixed$mixed_nhst_inference,
-        #                                                                      at_checkpoint$confirmatory_bayes$bf_inference)
         text_helper_checkpoint_confirmatory(at_checkpoint()$confiramtory_inference)
-        # text_helper_checkpoint_robustness()
       }
     })
     

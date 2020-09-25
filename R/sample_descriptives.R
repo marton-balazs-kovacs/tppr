@@ -214,6 +214,7 @@ sample_descriptives <- function(raw_data, which_checkpoint = NA_integer_) {
     dplyr::filter(finished == 0L) %>% 
     dplyr::pull(prop)
   
+  # Return output ---------------------------
   return(
     tibble::lst(
       n_participants_started_session_total,
@@ -243,9 +244,13 @@ sample_descriptives <- function(raw_data, which_checkpoint = NA_integer_) {
 }
 #' Current descriptive
 #' 
-#' description
+#' This function calculates the most important descriptive statistics
+#' for all the collected trials. The function is made to be used
+#' in the \emph{tppr} Shiny app mostly.
 #' 
 #' @param processed_data dataframe, containing only the erotic trials
+#' 
+#' @return The function returns a list of descriptive statistics.
 #' 
 #' @export
 sample_descriptives_current <- function(processed_data) {
@@ -270,6 +275,7 @@ sample_descriptives_current <- function(processed_data) {
   # Guesses
   prop_success <- round(mean(processed_data$sides_match), 4) * 100
   
+  # Return output ---------------------------
   return(
     tibble::lst(
       total_n,

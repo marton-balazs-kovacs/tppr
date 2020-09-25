@@ -324,7 +324,7 @@ generate_example_data <- function(num_sim = 6000, erotic_trial_size_per_particip
     generate_session(n_iteration, erotic_trial_size_per_participant, m0_prob, m1_prob, esp_user_percentage, chance_for_refuse_consent, chance_for_stopping_session)
   }
   
-  pb <- progress_estimated(num_sim)
+  pb <- dplyr::progress_estimated(num_sim)
   
   # Generate example data ---------------------------
   n_iteration <- seq_along(1:num_sim)

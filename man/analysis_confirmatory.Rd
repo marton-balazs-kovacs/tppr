@@ -7,17 +7,14 @@
 analysis_confirmatory(df)
 }
 \arguments{
-\item{df}{dataframe, the input dataframes}
+\item{df}{dataframe, the input dataframe}
 }
 \value{
-The output is a dataframe containing the inputs, the results
-  of the four analysis, and the inferences at each checking point until
-  an inference supporting the M0 or M1 model is reached or until the
-  last checking point.
-  The list of variables in the output dataframe:
+The output is a list containing the inputs, the results
+  of the four analysis, and the inferences at the last checkpoint.
+  The list contains:
   \itemize{
-  \item checkpoint, integer,the number of investigated erotic trials at a given checkpoint
-  \item split_data, df, the input dataframe until with trials from 1 to the given checkpoint
+  \item highest_checkpoint, integer, the index of the investigated checkpoint
   \item success, integer, the number of successful guesses
   \item total_n, integer, the number of erotic trials
   \item n_iteration, integer, the number of iteration (see \code{\link{confirmatory_mixed_effect}})
@@ -25,20 +22,22 @@ The output is a dataframe containing the inputs, the results
     \item mixed_ci_width, numeric, width of the confidence interval
     \item mixed_ci_lb, numeric, lower limit of the confidence interval 5%
     \item mixed_ci_ub, numeric, upper limit of the confidence interval 95%
+    \item mixed_nhst_inference, character, inference based on the result
   \item bf_res, df, the results of the three Bayes factor analysis
     \item bf_replication, numeric, rounded Bf of analysis with prior based on Bem 2011 experiment 1 results
     \item bf_uniform, numeric, rounded Bf of analysis with uniform prior
     \item bf_buj, numeric, rounded Bf of analysis with BUJ prior
-  \item inference, character, the summarized inference
+    \item bf_inference, character, inference based on the three Bayes factors
+  \item inference, character, the summarized final inference
   }
 }
 \description{
 This function conducts the primary confirmatory analysis
-at each passed stopping point. In the analysis the mixed-effect logistic
+at the lastly passed checkpoint. In the analysis the mixed-effect logistic
 regression (see \code{\link{confirmatory_mixed_effect}}) and three Bayes factor
 analysis (see \code{\link{confirmatory_bayes_factor}}) are conducted.
-Inferences are made for the four tests separately and then summarized
-into the final inference of the primary analysis.
+Final inference is made based on the inferences of the four conducted
+analyses.
 }
 \examples{
 \donttest{

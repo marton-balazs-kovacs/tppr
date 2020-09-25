@@ -15,8 +15,14 @@ of trials in one column and the number of successful trials
 in the other column.
 }
 \description{
-This function calulates the number of trials and the
+This function calculates the number of trials and the
 number of successful trials cumulatively. If raw data
 are provided the function drops all the non-erotic
 trials (see \code{\link{clean_data}}).
+}
+\examples{
+\donttest{
+# Get total number of trials and success cumulatively
+cumulative_success_res <- cumulative_success(df = example_m0)
+}
 }

@@ -7,7 +7,7 @@
 analysis_exploratory(df)
 }
 \arguments{
-\item{df}{tibble}
+\item{df}{dataframe, the input dataframe}
 }
 \value{
 The function returns a list of three, the possible success

@@ -15,7 +15,7 @@ robustness_nhst_analysis(success, total_n)
 The function returns a list of three, the p-value of the
 equivalence test, the p-value of the equality test, and the inference 
 \code{\link{inference_robustness_nhst}} made based on the values
-and alpha `r analysis_param$inference_threshold_nhst`.
+and alpha determined in `r analysis_param$inference_threshold_nhst`.
 }
 \description{
 Robustness of Bf results is tested with NHST proportion tests.

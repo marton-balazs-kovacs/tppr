@@ -1,5 +1,5 @@
 ---
-title: "use_app"
+title: "Using the app"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{use_app}
@@ -14,8 +14,17 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(tppr)
+The `tppr` package can be used as a web application. The application real-time tracks the collected data for the project and summarises the results. You can check the deployed version of the app here:
+
+If you want to instead run the app locally from your computer, first you have to open R and install the `tppr` package with the following code:
+
+```{r, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("marton-balazs-kovacs/tppr")
 ```
 
-# Coming soon
+After the installation finishes, you can launch the app locally.
+
+```{r, eval = FALSE}
+tppr::run_app()
+```

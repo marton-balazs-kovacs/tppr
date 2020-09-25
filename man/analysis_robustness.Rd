@@ -7,13 +7,13 @@
 analysis_robustness(confirmatory_results)
 }
 \arguments{
-\item{confirmatory_results}{tibble, output of the \code{\link{analysis_confirmatory}} function}
+\item{confirmatory_results}{list, output of the \code{\link{analysis_confirmatory}} function}
 }
 \value{
 The function returns a list containing the results
 of the frequentist proportion test and the Bayesian parameter estimation
 as nested lists, the final inference of the robustness test as a character
-vector, and the results of the ,
+vector, and the results of the confirmatory mixed effect regression \code{\link{confirmatory_mixed_effect}}.
 }
 \description{
 Two alternative variants of the Bayesian proportion test in the primary
@@ -28,8 +28,8 @@ and full-Bayesian hypothesis testing using parameter estimation (see \code{\link
 \examples{
 \donttest{
 # Running the primary confirmatory analysis
-confirmatory_results <- analysis_confirmatory(raw_data = example_m0)
+confirmatory_results <- analysis_confirmatory(df = example_m0)
 # Running the robustness analysis
-analysis_robustness(confirmatory_result = confirmatory_results)
+analysis_robustness(confirmatory_results = confirmatory_results)
 }
 }

@@ -2,12 +2,33 @@
 % Please edit documentation in R/fct_text_output_helpers.R
 \name{text_helper_current_general}
 \alias{text_helper_current_general}
-\title{General current descriptive text}
+\alias{text_helper_current_confirmatory}
+\alias{text_helper_current_robustness}
+\alias{text_helper_checkpoint_general}
+\alias{text_helper_checkpoint_confirmatory}
+\alias{text_helper_stop}
+\alias{text_helper_warning}
+\title{Text helper functions}
 \usage{
 text_helper_current_general(sample_descriptives_current_res, robustness_bf_res)
+
+text_helper_current_confirmatory(bf_replication, bf_uniform, bf_buj)
+
+text_helper_current_robustness(
+  inference_confrimatory_bf,
+  inference_robustness_bf
+)
+
+text_helper_checkpoint_general(sample_descriptives_res, robustness_bf_res)
+
+text_helper_checkpoint_confirmatory(inference_confirmatory_checkpoint)
+
+text_helper_stop(checkpoint_next)
+
+text_helper_warning(checkpoint_next)
 }
 \description{
-This function creates a character string for
-the Shiny app. The text describes the general
-descriptive information about the study.
+The following functions help to produce the 
+interactive text outputs throughout the \emph{tppr}
+shiny app, based on the results of the analysis.
 }

@@ -10,9 +10,9 @@ cumulative_bayes_factor(df)
 \item{df}{dataframe, the input dataframe}
 }
 \value{
-The function returns a long formatted dataframe with
-the number of trials, the smoothed Bayes factors, and the type
-of the Bayes factors.
+The function returns a wide formatted dataframe with
+the number of trials, and the Bayes factors with the three different
+trials.
 }
 \description{
 This function calculates the cumulative Bayes factors
@@ -21,4 +21,10 @@ with three priors. The output of this function is used for
 can accept a dataframe that is already only containing the
 cumulative success variable \code{\link{cumulative_success}},
 or a raw dataframe.
+}
+\examples{
+\donttest{
+# Calculate the cumulative Bayes factors
+cumulative_results <- cumulative_bayes_factor(df = example_m0)
+}
 }

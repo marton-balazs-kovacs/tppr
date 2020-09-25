@@ -31,9 +31,9 @@ read_data <- function(type) {
   # Get links ---------------------------
   ## Get the names of the datafiles
   links <- switch(type,
-                  "live" = get_links("https://api.github.com/repos/gyopak/transparent-psi-results/contents/live_data"),
-                  "test" = get_links("https://api.github.com/repos/gyopak/transparent-psi-results/contents/test_data"),
-                  "pilot" = get_links("https://api.github.com/repos/gyopak/transparent-psi-results/contents/pilot_data"),
+                  "live" = get_links("https://api.github.com/repos/leventekobor94/transparent-psi-results/contents/live_data"),
+                  "test" = get_links("https://api.github.com/repos/leventekobor94/transparent-psi-results/contents/test_data"),
+                  "pilot" = get_links("https://api.github.com/repos/leventekobor94/transparent-psi-results/contents/pilot_data"),
                   stop("Invalid data type! Choose \"test\", \"pilot\" or \"live\""))
   
   ## Sort datafiles by file creation order starting with the oldest files
@@ -170,13 +170,13 @@ tell_checkpoint <- function(df) {
     current_checkpoint <- max(which(when_to_check < total_n))
     next_checkpoint <- min(which(when_to_check > total_n))
   } else if (max(when_to_check) < total_n) {
-    current_checkpoint <- which(max(when_to_check))
+    current_checkpoint <- which.max(when_to_check)
     next_checkpoint <- NA_integer_
   } else if (min(when_to_check) == total_n) {
-    current_checkpoint <- which(min(when_to_check))
+    current_checkpoint <- which(when_to_check == total_n)
     next_checkpoint <- min(which(when_to_check > total_n))
   } else if (max(when_to_check) == total_n) {
-    current_checkpoint <- which(max(when_to_check))
+    current_checkpoint <- which.max(when_to_check)
     next_checkpoint <- NA_integer_
   }
   
@@ -213,9 +213,11 @@ tell_checkpoint <- function(df) {
 #' The function also calculates the total number of erotic trials,
 #' and the total number of successful guesses for the each checkpoint.
 #' Finally, it saves the number of iterations that is needed for the
-#' correction of alpha for NHST tests.
+#' correction of alpha for NHST tests. The function can be used
+#' to prepare a dataframe to run the main confirmatory analysis
+#' on all the passed checkpoints iteratively.
 #' 
-#' @param processed_data, dataframe, df containing only erotic trials
+#' @param df dataframe, the input dataframe
 #' 
 #' @return The function returns a dataframe with the following structure:
 #'   \itemize{
@@ -233,27 +235,37 @@ tell_checkpoint <- function(df) {
 #' # Splitting data by checkpoints
 #' tpp_split_data <- split_data(processed_data = tpp_processed_data)
 #' }
-split_data <- function(processed_data) {
+split_data <- function(df) {
+  # Check whether the input df contains only erotic trials or not
+  if (!all(df$reward_type == "erotic")) {
+    df <- clean_data(raw_data = df)
+  }
+  
   # Get checkpoint information
-  highest_checkpoint <- tell_checkpoint(processed_data)$current_checkpoint
+  highest_checkpoint <- tell_checkpoint(df)$current_checkpoint
+  
+  if (is.na(highest_checkpoint)) {
+    stop("The number of trials are not exceeding the first stopping point.")
+  }
+  
   check_range <- tppr::analysis_params$when_to_check[1:highest_checkpoint]
   
   # Split data for sequential analysis
-  split_data <-
+  res <-
     tidyr::tibble(checkpoint = check_range) %>% 
     # Split the data according the checkpoints
-    dplyr::mutate(split_data = purrr::map(checkpoint, 
-                                          ~ dplyr::slice(processed_data, 1:.x)),
+    dplyr::mutate(splitted_data = purrr::map(checkpoint, 
+                                          ~ dplyr::slice(df, 1:.x)),
                   # Number of successful trials
-                  success = purrr::map_dbl(split_data,
+                  success = purrr::map_dbl(splitted_data,
                                            ~ sum(as.logical(.x$sides_match), na.rm = T)),
                   # Number of trials
-                  total_n = purrr::map_int(split_data, nrow),
+                  total_n = purrr::map_int(splitted_data, nrow),
                   # This is a counter to count the number of tests conducted using the mixed model due to sequential testing.
                   n_iteration = 1:highest_checkpoint)
   
-  # Return output
+  # Return output ---------------------------
   return(
-    split_data
+    res
   )
 }

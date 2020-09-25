@@ -9,6 +9,11 @@ sample_descriptives_current(processed_data)
 \arguments{
 \item{processed_data}{dataframe, containing only the erotic trials}
 }
+\value{
+The function returns a list of descriptive statistics.
+}
 \description{
-description
+This function calculates the most important descriptive statistics
+for all the collected trials. The function is made to be used
+in the \emph{tppr} Shiny app mostly.
 }

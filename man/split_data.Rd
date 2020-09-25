@@ -4,10 +4,10 @@
 \alias{split_data}
 \title{Function to split data according to stopping points}
 \usage{
-split_data(processed_data)
+split_data(df)
 }
 \arguments{
-\item{processed_data, }{dataframe, df containing only erotic trials}
+\item{df}{dataframe, the input dataframe}
 }
 \value{
 The function returns a dataframe with the following structure:
@@ -25,7 +25,9 @@ that is passed and saves the result to a list of dataframes.
 The function also calculates the total number of erotic trials,
 and the total number of successful guesses for the each checkpoint.
 Finally, it saves the number of iterations that is needed for the
-correction of alpha for NHST tests.
+correction of alpha for NHST tests. The function can be used
+to prepare a dataframe to run the main confirmatory analysis
+on all the passed checkpoints iteratively.
 }
 \examples{
 \donttest{

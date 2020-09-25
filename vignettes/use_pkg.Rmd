@@ -33,10 +33,10 @@ library(tppr)
 
 The analysis depends on preset parameters that are saved as a list of values in the analysis_params datafile. This datafile is part of the package. If you want to know more about the default analysis parameters check `?tppr::analysis_params`.
 
-You can load the analysis parameters datafile in the current workspace.
+After installing and loading the package the analysis parameters datafile can be called directly. You can check out the names of the parameters in the following way.
 
 ```{r}
-# data(analysis_params)
+names(tppr::analysis_params)
 ```
 
 You can also modify the parameters after loading.
@@ -44,13 +44,13 @@ You can also modify the parameters after loading.
 Getting the probability of M0:
 
 ```{r}
-# analysis_params$m0_prob
+tppr::analysis_params$m0_prob
 ```
 
 Changing the value:
  
 ```{r, eval = FALSE}
-# analysis_params$m0_prob <- 0.53
+tppr::analysis_params$m0_prob <- 0.53
 ```
  
 # Import data
@@ -70,20 +70,20 @@ In the following we show you how to load each type of data.
 
 The example datasets are included in the package. If you want to know more about the datasets you can use the `?tppr::exampl_m0` and the `?tppr::exampl_m1` functions to read the documentation.
 
-```{r}
+```{r, eval = FALSE}
 # To load the dataset where M0 is simulated to be true
-# data(example_m0)
+tppr::example_m0
 
 # To load the dataset where M1 is simulated to be true
-# data(example_m1)
+tppr::example_m1
 ```
 
 ## Generate example dataset
 
-It is also possible to generate your own example dataset.
+It is also possible to generate your own example dataset. Generating the example dataset can take a few minutes. If you call the function without parameters it will use the preset parameters that correspond to the analysis parameters of the paper.
 
 ```{r, eval = FALSE}
-# my_tppr_data <- generate_example_data()
+my_tppr_data <- generate_example_data()
 ```
 
 ## Collected datasets
@@ -97,7 +97,7 @@ There are three types of collected data:
 
 ```{r}
 # Read live data
-tpp_raw_data <- read_data(type = "live")
+tpp_raw_data <- tppr::read_data(type = "live")
 
 # For testing purposes we will use the example_m0 dataset from now on
 tpp_raw_data <- tppr::example_m0
@@ -107,20 +107,26 @@ tpp_raw_data <- tppr::example_m0
 
 After reading the raw data that contains all the trials during data cleaning the empty trials are excluded and only the erotic trials are kept.
 
-However, this step is included in the primary confirmatory analysis function `analysis_confirmatory`, therefore you do not have to run it separately.
+However, this step is included in the primary confirmatory analysis function `tppr::analysis_confirmatory`, therefore you do not have to run it separately.
 
 ```{r}
-tpp_processed_data <- clean_data(raw_data = tpp_raw_data)
+tpp_processed_data <- tppr::clean_data(raw_data = tpp_raw_data)
 ```
 
 # Calculate study descriptives
 
 All the descriptive results of the study can be calculated with the `?tppr::sample_descriptives` function. The function returns a list of the descriptive results that can be later used to populate the research paper.
 
-The function runs at the latest passed checkpoint, unless it is indicated differently in the which_checkpoint argument.
+The function runs at the latest passed checkpoint, unless it is indicated differently in the which_checkpoint argument. If none of the checkpoints are passed the function throws an error.
 
-```{r}
-# descriptive_results <- sample_descriptives(raw_data = tpp_raw_data, which_checkpoint = NA_integer_)
+```{r, eval = FALSE}
+tppr::sample_descriptives(raw_data = tpp_raw_data, which_checkpoint = NA_integer_)
+```
+
+In case you want to see the descriptive results for all the collected trials regardless of a checkpoint you should use the following function.
+
+```{r, eval = FALSE}
+tppr::sample_descriptives_current(processed_data = tpp_processed_data)
 ```
 
 # Checking the current and the next checkpoint
@@ -128,7 +134,7 @@ The function runs at the latest passed checkpoint, unless it is indicated differ
 To get information about the currently passed checking point based on the number of trials (either all trials or only the erotic trials) the `?tppr::tell_checkpoint` function can be be used.
 
 ```{r}
-checkpoint <- tell_checkpoint(df = tpp_processed_data)
+checkpoint <- tppr::tell_checkpoint(df = tpp_processed_data)
 ```
 
 The number of valid erotic trials:
@@ -156,48 +162,70 @@ checkpoint$last_row
 ```
 
 # Run the primary confirmatory analysis
-## The structure of the analysis
 
-First, the primary confirmatory analysis splits the data at each passed checking point and saves the results into a list of dataframes. This step can be done separately with the `tppr::split_data` function.
-
-```{r}
-# tpp_split_data <- split_data(processed_data = tpp_processed_data)
-```
-
-Second, the code iterates trough the splitted dataframes and calculates the mixed-effects logistic regression and Bayes factors with three different priors.
+The primary confirmatory analysis consist of a mixed-effects logistic regression and Bayes factors with three different priors.
 
 These calculations can be run separately.
 * Mixed-effects logistic regression: `?tppr::confirmatory_mixed_effect`
 * Bayes factor with three different priors: `?tppr:confirmatory_bayes_factor`
 
-Third, based on the results of the 4 primary analysis the function makes an inference at each stopping point.
+Based on the results of the 4 primary analysis the `tppr::inference_confirmatory_combined` function makes an inference.
 * M1: If all the four analysis supports the M1 model
 * M0: If all the four analysis supports the M0 model
 * Ongoing: If the four analysis do not support the same model and the last checking point is not reached
 * Inconclusive: If the four analysis do not support the same model and the last checking point is reached
 
-The primary analysis function will run all these subfunctions and return the result as a dataframe.
-
-To run the primary analysis function run the following code on the processed data:
+All of the above describe functionality is included in the `tppr::analysis_confirmatory` function. This function will run all these subfunctions and return the result as a list.
 
 ```{r}
-# confirmatory_results <- analysis_confirmatory(raw_data = tpp_raw_data)
+confirmatory_results <- tppr::analysis_confirmatory(df = tpp_raw_data)
+```
+
+__Note: To run the primary analysis the number of processed trials have to pass at least the first checkpoint.__
+
+## Running the confirmatory analysis at multiple checkpoints
+
+If multiple checkpoint are passed and you want to run the primary confirmatory analysis iteratively for each checkpoint you first have to prepare the data with the `tppr::split_data` function.
+
+This function splits the data at each passed checking point and saves the results into a list of dataframes. The function also calculates the necessary summary statistics for the mixed-effects logistic regression and the Bayes factor analyses.
+
+```{r}
+tpp_split_data <- split_data(df = tpp_raw_data)
+```
+
+Second, you can iterate through the confirmatory analysis at the list of dataframes to get the results and the final inference at each checking point.
+
+__Note: If the primary confirmatory analysis is calculated at multiple checkpoints this calculation can take a few minutes.__
+
+```{r, eval = FALSE}
+tpp_split_data %>% 
+  dplyr::mutate(confirmatory_res = purrr::map(splitted_data, tppr::analysis_confirmatory))
 ```
 
 ## Calculate the cumulative Bayes factor
 
 For the primary analysis plot we have to calculate the cumulative Bayes factors with the three priors for every trial.
 
+We can calculate the number of successful guesses for each trial separately with the `?tppr::cumulative_success` function.
+
+```{r, eval = FALSE}
+tppr::cumulative_success(df = tpp_raw_data)
+```
+
+However, if we provide the raw dataset to the `tppr::cumulative_bayes_factor` function, the function automatically cleans the dataset, and calculates the number of successful guesses. In addition, it calculates the Bayes factors for each number of trials, number of successes pair.
+
+__Note: If there are a lot of trials calculating the Bayes factors can take a few minutes.__
+
 ```{r}
-cumulative_results <- cumulative_bayes_factor(df = tpp_raw_data)
+cumulative_results <- tppr::cumulative_bayes_factor(df = tpp_raw_data)
 ```
 
 ## Visualise the result
 
-To visualize the results of the primary confirmatory analysis the `?tppr::plot_confrimatory` can be used.
+To visualize the results of the primary confirmatory analysis the `?tppr::plot_confrimatory` can be used. You can decide whether to output an interactive plot made with the `plotly` package, or a simple `ggplot2` plot.
 
 ```{r}
-# plot_confirmatory(cumulative_results = cumulative_results)
+tppr::plot_confirmatory(cumulative_results = cumulative_results, animated = TRUE)
 ```
 
 # Run the robustness analysis
@@ -211,24 +239,35 @@ By default, the `analysis_robustness` and the `analysis_exploratory` functions e
 We could run the robustness analysis with the following code on the last row of the primary analysis results:
 
 ```{r}
-# robustness_results <- analysis_robustness(confirmatory_results = confirmatory_results)
+robustness_results <- tppr::analysis_robustness(confirmatory_results = confirmatory_results)
 ```
 
 ## Visualise the result
 
+When visualizing the results of the robustness analysis you can decide whether to include the confidence interval of the mixed logistic regression or not. Using `include_nhst = TRUE` means that the confidence interval will be present on the plot.
+
 ```{r}
-# plot_robustness(posterior_density, hdi_mode, hdi_l, hdi_u, mixed_ci_width, mixed_ci_l, mixed_ci_u)
+tppr::plot_robustness(posterior_density = robustness_results$robustness_bayes_res$posterior_density,
+                      hdi_mode = robustness_results$robustness_bayes_res$hdi_mode,
+                      hdi_l = robustness_results$robustness_bayes_res$hdi_l,
+                      hdi_u = robustness_results$robustness_bayes_res$hdi_u,
+                      mixed_ci_width = robustness_results$confirmatory_mixed_ci_width,
+                      mixed_ci_l = robustness_results$confirmatory_mixed_ci_l,
+                      mixed_ci_u = robustness_results$confirmatory_mixed_ci_u,
+                      include_nhst = TRUE)
 ```
 
 # Run the exploratory analysis
 
 ```{r}
-# exploratory_results <- analysis_exploratory(df = tpp_raw_data)
+exploratory_results <- tppr::analysis_exploratory(df = tpp_raw_data)
 ```
 
 ## Visualize the results
 
 ```{r}
-# plot_exploratory(success_rates_theoretical_prop, success_rates_empirical_prop, possible_success_rates)
+tppr::plot_exploratory(success_rates_theoretical_prop = exploratory_results$success_rates_theoretical_prop,
+                       success_rates_empirical_prop = exploratory_results$success_rates_empirical_prop,
+                       possible_success_rates = exploratory_results$possible_success_rates)
 ```
 

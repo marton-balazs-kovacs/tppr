@@ -81,13 +81,10 @@ confirmatory_mixed_effect <- function(processed_data, n_iteration = 1) {
 #' @examples
 #' \donttest{
 #' # Including only erotic trials
-#' tpp_processed_data <- clean_data(raw_data = example_m0)
+#' tpp_processed_data <- clean_data(raw_data = tppr::example_m0)
 #' # Running the confirmatory analysis
-#' bayes_factor_result <- 
-#'   confirmatory_bayes_factor(success = sum(tpp_processed_data$sides_match, na.rm = TRUE),
-#'                             total_n = nrow(tpp_processed_data))
-#' # Checking the results
-#' bayes_factor_results
+#' confirmatory_bayes_factor(success = sum(tpp_processed_data$sides_match, na.rm = TRUE),
+#'                           total_n = nrow(tpp_processed_data))
 #' }
 confirmatory_bayes_factor <- function(success, total_n) {
   # Replication prior  ---------------------------
