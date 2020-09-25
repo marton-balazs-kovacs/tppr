@@ -84,12 +84,6 @@ The function uses the following checking points: (`r analysis_params$when_to_che
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -100,7 +94,7 @@ The function uses the following checking points: (`r analysis_params$when_to_che
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/use_app.html">use_app</a>
+      <a href="../articles/use_app.html">Using the app</a>
     </li>
     <li>
       <a href="../articles/use_pkg.html">Using the package</a>
@@ -142,7 +136,7 @@ the function drops all the non-erotic trials (see <code><a href='clean_data.html
 The function uses the following checking points: (`r analysis_params$when_to_check`).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tell_checkpoint</span>(<span class='kw'>df</span>)</pre>
+    <pre class="usage"><span class='fu'>tell_checkpoint</span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,9 +156,9 @@ next checkpoint, the row_counter of the last row.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># Including only erotic trials</span>
-<span class='kw'>tpp_processed_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='clean_data.html'>clean_data</a></span>(raw_data = <span class='kw'>example_m0</span>)
+<span class='va'>tpp_processed_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='clean_data.html'>clean_data</a></span><span class='op'>(</span>raw_data <span class='op'>=</span> <span class='va'>example_m0</span><span class='op'>)</span>
 <span class='co'># Get checkpoint</span>
-<span class='fu'>tell_checkpoint</span>(df = <span class='kw'>tpp_processed_data</span>)
+<span class='fu'>tell_checkpoint</span><span class='op'>(</span>df <span class='op'>=</span> <span class='va'>tpp_processed_data</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $total_n
 #&gt; [1] 51457
 #&gt; 

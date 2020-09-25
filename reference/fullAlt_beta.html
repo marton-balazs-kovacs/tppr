@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Full alt beta — fullAlt_beta • tppr</title>
+<title>Functions for Bayes factor calculation using beta prior — fullAlt_beta • tppr</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,11 @@
 
 
 
-<meta property="og:title" content="Full alt beta — fullAlt_beta" />
-<meta property="og:description" content="Full alt beta" />
+<meta property="og:title" content="Functions for Bayes factor calculation using beta prior — fullAlt_beta" />
+<meta property="og:description" content="These functions are required to run the Bayes factor analysis.
+The custom code is necessary because we use beta priors, and
+the BayesFactor package by default does not have built in beta priors.
+We thank Richard Morey for his help in developing these functions!" />
 
 
 
@@ -79,12 +82,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -95,7 +92,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/use_app.html">use_app</a>
+      <a href="../articles/use_app.html">Using the app</a>
     </li>
     <li>
       <a href="../articles/use_pkg.html">Using the package</a>
@@ -123,17 +120,64 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Full alt beta</h1>
+    <h1>Functions for Bayes factor calculation using beta prior</h1>
     <small class="dont-index">Source: <a href='https://github.com/marton-balazs-kovacs/tppr/blob/master/R/fct_bf_calculation_helpers.R'><code>R/fct_bf_calculation_helpers.R</code></a></small>
     <div class="hidden name"><code>fullAlt_beta.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Full alt beta</p>
+    <p>These functions are required to run the Bayes factor analysis.
+The custom code is necessary because we use beta priors, and
+the BayesFactor package by default does not have built in beta priors.
+We thank Richard Morey for his help in developing these functions!</p>
     </div>
 
-    <pre class="usage"><span class='fu'>fullAlt_beta</span>(<span class='kw'>p</span>, <span class='kw'>y</span>, <span class='kw'>N</span>, <span class='kw'>alpha</span>, <span class='kw'>beta</span>)</pre>
+    <pre class="usage"><span class='fu'>fullAlt_beta</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>y</span>, <span class='va'>N</span>, <span class='va'>alpha</span>, <span class='va'>beta</span><span class='op'>)</span>
 
+<span class='fu'>normalize_beta</span><span class='op'>(</span><span class='va'>alpha</span>, <span class='va'>beta</span>, <span class='va'>interval</span><span class='op'>)</span>
+
+<span class='fu'>restrictedAlt_beta</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>y</span>, <span class='va'>N</span>, <span class='va'>y_prior</span>, <span class='va'>N_prior</span>, <span class='va'>interval</span><span class='op'>)</span>
+
+<span class='fu'>margLike_beta</span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>N</span>, <span class='va'>y_prior</span>, <span class='va'>N_prior</span>, <span class='va'>interval</span><span class='op'>)</span>
+
+<span class='fu'>BF01_beta</span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>N</span>, <span class='va'>y_prior</span>, <span class='va'>N_prior</span>, <span class='va'>interval</span>, <span class='va'>null_prob</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>p</th>
+      <td><p>numeric, to be added</p></td>
+    </tr>
+    <tr>
+      <th>y</th>
+      <td><p>numeric, to be added</p></td>
+    </tr>
+    <tr>
+      <th>N</th>
+      <td><p>numeric, to be added</p></td>
+    </tr>
+    <tr>
+      <th>alpha</th>
+      <td><p>numeric, to be added</p></td>
+    </tr>
+    <tr>
+      <th>beta</th>
+      <td><p>numeric, to be added</p></td>
+    </tr>
+    <tr>
+      <th>interval</th>
+      <td><p>numeric, to be added</p></td>
+    </tr>
+    <tr>
+      <th>y_prior</th>
+      <td><p>numeric, to be added</p></td>
+    </tr>
+    <tr>
+      <th>N_prior</th>
+      <td><p>numeric, to be added</p></td>
+    </tr>
+    </table>
 
 
   </div>

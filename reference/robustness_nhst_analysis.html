@@ -81,12 +81,6 @@ an equality test to draw statistical inference." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -97,7 +91,7 @@ an equality test to draw statistical inference." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/use_app.html">use_app</a>
+      <a href="../articles/use_app.html">Using the app</a>
     </li>
     <li>
       <a href="../articles/use_pkg.html">Using the package</a>
@@ -136,7 +130,7 @@ In this function we perform both an equivalence test and
 an equality test to draw statistical inference.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>robustness_nhst_analysis</span>(<span class='kw'>success</span>, <span class='kw'>total_n</span>)</pre>
+    <pre class="usage"><span class='fu'>robustness_nhst_analysis</span><span class='op'>(</span><span class='va'>success</span>, <span class='va'>total_n</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,7 +150,7 @@ an equality test to draw statistical inference.</p>
     <p>The function returns a list of three, the p-value of the
 equivalence test, the p-value of the equality test, and the inference 
 <code><a href='inference_robustness_nhst.html'>inference_robustness_nhst</a></code> made based on the values
-and alpha `r analysis_param$inference_threshold_nhst`.</p>
+and alpha determined in `r analysis_param$inference_threshold_nhst`.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -84,12 +84,6 @@ or a raw dataframe." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -100,7 +94,7 @@ or a raw dataframe." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/use_app.html">use_app</a>
+      <a href="../articles/use_app.html">Using the app</a>
     </li>
     <li>
       <a href="../articles/use_pkg.html">Using the package</a>
@@ -142,7 +136,7 @@ cumulative success variable <code><a href='cumulative_success.html'>cumulative_s
 or a raw dataframe.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cumulative_bayes_factor</span>(<span class='kw'>df</span>)</pre>
+    <pre class="usage"><span class='fu'>cumulative_bayes_factor</span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,10 +149,16 @@ or a raw dataframe.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The function returns a long formatted dataframe with
-the number of trials, the smoothed Bayes factors, and the type
-of the Bayes factors.</p>
+    <p>The function returns a wide formatted dataframe with
+the number of trials, and the Bayes factors with the three different
+trials.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='co'># Calculate the cumulative Bayes factors</span>
+<span class='va'>cumulative_results</span> <span class='op'>&lt;-</span> <span class='fu'>cumulative_bayes_factor</span><span class='op'>(</span>df <span class='op'>=</span> <span class='va'>example_m0</span><span class='op'>)</span>
+<span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

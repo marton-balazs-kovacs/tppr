@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>General current descriptive text — text_helper_current_general • tppr</title>
+<title>Text helper functions — text_helper_current_general • tppr</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,10 @@
 
 
 
-<meta property="og:title" content="General current descriptive text — text_helper_current_general" />
-<meta property="og:description" content="This function creates a character string for
-the Shiny app. The text describes the general
-descriptive information about the study." />
+<meta property="og:title" content="Text helper functions — text_helper_current_general" />
+<meta property="og:description" content="The following functions help to produce the 
+interactive text outputs throughout the tppr
+shiny app, based on the results of the analysis." />
 
 
 
@@ -81,12 +81,6 @@ descriptive information about the study." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -97,7 +91,7 @@ descriptive information about the study." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/use_app.html">use_app</a>
+      <a href="../articles/use_app.html">Using the app</a>
     </li>
     <li>
       <a href="../articles/use_pkg.html">Using the package</a>
@@ -125,18 +119,33 @@ descriptive information about the study." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>General current descriptive text</h1>
+    <h1>Text helper functions</h1>
     <small class="dont-index">Source: <a href='https://github.com/marton-balazs-kovacs/tppr/blob/master/R/fct_text_output_helpers.R'><code>R/fct_text_output_helpers.R</code></a></small>
     <div class="hidden name"><code>text_helper_current_general.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function creates a character string for
-the Shiny app. The text describes the general
-descriptive information about the study.</p>
+    <p>The following functions help to produce the 
+interactive text outputs throughout the <em>tppr</em>
+shiny app, based on the results of the analysis.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>text_helper_current_general</span>(<span class='kw'>sample_descriptives_current_res</span>, <span class='kw'>robustness_bf_res</span>)</pre>
+    <pre class="usage"><span class='fu'>text_helper_current_general</span><span class='op'>(</span><span class='va'>sample_descriptives_current_res</span>, <span class='va'>robustness_bf_res</span><span class='op'>)</span>
+
+<span class='fu'>text_helper_current_confirmatory</span><span class='op'>(</span><span class='va'>bf_replication</span>, <span class='va'>bf_uniform</span>, <span class='va'>bf_buj</span><span class='op'>)</span>
+
+<span class='fu'>text_helper_current_robustness</span><span class='op'>(</span>
+  <span class='va'>inference_confrimatory_bf</span>,
+  <span class='va'>inference_robustness_bf</span>
+<span class='op'>)</span>
+
+<span class='fu'>text_helper_checkpoint_general</span><span class='op'>(</span><span class='va'>sample_descriptives_res</span>, <span class='va'>robustness_bf_res</span><span class='op'>)</span>
+
+<span class='fu'>text_helper_checkpoint_confirmatory</span><span class='op'>(</span><span class='va'>inference_confirmatory_checkpoint</span><span class='op'>)</span>
+
+<span class='fu'>text_helper_stop</span><span class='op'>(</span><span class='va'>checkpoint_next</span><span class='op'>)</span>
+
+<span class='fu'>text_helper_warning</span><span class='op'>(</span><span class='va'>checkpoint_next</span><span class='op'>)</span></pre>
 
 
 

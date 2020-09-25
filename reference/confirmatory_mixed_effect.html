@@ -83,12 +83,6 @@ ratio of success and transforms it to logit probability." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -99,7 +93,7 @@ ratio of success and transforms it to logit probability." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/use_app.html">use_app</a>
+      <a href="../articles/use_app.html">Using the app</a>
     </li>
     <li>
       <a href="../articles/use_pkg.html">Using the package</a>
@@ -140,7 +134,7 @@ calculates the Wald confidence interval around the estimate of the odds
 ratio of success and transforms it to logit probability.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>confirmatory_mixed_effect</span>(<span class='kw'>processed_data</span>, n_iteration = <span class='fl'>1</span>)</pre>
+    <pre class="usage"><span class='fu'>confirmatory_mixed_effect</span><span class='op'>(</span><span class='va'>processed_data</span>, n_iteration <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -173,11 +167,11 @@ of the confidence interval of 95<!-- %. --></p>
     <pre class="examples"><div class='input'> 
 <span class='co'># \donttest{</span>
 <span class='co'># Including only erotic trials</span>
-<span class='kw'>tpp_processed_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='clean_data.html'>clean_data</a></span>(raw_data = <span class='kw'>example_m0</span>)
+<span class='va'>tpp_processed_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='clean_data.html'>clean_data</a></span><span class='op'>(</span>raw_data <span class='op'>=</span> <span class='va'>example_m0</span><span class='op'>)</span>
 <span class='co'># Running the confirmatory analysis</span>
-<span class='kw'>mixed_effect_result</span> <span class='op'>&lt;-</span> <span class='fu'>confirmatory_mixed_effect</span>(<span class='kw'>processed_data</span>, n_iteration = <span class='fl'>1</span>)
+<span class='va'>mixed_effect_result</span> <span class='op'>&lt;-</span> <span class='fu'>confirmatory_mixed_effect</span><span class='op'>(</span><span class='va'>processed_data</span>, n_iteration <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='error'>Error: 'data' not found, and some variables missing from formula environment</span></div><div class='input'><span class='co'># Checking the results</span>
-<span class='kw'>mixed_effect_result</span>
+<span class='va'>mixed_effect_result</span>
 </div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'mixed_effect_result' not found</span></div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>

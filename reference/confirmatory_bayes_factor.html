@@ -84,12 +84,6 @@ a one-tailed hypothesis testing (p &amp;gt; 0.5 and p &amp;lt; 1)." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -100,7 +94,7 @@ a one-tailed hypothesis testing (p &amp;gt; 0.5 and p &amp;lt; 1)." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/use_app.html">use_app</a>
+      <a href="../articles/use_app.html">Using the app</a>
     </li>
     <li>
       <a href="../articles/use_pkg.html">Using the package</a>
@@ -142,7 +136,7 @@ knowledge-base prior, uniform prior, replication prior. In all cases we use
 a one-tailed hypothesis testing (p &gt; 0.5 and p &lt; 1).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>confirmatory_bayes_factor</span>(<span class='kw'>success</span>, <span class='kw'>total_n</span>)</pre>
+    <pre class="usage"><span class='fu'>confirmatory_bayes_factor</span><span class='op'>(</span><span class='va'>success</span>, <span class='va'>total_n</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -169,14 +163,22 @@ Bayes factor calculated with each M1 beta prior.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># Including only erotic trials</span>
-<span class='kw'>tpp_processed_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='clean_data.html'>clean_data</a></span>(raw_data = <span class='kw'>example_m0</span>)
+<span class='va'>tpp_processed_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='clean_data.html'>clean_data</a></span><span class='op'>(</span>raw_data <span class='op'>=</span> <span class='fu'>tppr</span><span class='fu'>::</span><span class='va'><a href='example_m0.html'>example_m0</a></span><span class='op'>)</span>
 <span class='co'># Running the confirmatory analysis</span>
-<span class='kw'>bayes_factor_result</span> <span class='op'>&lt;-</span> 
-  <span class='fu'>confirmatory_bayes_factor</span>(success = <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='kw'>tpp_processed_data</span><span class='op'>$</span><span class='kw'>sides_match</span>, na.rm = <span class='fl'>TRUE</span>),
-                            total_n = <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>tpp_processed_data</span>))
-<span class='co'># Checking the results</span>
-<span class='kw'>bayes_factor_results</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'bayes_factor_results' not found</span></div><div class='input'><span class='co'># }</span>
+<span class='fu'>confirmatory_bayes_factor</span><span class='op'>(</span>success <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>tpp_processed_data</span><span class='op'>$</span><span class='va'>sides_match</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
+                          total_n <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>tpp_processed_data</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $bf_replication
+#&gt; [1] 388.701
+#&gt; 
+#&gt; $bf_uniform
+#&gt; [1] 395.869
+#&gt; 
+#&gt; $bf_buj
+#&gt; [1] 134.995
+#&gt; 
+#&gt; $bf_inference
+#&gt; [1] "M0"
+#&gt; </div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
