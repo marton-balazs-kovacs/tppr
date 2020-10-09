@@ -7,13 +7,15 @@
 #' @export
 text_helper_current_general <- function(sample_descriptives_current_res, robustness_bf_res) {
   # Create text output ---------------------------
-  glue::glue("The following information reflects live study sessions. The study currently has {total_n} \\
-  erotic trials gathered from a total of {sample_size_participants_atleast1erotictrial} \\
-  participants. There has been {n_missing_erotic_trials} ({prop_missing_erotic_trials}%) missing data \\
+  glue::glue("The study currently has {total_n} erotic trials gathered from \\
+  a total of {sample_size_participants_atleast1erotictrial} \\
+  participants. There has been {n_sessions_terminated} incomplete \\
+  study sessions so far resulting in a total of {n_missing_erotic_trials} ({prop_missing_erotic_trials}%) missing data \\
   points due to incomplete sessions. We observed a total of {prop_success}% successful guesses within \\
   {total_n} erotic trials (posterior mode = {hdi_mode * 100}%, posterior 90% HDI = {hdi_l * 100}%, {hdi_u * 100}%).",
              total_n = sample_descriptives_current_res$total_n,
              sample_size_participants_atleast1erotictrial = sample_descriptives_current_res$sample_size_participants_atleast1erotictrial,
+             n_sessions_terminated = sample_descriptives_current_res$n_sessions_terminated,
              n_missing_erotic_trials = sample_descriptives_current_res$n_missing_erotic_trials,
              prop_missing_erotic_trials = sample_descriptives_current_res$prop_missing_erotic_trials,
              prop_success = sample_descriptives_current_res$prop_success,
@@ -87,10 +89,10 @@ text_helper_checkpoint_general <- function(sample_descriptives_res, robustness_b
              n_missing_erotic_trials = sample_descriptives_res$n_missing_erotic_trials,
              esq_mean = sample_descriptives_res$esp_q_desc$mean,
              ssq_mean = sample_descriptives_res$ss_q_desc$mean,
+             prop_success = sample_descriptives_res$prop_success,
              hdi_mode = robustness_bf_res$hdi_mode,
              hdi_l = robustness_bf_res$hdi_l,
-             hdi_u = robustness_bf_res$hdi_u,
-             prop_success = "TODO")
+             hdi_u = robustness_bf_res$hdi_u)
 }
 
 #' @rdname text_helper_current_general
