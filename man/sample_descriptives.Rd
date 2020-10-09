@@ -12,7 +12,8 @@ sample_descriptives(raw_data, which_checkpoint = NA_integer_)
 \item{which_checkpoint}{integer, index of the checkpoint to use}
 }
 \value{
-The function returns a list of descriptives.
+The function returns a list of descriptive results regarding
+the sample until the latest or prespecified checkpoint.
 }
 \description{
 This function calculates all sample and study characteristics
@@ -21,6 +22,14 @@ raw data (see \code{\link{read_data}}). The function calculates
 the descriptive results at the latest passed checkpoint if not
 determined otherwise with the `which_checkpoint` param.
 }
+\section{Note}{
+
+  This function can be used only in which the number of erotic
+  trials reach the first checkpoint at least. Otherwise please
+  use the \code{\link{sample_descriptives_current}} function
+  to see a simple study characteristics summary.
+}
+
 \examples{
 \donttest{
 sample_descriptives(raw_data = example_m0, which_checkpoint = NA_integer_)

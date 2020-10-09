@@ -10,9 +10,9 @@ tell_checkpoint(df)
 \item{df}{dataframe, the input dataframe}
 }
 \value{
-The function returns a list of four. The number of trials,
+The function returns a list of three. The number of trials,
 the index of the currently passed checkpoint, the index of the
-next checkpoint, the row_counter of the last row.
+next checkpoint.
 }
 \description{
 This function checks the number of trials in the input

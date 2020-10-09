@@ -155,12 +155,6 @@ Next closest checkpoint:
 checkpoint$next_checkpoint
 ```
 
-Row number of the last row at the current checkpoint:
-
-```{r}
-checkpoint$last_row
-```
-
 # Run the primary confirmatory analysis
 
 The primary confirmatory analysis consist of a mixed-effects logistic regression and Bayes factors with three different priors.
