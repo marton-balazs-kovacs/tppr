@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# tppr
+# tppr <a href='https://marton-balazs-kovacs.github.io/tppr/'><img src='man/figures/logo.png' align="right" height="200" /></a>
 
 <!-- badges: start -->
 
@@ -21,8 +21,8 @@ You can install the development version (tppr is not available on CRAN)
 from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-# devtools::install_github("marton-balazs-kovacs/tppr")
+install.packages("devtools")
+devtools::install_github("marton-balazs-kovacs/tppr")
 ```
 
 ## Using the app
@@ -32,7 +32,7 @@ The Shiny app is hosted on: ADD LINK
 However, you can run the app locally.
 
 ``` r
-# tppr::run_app()
+tppr::run_app()
 ```
 
 ## Using the package
