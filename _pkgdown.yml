@@ -61,10 +61,6 @@ reference:
   desc: Functions to calculate Bayes factors
 - contents:
   - fullAlt_beta
-  - normalize_beta
-  - restrictedAlt_beta
-  - margLike_beta
-  - BF01_beta
 - title: App helpers
   desc:: Non-standalone functions used in the app
 - contents:
