@@ -11,11 +11,8 @@ mod_footer_ui <- function(id){
 
   tagList(
     textOutput(NS(id, "stopping_text")),
-    br(),
     textOutput(NS(id, "warning_text")),
-    hr(),
     textOutput(NS(id, "refresh")),
-    br(),
     textOutput(NS(id, "refresh_rate"))
   )
 }
@@ -25,7 +22,6 @@ mod_footer_ui <- function(id){
 #' @noRd 
 mod_footer_server <- function(id, push_time, refresh_time, current, at_checkpoint){
   moduleServer(id, function(input, output, session) {
-
     output$stopping_text <- renderText({
       if (is.na(current()$checkpoint$current_checkpoint)) {
        text_helper_stop(checkpoint_next = 1)

@@ -19,12 +19,21 @@ mod_read_data_ui <- function(id){
 #' @noRd 
 mod_read_data_server <- function(id, refresh_time){
   moduleServer(id, function(input, output, session) {
-    push_time <- reactive({
+    # Init reactive value
+    latest_push <- reactiveVal(0)
+    
+    # Check for new data
+    observe({
       invalidateLater(refresh_time)
-      read_url(result_url$time_log)$webhook_push_time
+      
+      push_time <- read_url(result_url$time_log)$webhook_push_time
+      
+      if (push_time > latest_push()) {
+        latest_push(push_time)
+      }
     })
     
-    current <- eventReactive(push_time, {
+    current <- eventReactive(latest_push(), {
       list(
         checkpoint = read_url(result_url$checkpoint),
         cumulative_bayes = read_url(result_url$current_cumulative_bayes),
@@ -34,7 +43,7 @@ mod_read_data_server <- function(id, refresh_time){
       )
     })
     
-    at_checkpoint <- eventReactive(push_time, {
+    at_checkpoint <- eventReactive(latest_push(), {
       if (!is.na(current()$checkpoint$current_checkpoint)) {
         tibble::lst(
           confirmatory_mixed = read_url(result_url$checkpoint_confirmatory_mixed),
@@ -55,7 +64,7 @@ mod_read_data_server <- function(id, refresh_time){
       list(
         current = current,
         at_checkpoint = at_checkpoint,
-        push_time = push_time
+        push_time = latest_push
       )
     )
   })

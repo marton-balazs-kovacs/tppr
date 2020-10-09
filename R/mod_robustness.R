@@ -22,11 +22,19 @@ mod_robustness_ui <- function(id){
 #' @noRd 
 mod_robustness_server <- function(id, push_time, refresh_time, current, at_checkpoint){
     moduleServer(id, function(input, output, session) {
-      waitress <- waiter::Waitress$new("#robustness-plot", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
+      waiter <- waiter::Waiter$new(
+        id = "robustness-plot",
+        html = tagList(
+          div(
+            tags$img(src = "www/favicon.png", height = "150px"),
+            h5("Loading the plot...", style = "color: #6d5c7c;"),
+            style="display:inline-block; width: 150px;")
+            ),
+        color = "#FBEEEF")
       
       # Generate plot ---------------------------
       output$plot <- renderPlot({
-        waitress$start()
+        waiter$show()
         tppr::plot_robustness(posterior_density = current()$robustness_bayes$posterior_density,
                               hdi_mode = current()$robustness_bayes$hdi_mode,
                               hdi_l = current()$robustness_bayes$hdi_l,
