@@ -139,9 +139,9 @@ clean_data <- function(raw_data) {
 #' 
 #' @param df dataframe, the input dataframe
 #' 
-#' @return The function returns a list of four. The number of trials,
+#' @return The function returns a list of three. The number of trials,
 #' the index of the currently passed checkpoint, the index of the
-#' next checkpoint, the row_counter of the last row.
+#' next checkpoint.
 #' @export
 #' @examples
 #' \donttest{
@@ -180,28 +180,12 @@ tell_checkpoint <- function(df) {
     next_checkpoint <- NA_integer_
   }
   
-  # Find the row_counter of the last row
-  last_row <- 
-    df %>% 
-    dplyr::slice(when_to_check[current_checkpoint])
-    
-  if ("success" %not_in% colnames(df)) {
-    last_row <-
-      last_row %>% 
-      dplyr::pull(row_counter)
-  } else if ("success" %in% colnames(df)) {
-    last_row <-
-      last_row %>% 
-      dplyr::pull(total_n)
-  }
-  
   # Return output ---------------------------
   return(
     list(
       total_n = total_n,
       current_checkpoint = current_checkpoint,
-      next_checkpoint = next_checkpoint,
-      last_row = last_row
+      next_checkpoint = next_checkpoint
     )
   )
 }
