@@ -82,8 +82,8 @@ plot_confirmatory <- function(cumulative_results, animated = FALSE) {
     ggplot2::aes(y = bf_value,
                  x = total_n,
                  group = bf_type,
-                 text = paste("BF:", bf_value,
-                              "<br>Total N:", total_n,
+                 text = paste("BF:", round(bf_value, 2),
+                              "<br>Number of trials:", total_n,
                               "<br>BF type:", bf_type)) +
     ggplot2::geom_line(ggplot2::aes(linetype = bf_type), size = 1.2) +
     ggplot2::scale_linetype_manual(name = "Prior", labels = c("BUJ", "Replication", "Uniform"), values = c("solid", "dashed", "dotted")) +
@@ -122,9 +122,17 @@ plot_confirmatory <- function(cumulative_results, animated = FALSE) {
   # but this is not important so we suppress it
   if (animated) {
     figure_1 %>% 
-      plotly::ggplotly(tooltip = "text")
-  } else {
-    suppressWarnings(figure_1)
+      plotly::ggplotly(tooltip = "text") %>% 
+      plotly::layout(
+          xaxis = list(
+            showspikes = TRUE
+            ),
+          yaxis = list(
+            showspikes = TRUE
+            )
+          )
+    } else {
+      suppressWarnings(figure_1)
+      }
   }
-}
 

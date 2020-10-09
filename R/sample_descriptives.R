@@ -6,10 +6,17 @@
 #' the descriptive results at the latest passed checkpoint if not
 #' determined otherwise with the `which_checkpoint` param.
 #' 
+#' @section Note:
+#'   This function can be used only in which the number of erotic
+#'   trials reach the first checkpoint at least. Otherwise please
+#'   use the \code{\link{sample_descriptives_current}} function
+#'   to see a simple study characteristics summary.
+#' 
 #' @param raw_data dataframe, all trials included in the study
 #' @param which_checkpoint integer, index of the checkpoint to use
 #' 
-#' @return The function returns a list of descriptives.
+#' @return The function returns a list of descriptive results regarding
+#' the sample until the latest or prespecified checkpoint.
 #' @export
 #' @examples 
 #' \donttest{
@@ -31,9 +38,13 @@ sample_descriptives <- function(raw_data, which_checkpoint = NA_integer_) {
   # Drop non erotic and empty trials
   processed_data <- clean_data(raw_data = raw_data)
   
-  # Get last row row_counter
+  # Get row_counter value of the last row in the processed df
+  ## This is needed to slice the raw df until the needed checkpoint
   if (is.na(which_checkpoint)) {
-    last_row <- checkpoint_inf$last_row
+    last_row <- 
+      processed_data %>% 
+      dplyr::slice(tppr::analysis_params$when_to_check[checkpoint_inf$current_checkpoint]) %>% 
+      dplyr::pull(row_counter)
   } else {
     last_row <- 
       processed_data %>% 
@@ -135,8 +146,8 @@ sample_descriptives <- function(raw_data, which_checkpoint = NA_integer_) {
                                                              "Don't know",
                                                              "Probably does",
                                                              "Definitely does")))) %>% 
-    dplyr::summarise(mean = mean(ESP_Q_item_1, na.rm = T),
-                     sd = sd(ESP_Q_item_1, na.rm = T))
+    dplyr::summarise(mean = round(mean(ESP_Q_item_1, na.rm = T), 2),
+                     sd = round(sd(ESP_Q_item_1, na.rm = T), 2))
   
   # SS score descriptive
   ss_q_desc <- 
@@ -150,12 +161,12 @@ sample_descriptives <- function(raw_data, which_checkpoint = NA_integer_) {
   
   ss_q_desc <- 
     ss_q_desc %>% 
-    dplyr::summarise(mean = mean(SS_Q_average_score),
-                     sd = sd(SS_Q_average_score))
+    dplyr::summarise(mean = round(mean(SS_Q_average_score), 2),
+                     sd = round(sd(SS_Q_average_score), 2))
   
   # Guessed image descriptive
   guessed_side_left <-
-    first_rows_of_each_participant %>% 
+    processed_data_untilstudystop %>% 
     dplyr::count(guessed_side) %>%
     dplyr::mutate(N = sum(n),
                   prop = n / N * 100) %>% 
@@ -171,7 +182,7 @@ sample_descriptives <- function(raw_data, which_checkpoint = NA_integer_) {
   
   # Target image descriptive
   target_side_left <-
-    first_rows_of_each_participant %>% 
+    processed_data_untilstudystop %>% 
     dplyr::count(target_side) %>%
     dplyr::mutate(N = sum(n),
                   prop = n / N * 100) %>% 
@@ -202,17 +213,19 @@ sample_descriptives <- function(raw_data, which_checkpoint = NA_integer_) {
                                               n != 18 ~ 0L)) %>% 
     dplyr::count(finished) %>% 
     dplyr::mutate(N = sum(n),
-                  prop = n / N * 100)
+                  prop = n / N * 100) %>% 
+    dplyr::filter(finished == 0L)
   
   n_sessions_terminated <-
     sessions_desc %>% 
-    dplyr::filter(finished == 0L) %>% 
     dplyr::pull(n)
   
   proportion_sessions_terminated <-
     sessions_desc %>% 
-    dplyr::filter(finished == 0L) %>% 
     dplyr::pull(prop)
+  
+  # Proportion of successful guesses
+  prop_success <- round(mean(processed_data_untilstudystop$sides_match), 4) * 100
   
   # Return output ---------------------------
   return(
@@ -238,7 +251,8 @@ sample_descriptives <- function(raw_data, which_checkpoint = NA_integer_) {
       proportion_target_side_left,
       n_missing_erotic_trials,
       n_sessions_terminated,
-      proportion_sessions_terminated
+      proportion_sessions_terminated,
+      prop_success
     )
   )
 }
@@ -272,6 +286,15 @@ sample_descriptives_current <- function(processed_data) {
 
   prop_missing_erotic_trials <- round(n_missing_erotic_trials / total_n * 100, 2)
   
+  # Number of participants who did not finish the experiment
+  n_sessions_terminated <- 
+    processed_data %>% 
+    dplyr::count(participant_ID) %>% 
+    dplyr::filter(n != 18) %>%
+    dplyr::distinct(participant_ID) %>% 
+    dplyr::count() %>% 
+    dplyr::pull(n)
+  
   # Guesses
   prop_success <- round(mean(processed_data$sides_match), 4) * 100
   
@@ -280,6 +303,7 @@ sample_descriptives_current <- function(processed_data) {
     tibble::lst(
       total_n,
       sample_size_participants_atleast1erotictrial,
+      n_sessions_terminated,
       n_missing_erotic_trials,
       prop_missing_erotic_trials,
       prop_success

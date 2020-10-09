@@ -22,11 +22,19 @@ mod_exploratory_ui <- function(id){
 #' @noRd 
 mod_exploratory_server <- function(id, push_time, refresh_time, current, at_checkpoint){
   moduleServer(id, function(input, output, session) {
-    waitress <- waiter::Waitress$new("#exploratory-plot", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
+    waiter <- waiter::Waiter$new(
+      id = "exploratory-plot",
+      html = tagList(
+        div(
+          tags$img(src = "www/favicon.png", height = "150px"),
+          h5("Loading the plot...", style = "color: #6d5c7c;"),
+          style="display:inline-block; width: 150px;")
+      ),
+      color = "#FBEEEF")
     
     # Generate plot ---------------------------
     output$plot <- renderPlot({
-      waitress$start()
+      waiter$show()
       tppr::plot_exploratory(success_rates_theoretical_prop = current()$exploratory$success_rates_theoretical_prop,
                              success_rates_empirical_prop = current()$exploratory$success_rates_empirical_prop,
                              possible_success_rates = current()$exploratory$possible_success_rates)

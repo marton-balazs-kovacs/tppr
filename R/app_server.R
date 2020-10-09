@@ -6,11 +6,11 @@
 #' @noRd
 app_server <- function( input, output, session ) {
   # Shiny app refresh rime
-  refresh_time <- 30000
+  refresh_time <- 360 * 1000
   
-  # # Read the raw data
+  # Read the raw data
   c(current, at_checkpoint, push_time) %<-% mod_read_data_server("read_data", refresh_time = refresh_time)
-
+  
   # Summary results
   mod_summary_server("summary",
                      current = current, at_checkpoint = at_checkpoint,

@@ -63,5 +63,7 @@ rv <- shiny::reactiveValues
 rvtl <- shiny::reactiveValuesToList
 
 read_url <- function(url_path) {
-  readRDS(url(url_path, method = "libcurl"))
+  url <- url(url_path, method = "libcurl")
+  on.exit(close(url))
+  readRDS(url)
 }
