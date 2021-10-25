@@ -34,9 +34,7 @@ ratio of success and transforms it to logit probability.
 # Including only erotic trials
 tpp_processed_data <- clean_data(raw_data = example_m0)
 # Running the confirmatory analysis
-mixed_effect_result <- confirmatory_mixed_effect(processed_data, n_iteration = 1)
-# Checking the results
-mixed_effect_result
+confirmatory_mixed_effect(processed_data = tpp_processed_data, n_iteration = 1)
 }
 }
 \seealso{

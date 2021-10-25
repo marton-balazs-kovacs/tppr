@@ -34,6 +34,6 @@ on all the passed checkpoints iteratively.
 # Including only erotic trials
 tpp_processed_data <- clean_data(raw_data = example_m0)
 # Splitting data by checkpoints
-tpp_split_data <- split_data(processed_data = tpp_processed_data)
+tpp_split_data <- split_data(df = tpp_processed_data)
 }
 }

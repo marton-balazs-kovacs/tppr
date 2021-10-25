@@ -5,8 +5,8 @@ account: martonbalazskovacs
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2888717
-bundleId: 3720565
+bundleId: 3900746
 url: https://martonbalazskovacs.shinyapps.io/tppr_demo/
-when: 1602244412.46078
+when: 1606240518.00119
 asMultiple: FALSE
 asStatic: FALSE

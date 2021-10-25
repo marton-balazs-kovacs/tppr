@@ -217,7 +217,7 @@ tell_checkpoint <- function(df) {
 #' # Including only erotic trials
 #' tpp_processed_data <- clean_data(raw_data = example_m0)
 #' # Splitting data by checkpoints
-#' tpp_split_data <- split_data(processed_data = tpp_processed_data)
+#' tpp_split_data <- split_data(df = tpp_processed_data)
 #' }
 split_data <- function(df) {
   # Check whether the input df contains only erotic trials or not
