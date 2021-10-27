@@ -16,9 +16,11 @@ get_links <- function(folder_path) {
 #' 
 #' The test, pilot and live datafiles are stored in the projects Github repository.
 #' This function reads, orders by date and merge the individual datafiles of the
-#' chosen repository.
+#' chosen repository. Alternatively the function can be used to read the downloaded results locally.
+#' 
 #' 
 #' @param type character, either "test", "pilot" or "live"
+#' @param source character, either "download" or "local"
 #' 
 #' @return The function returns a raw dataframe that contains all the trials from every
 #' participant.
@@ -27,8 +29,12 @@ get_links <- function(folder_path) {
 #' \donttest{
 #' tpp_raw_data <- read_data(type = "test")
 #' }
-read_data <- function(type) {
+read_data <- function(type, source = "download") {
+  ## Save column names
+  col_names <- c("timestamp", "participant_ID", "experimenter_ID_code", "experimenter_ASGS_total_score", "laboratory_ID_code", "sitePI_ASGS_total_score", "session_type", "consent_screen_answer", "refused_to_answer_sexual_orientation_question", "age", "sex", "final_consent", "ESP_Q_item_1", "ESP_Q_item_2", "ESP_Q_item_3", "SS_Q_item_1", "SS_Q_item_2", "trial_number", "guessed_side", "target_side", "reward_type", "sides_match")
+  
   # Get links ---------------------------
+  if (source == "download") {
   ## Get the names of the datafiles
   links <- switch(type,
                   "live" = get_links("https://api.github.com/repos/leventekobor94/transparent-psi-results/contents/live_data"),
@@ -43,9 +49,6 @@ read_data <- function(type) {
     lubridate::dmy(.)
   
   links <- links[order(start_dates)]
-  
-  ## Save column names
-  col_names <- c("timestamp", "participant_ID", "experimenter_ID_code", "experimenter_ASGS_total_score", "laboratory_ID_code", "sitePI_ASGS_total_score", "session_type", "consent_screen_answer", "refused_to_answer_sexual_orientation_question", "age", "sex", "final_consent", "ESP_Q_item_1", "ESP_Q_item_2", "ESP_Q_item_3", "SS_Q_item_1", "SS_Q_item_2", "trial_number", "guessed_side", "target_side", "reward_type", "sides_match")
   
   ## The first live and pilot file have missing column names
   if (type %in% c("live", "pilot")) {
@@ -64,6 +67,44 @@ read_data <- function(type) {
                   ~ vroom::vroom(.,
                                  delim = ",",
                                  col_types = "cfcicicccccccccccicccl"))
+  
+  } else if (source == "local") {
+    ## Get the folder
+    folder <- switch(type,
+                    "live" = "live_data/",
+                    "test" = "test_data/",
+                    "pilot" = "pilot_data/",
+                    stop("Invalid data type! Choose \"test\", \"pilot\" or \"live\""))
+    
+    # List data files
+    data_files <- list.files(folder, pattern = "*.csv")
+    
+    ## The first live and pilot file have missing column names
+    if (type %in% c("live", "pilot")) {
+    # Sort datafiles by file creation order starting with the oldest files
+    start_dates <-
+      data_files %>% 
+      stringr::str_extract(., "[^._]+(?=[^_]*$)") %>% 
+      lubridate::dmy(.)
+    
+    data_files <- data_files[order(start_dates)]
+    
+    # The first live file have missing column names
+    first_file_data <- vroom::vroom(paste0(folder, data_files[1]), delim = ",", col_names = col_names, col_types = "cfcicicccccccccccicccl")
+    
+    # Delete the file from the vector of files
+    data_files <- data_files[-1]
+    }
+    
+    # Read the rest of the files
+    source_data <-
+      data_files %>% 
+      purrr::map_df(.,
+                    ~ vroom::vroom(.,
+                                   delim = ",",
+                                   col_types = "cfcicicccccccccccicccl"))
+    
+  }
   
   ## Merge the first file with the rest of the datafiles for pilot and live
   if (type %in% c("live", "pilot")) {

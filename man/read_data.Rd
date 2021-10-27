@@ -4,10 +4,12 @@
 \alias{read_data}
 \title{Function to read and merge data}
 \usage{
-read_data(type)
+read_data(type, source = "download")
 }
 \arguments{
 \item{type}{character, either "test", "pilot" or "live"}
+
+\item{source}{character, either "download" or "local"}
 }
 \value{
 The function returns a raw dataframe that contains all the trials from every
@@ -16,7 +18,7 @@ participant.
 \description{
 The test, pilot and live datafiles are stored in the projects Github repository.
 This function reads, orders by date and merge the individual datafiles of the
-chosen repository.
+chosen repository. Alternatively the function can be used to read the downloaded results locally.
 }
 \examples{
 \donttest{
