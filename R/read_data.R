@@ -98,7 +98,7 @@ read_data <- function(type, source = "download") {
     
     # Read the rest of the files
     source_data <-
-      data_files %>% 
+      paste0(folder, data_files) %>% 
       purrr::map_df(.,
                     ~ vroom::vroom(.,
                                    delim = ",",
