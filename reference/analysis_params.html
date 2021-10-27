@@ -56,7 +56,7 @@ the values of the paper."><meta property="og:image" content="/logo.png"><!-- mat
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Preset parameters for the analysis</h1>
-    <small class="dont-index">Source: <a href="https://github.com/marton-balazs-kovacs/tppr/blob/master/R/analysis_params.R" class="external-link"><code>R/analysis_params.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/marton-balazs-kovacs/tppr/blob/HEAD/R/analysis_params.R" class="external-link"><code>R/analysis_params.R</code></a></small>
     <div class="hidden name"><code>analysis_params.Rd</code></div>
     </div>
 
@@ -71,24 +71,60 @@ the values of the paper.</p>
     <div id="ref-sections">
     <div id="format">
     <h2>Format</h2>
-    <p>A large list with 18 elements:</p><dl><dt>trial_size_per_participant</dt><dd><p>numeric, number of erotic trials performed by participants in the study (if no missing trials)</p></dd>
-  <dt>m0_prob</dt><dd><p>numeric, probability of success if M0 is true</p></dd>
-  <dt>when_to_check</dt><dd><p>integer, interim analysis points (in total number of ONLY EROTIC trials performed)</p></dd>
-  <dt>inference_threshold_bf_high</dt><dd><p>numeric, threshold to infer support for M0 (high)</p></dd>
-  <dt>inference_threshold_bf_low</dt><dd><p>numeric, threshold to infer support for M1 (low)</p></dd>
-  <dt>y_prior</dt><dd><p>integer, number of successes in erotic trials in Bem's experiment 1</p></dd>
-  <dt>n_prior</dt><dd><p>integer, number of erotic trials in Bem's experiment 1</p></dd>
-  <dt>minimum_effect_threshold_nhst</dt><dd><p>numeric, smallest effect size of interest in the NHST equivalence test</p></dd>
-  <dt>inference_threshold_robustness_nhst</dt><dd><p>numeric, p threshold for the NHST proportion test robustness test</p></dd>
-  <dt>minimum_effect_threshold_bayes_par_est</dt><dd><p>numeric</p></dd>
-  <dt>scale</dt><dd><p>numeric</p></dd>
-  <dt>inference_threshold_robustness_bayes_par_est</dt><dd><p>numeric, threshold to set the HDI width to check against the ROPE</p></dd>
-  <dt>rope</dt><dd><p>numeric</p></dd>
-  <dt>sim_null_participant_num</dt><dd><p>integer, number of participants to sample from a population with H0 success rate</p></dd>
-  <dt>success_proportions_theoretical</dt><dd><p>numeric, the theoretical sample that approximates the theoretical null model</p></dd>
-  <dt>inference_threshold_nhst</dt><dd><p>numeric, p threshold for the NHST tests</p></dd>
-  <dt>p_equiv_test</dt><dd><p>numeric, p for the equivalence test</p></dd>
-  <dt>success_proportions_theoretical</dt><dd><p>numeric, samples 1,000,000 participants from a population with a 50% successful guess chance</p></dd>
+    <p>A large list with 18 elements:</p><dl><dt>trial_size_per_participant</dt>
+<dd><p>numeric, number of erotic trials performed by participants in the study (if no missing trials)</p></dd>
+
+  <dt>m0_prob</dt>
+<dd><p>numeric, probability of success if M0 is true</p></dd>
+
+  <dt>when_to_check</dt>
+<dd><p>integer, interim analysis points (in total number of ONLY EROTIC trials performed)</p></dd>
+
+  <dt>inference_threshold_bf_high</dt>
+<dd><p>numeric, threshold to infer support for M0 (high)</p></dd>
+
+  <dt>inference_threshold_bf_low</dt>
+<dd><p>numeric, threshold to infer support for M1 (low)</p></dd>
+
+  <dt>y_prior</dt>
+<dd><p>integer, number of successes in erotic trials in Bem's experiment 1</p></dd>
+
+  <dt>n_prior</dt>
+<dd><p>integer, number of erotic trials in Bem's experiment 1</p></dd>
+
+  <dt>minimum_effect_threshold_nhst</dt>
+<dd><p>numeric, smallest effect size of interest in the NHST equivalence test</p></dd>
+
+  <dt>inference_threshold_robustness_nhst</dt>
+<dd><p>numeric, p threshold for the NHST proportion test robustness test</p></dd>
+
+  <dt>minimum_effect_threshold_bayes_par_est</dt>
+<dd><p>numeric</p></dd>
+
+  <dt>scale</dt>
+<dd><p>numeric</p></dd>
+
+  <dt>inference_threshold_robustness_bayes_par_est</dt>
+<dd><p>numeric, threshold to set the HDI width to check against the ROPE</p></dd>
+
+  <dt>rope</dt>
+<dd><p>numeric</p></dd>
+
+  <dt>sim_null_participant_num</dt>
+<dd><p>integer, number of participants to sample from a population with H0 success rate</p></dd>
+
+  <dt>success_proportions_theoretical</dt>
+<dd><p>numeric, the theoretical sample that approximates the theoretical null model</p></dd>
+
+  <dt>inference_threshold_nhst</dt>
+<dd><p>numeric, p threshold for the NHST tests</p></dd>
+
+  <dt>p_equiv_test</dt>
+<dd><p>numeric, p for the equivalence test</p></dd>
+
+  <dt>success_proportions_theoretical</dt>
+<dd><p>numeric, samples 1,000,000 participants from a population with a 50% successful guess chance</p></dd>
+
 
 </dl></div>
     </div>
